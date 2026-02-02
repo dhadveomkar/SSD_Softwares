@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\SSD Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Omnas.Api.csproj": {}
+    "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Omnas.Api.csproj": {}
   },
   "projects": {
-    "C:\\SSD Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Omnas.Api.csproj": {
+    "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Omnas.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\SSD Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Omnas.Api.csproj",
+        "projectUniqueName": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Omnas.Api.csproj",
         "projectName": "Omnas.Api",
-        "projectPath": "C:\\SSD Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Omnas.Api.csproj",
+        "projectPath": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Omnas.Api.csproj",
         "packagesPath": "C:\\Users\\anjal\\.nuget\\packages\\",
-        "outputPath": "C:\\SSD Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\obj\\",
+        "outputPath": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\visual studio\\shared\\NuGetPackages"

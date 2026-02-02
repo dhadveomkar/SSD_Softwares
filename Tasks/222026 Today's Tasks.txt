@@ -1,0 +1,9 @@
+2/2/2026 Today's Tasks:
+Backend:
+1)Create a new section for Devices Category wise includes i) Smartphone ii) Wearable iii) Tablet
+2) Create Table and Stored Procedures for Wearable and Tablet, I already created table and stored procedure for Smartphone
+3) Create model, controller, and service for it, update program.cs to connect service
+4) Testing the all api on Postman to check all records loaded or not, database already connected to update appsettings.json file
+5) Add Filteration for these devices in controller
+6) Updated to github
+Tommarrow I will be work on frontend part   

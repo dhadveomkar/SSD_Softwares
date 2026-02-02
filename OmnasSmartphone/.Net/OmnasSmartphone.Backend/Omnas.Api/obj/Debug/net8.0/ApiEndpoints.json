@@ -1,5 +1,31 @@
 [
   {
+    "ContainingType": "Omnas.Api.Controllers.InventoryController",
+    "Method": "GetFilteredData",
+    "RelativePath": "api/Inventory/filter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "category",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Omnas.Api.Controllers.InventoryController",
+    "Method": "GetLiveData",
+    "RelativePath": "api/Inventory/live-data",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Omnas.Api.Controllers.SmartphoneDevicesController",
     "Method": "GetDevices",
     "RelativePath": "api/SmartphoneDevices",
