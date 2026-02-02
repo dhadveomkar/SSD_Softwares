@@ -1,0 +1,109 @@
+<nav class="navbar">
+
+  <div class="logo">
+  <a routerLink="/">
+    <img [src]="logoUrl" alt="Flipkart Logo" class="logo-img">
+  </a>
+</div>
+
+  <!-- Search -->
+  <div class="search-box">
+  <div class="search-input-wrapper">
+    <span class="search-icon">🔍</span>
+    <input
+      type="text"
+      placeholder="Search for Products, Brands and More"
+      (focus)="showSuggestions = true"
+      (blur)="hideSuggestionsWithDelay()"
+    />
+  </div>
+
+  <div class="suggestions-dropdown" *ngIf="showSuggestions">
+    <div class="suggestion-section">
+      <div class="section-title">Trending Searches</div>
+      <ul>
+        <li><span class="history-icon">📈</span> Laptops</li>
+        <li><span class="history-icon">📈</span> iPhone 15 Pro</li>
+        <li><span class="history-icon">📈</span> Men's Sports Shoes</li>
+      </ul>
+    </div>
+    <div class="suggestion-section recent">
+      <div class="section-title">Recent Searches</div>
+      <ul>
+        <li><span class="history-icon">🕒</span> Wall Clocks</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+  <!-- Right actions -->
+  <div class="actions">
+
+    <div class="action-item">
+  <div class="login-wrapper"
+    (mouseenter)="showLoginMenu = true" 
+       (mouseleave)="showLoginMenu = false">
+    
+    <button class="login-btn" [class.active]="showLoginMenu" (click)="toggleLoginMenu()">
+      👤 <span>Login</span> <span class="arrow">⌄</span>
+    </button>
+
+    <div class="login-dropdown" *ngIf="showLoginMenu">
+      <div class="dropdown-header">
+        <span>New customer?</span>
+        <a class="signup">Sign Up</a>
+      </div>
+
+      <ul class="dropdown-list">
+        <li>👤 My Profile</li>
+        <li>✨ Flipkart Plus Zone</li>
+        <li>📦 Orders</li>
+        <li>❤️ Wishlist</li>
+        <li>🎁 Rewards</li>
+        <li>🎫 Gift Cards</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    <div class="action-item">
+      <span class="icon">🛒</span>
+      <span>Cart</span>
+    </div>
+
+    <div class="action-item">
+      <span class="icon">🏪</span>
+      <span>Become a Seller</span>
+    </div>
+
+    <!-- MORE MENU (3 DOTS) -->
+<div class="more-wrapper">
+
+  <button class="more-btn" (click)="toggleMoreMenu()">
+    ⋮
+  </button>
+
+  <!-- Dropdown -->
+  <div class="more-dropdown" *ngIf="showMoreMenu">
+
+    <ul class="more-list">
+      <li>
+        🔔 <span>Notification Preferences</span>
+      </li>
+      <li>
+        🎧 <span>24x7 Customer Care</span>
+      </li>
+      <li>
+        📈 <span>Advertise</span>
+      </li>
+      <li>
+        ⬇️ <span>Download App</span>
+      </li>
+    </ul>
+
+  </div>
+</div>
+
+  </div>
+</nav>

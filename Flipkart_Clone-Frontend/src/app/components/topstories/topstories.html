@@ -1,0 +1,11 @@
+<div class="directory-container">
+  <h2 class="directory-main-title">Top Stories : Brand Directory</h2>
+  
+  <div class="directory-section" *ngFor="let item of directory">
+    <span class="category-name">{{ item.category }}:</span>
+    <ng-container *ngFor="let link of item.links; let last = last">
+      <a href="#" class="directory-link">{{ link }}</a>
+      <span class="separator" *ngIf="!last">|</span>
+    </ng-container>
+  </div>
+</div>

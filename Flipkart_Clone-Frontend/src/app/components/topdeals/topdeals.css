@@ -1,0 +1,179 @@
+/* Update BOTH components to use these alignment rules */
+
+.section-container, .grid-container {
+  background: white;
+  margin: 10px;          /* Ensure BOTH have the exact same margin */
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-sizing: border-box; /* Prevents padding from increasing width */
+  
+  /* Calculate width to account for the 10px margin on both sides */
+  width: calc(100% - 20px); 
+}
+
+/* Specific overrides to keep your height requirements */
+.section-container {
+  display: flex;
+  height: 360px;
+}
+
+.grid-container {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  height: auto; /* Grids usually need to grow with content */
+}
+
+.main-content {
+  flex: 1;
+  padding: 15px 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Header styling as per image */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #212121;
+}
+
+.view-all-btn {
+  background-color: #2874f0;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Navigation Arrows Styling */
+.list-container {
+  position: relative;
+  height: 100%;
+}
+
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-80%);
+  width: 40px;
+  height: 100px;
+  background: white;
+  border: 1px solid #ebebeb;
+  box-shadow: 1px 2px 10px rgba(0,0,0,0.1);
+  z-index: 10;
+  cursor: pointer;
+}
+
+.nav-arrow.left { left: -20px; border-radius: 0 4px 4px 0; }
+.nav-arrow.right { right: -20px; border-radius: 4px 0 0 4px; }
+
+/* Product List */
+.product-list {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 10px 0;
+}
+
+.product-list::-webkit-scrollbar { display: none; }
+
+.product-card {
+  min-width: 170px;
+  text-align: center;
+  cursor: pointer;
+  padding: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+  border-radius: 4px;
+}
+
+.product-card:hover {
+  transform: translateY(-5px); /* Lifts card up */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.img-box {
+  height: 170px;
+  width: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.img-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .img-box img {
+  transform: scale(1.05); /* Slight zoom on image hover */
+}
+
+.product-info .name {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-info .price {
+  color: #388e3c;
+  font-size: 14px;
+}
+
+/* Sidebar styling */
+.sidebar {
+  width: 230px;
+  border-left: 1px solid #f0f0f0;
+  overflow: hidden; /* Clips the zoom effect */
+}
+
+.sidebar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.sidebar:hover img {
+  transform: scale(1.03); /* Subtle zoom for the sidebar banner */
+}
+
+/* Navigation Arrow Interactivity */
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%); /* Centered vertically */
+  width: 40px;
+  height: 100px;
+  background: white;
+  border: 1px solid #ebebeb;
+  box-shadow: 1px 2px 10px rgba(0,0,0,0.1);
+  z-index: 10;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s, background-color 0.2s;
+}
+
+.nav-arrow:hover {
+  opacity: 1;
+  background-color: #f9f9f9;
+}
+

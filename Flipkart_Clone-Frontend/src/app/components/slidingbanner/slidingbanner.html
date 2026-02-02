@@ -1,0 +1,23 @@
+<div class="slider-container">
+  <button class="nav-btn prev" (click)="goToPrevious()">❮</button>
+
+  <div class="slider-viewport">
+    <div class="slider-track" [style.transform]="'translateX(' + (-currentIndex * 100) + '%)'">
+      <div class="slide" *ngFor="let slide of slides">
+        <img [src]="slide.url" [alt]="slide.title">
+      </div>
+    </div>
+  </div>
+
+  <button class="nav-btn next" (click)="goToNext()">❯</button>
+
+  <div class="dots-container">
+    <div 
+      *ngFor="let slide of slides; let i = index" 
+      class="dot" 
+      [class.active]="i === currentIndex"
+      (click)="goToSlide(i)">
+      <div class="inner-progress" *ngIf="i === currentIndex"></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,158 @@
+.footer-container {
+  background-color: #212121;
+  color: white;
+  padding: 40px 0 0 0;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 12px;
+}
+
+.footer-top {
+  display: flex;
+  max-width: 1248px;
+  margin: 0 auto;
+  padding: 0 40px 40px 40px;
+  border-bottom: 1px solid #454d5e;
+}
+
+.footer-links {
+  display: flex;
+  flex: 3;
+  justify-content: space-between;
+}
+
+.footer-contact {
+  display: flex;
+  flex: 2;
+  border-left: 1px solid #454d5e;
+  padding-left: 40px;
+  margin-left: 20px;
+}
+
+.column {
+  padding-right: 15px;
+}
+
+.footer-title {
+  color: #878787;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  margin-bottom: 5px;
+}
+
+ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+ul li a:hover {
+  text-decoration: underline;
+}
+
+.mail-us p, .reg-address p {
+  line-height: 1.5;
+  color: white;
+}
+
+.phone {
+  color: #2874f0;
+  cursor: pointer;
+}
+
+.social-links {
+  margin-top: 20px;
+}
+
+.icons {
+  display: flex;
+  gap: 12px; /* Spacing between social icons */
+  margin-top: 8px;
+}
+
+.icons img {
+  width: 18px;  /* Typical size for social icons in Flipkart footer */
+  height: 18px;
+  cursor: pointer;
+  filter: brightness(0) invert(1); /* Optional: makes dark icons white if needed */
+  transition: opacity 0.2s;
+}
+
+.icons img:hover {
+  opacity: 0.8;
+}
+
+/* Bottom Bar */
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 40px;
+  max-width: 1248px;
+  margin: 0 auto;
+}
+
+.bottom-links {
+  display: flex;
+  gap: 40px;
+}
+
+.bottom-links span {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between the image and the text */
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.bottom-links i {
+  color: #ffc200;
+}
+
+.bottom-links img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  /* If your icons are white and you need them to be yellow: */
+  /* filter: invert(78%) sepia(65%) saturate(543%) hue-rotate(354deg) brightness(101%) contrast(101%); */
+}
+
+.payment-icons img {
+  height: 25px; /* Aligned with the footer height in image_1e59e7.png */
+  display: block;
+}
+
+.copyright {
+  font-size: 14px;
+  color: #fff;
+}
+
+@media (max-width: 1024px) {
+  .bottom-links {
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .footer-contact {
+    border-left: none;
+    padding-left: 0;
+    margin-left: 0;
+    margin-top: 20px;
+    border-top: 1px solid #454d5e;
+    padding-top: 20px;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+}

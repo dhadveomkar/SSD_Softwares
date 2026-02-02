@@ -1,0 +1,33 @@
+<div class="section-container">
+  <div class="main-content">
+    <div class="header">
+      <h2 class="title">Top Deals</h2>
+    </div>
+
+    <div class="list-container">
+      <button class="nav-arrow left" (click)="scroll(-1)">
+        <svg viewBox="0 0 24 24" width="24" height="24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+      </button>
+
+      <div class="product-list" #scrollContainer>
+        <div class="product-card" *ngFor="let p of products">
+          <div class="img-box">
+            <img [src]="p.imageUrl" [alt]="p.name">
+          </div>
+          <div class="product-info">
+            <div class="name">{{ p.name }}</div>
+            <div class="price">{{ p.priceTag }}</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="nav-arrow right" (click)="scroll(1)">
+        <svg viewBox="0 0 24 24" width="24" height="24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <img src="https://rukminim2.flixcart.com/www/540/760/promos/26/09/2023/6c3c5fe2-c236-4fa2-8d97-595e1e01da01.jpg?q=60" alt="Fashion Needs">
+  </div>
+</div>

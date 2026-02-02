@@ -1,0 +1,30 @@
+.banner-wrapper {
+  width: 100%;
+  margin: 10px 0;
+  padding: 0 8px; /* Standard Flipkart-style side padding */
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.banner-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  cursor: pointer;
+  /* Soft shadow to make it pop against the background */
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  transition: opacity 0.3s ease;
+}
+
+.banner-img:hover {
+  opacity: 0.95;
+}
+
+/* For mobile: remove padding to let the banner go edge-to-edge */
+@media (max-width: 768px) {
+  .banner-wrapper {
+    padding: 0;
+    margin: 5px 0;
+  }
+}

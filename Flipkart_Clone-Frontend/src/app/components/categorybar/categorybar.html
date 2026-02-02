@@ -1,0 +1,30 @@
+<div class="category-container">
+  <div class="category-item" *ngFor="let item of categories">
+    <div class="image-wrapper">
+      <img [src]="item.imageUrl" [alt]="item.name">
+    </div>
+    
+    <div class="label-wrapper">
+      <span class="category-name">{{ item.name }}</span>
+      <svg *ngIf="item.hasDropdown" class="chevron" width="10" height="10" viewBox="0 0 24 24">
+        <path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/>
+      </svg>
+    </div>
+
+    <div class="dropdown-menu" *ngIf="item.subCategories">
+      <div class="main-list">
+        <div class="main-item" *ngFor="let sub of item.subCategories">
+  <span>{{ sub.title }}</span>
+  <span class="arrow">›</span>
+          
+          <div class="side-menu">
+            <div class="side-header">More in {{ sub.title }}</div>
+            <div class="side-item" *ngFor="let subItem of sub.items">
+              {{ subItem.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

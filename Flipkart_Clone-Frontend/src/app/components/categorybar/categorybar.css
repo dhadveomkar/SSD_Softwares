@@ -1,0 +1,111 @@
+/* Container for the whole category bar */
+.category-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 10px;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.category-item {
+  position: relative; /* Required for absolute positioning of dropdown */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* Updated Dropdown Menu Container */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%; /* Sits right below the text */
+  left: 50%; /* Start at the horizontal center of 'Fashion' */
+  transform: translateX(-50%); /* Pull back by half its width to center */
+  z-index: 1000;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  margin-top: 0; 
+  padding-top: 15px; /* This 15px is the invisible bridge */
+  
+  background: transparent; /* Makes the padding invisible */
+  border-radius: 4px;
+}
+
+.category-item:hover .dropdown-menu {
+  display: flex;
+}
+/* The left-side list (Men's Top Wear, etc.) */
+.main-list {
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  border: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  min-width: 240px;
+}
+
+/* 2. Modify the main-item: remove relative positioning */
+.main-item {
+  /* position: relative;  <-- REMOVE OR COMMENT THIS LINE */
+  padding: 12px 15px;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.main-item:hover {
+  background-color: #f5faff;
+  color: #2874f0;
+}
+
+/* The right-side panel (Flyout) */
+.side-menu {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 100%; /* Sticks to the right of the main-list */
+  width: 260px;
+  height: 100%; /* Matches height of main-list */
+  background: white;
+  padding: 20px;
+  border-left: 1px solid #f0f0f0;
+  box-shadow: 4px 0 10px rgba(0,0,0,0.05);
+}
+
+/* 4. Trigger the display on hover */
+.main-item:hover .side-menu {
+  display: block;
+}
+
+.side-header {
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #000;
+}
+
+.side-item {
+  padding: 8px 0;
+  font-size: 14px;
+  color: #444;
+}
+
+.side-item:hover {
+  color: #2874f0;
+}
+
+/* The Triangle Arrow */
+.dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: 9px; /* Adjust so it touches the Fashion text area */
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-top: 1px solid #f0f0f0;
+  border-left: 1px solid #f0f0f0;
+  z-index: 1001;
+}

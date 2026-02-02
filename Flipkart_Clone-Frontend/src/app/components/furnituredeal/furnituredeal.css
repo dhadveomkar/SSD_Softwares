@@ -1,0 +1,108 @@
+.furniture-section {
+  background: #ffffff;
+  margin: 10px;
+  padding: 15px 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border-radius: 2px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  color: #212121;
+}
+
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Navigation Arrows (Rectangular style) */
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 90px;
+  background: #ffffff;
+  border: 1px solid #ebebeb;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-btn.left { left: -20px; border-radius: 0 4px 4px 0; }
+.nav-btn.right { right: -20px; border-radius: 4px 0 0 4px; }
+
+/* Scrollable Container */
+.product-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 10px 0;
+  scrollbar-width: none; /* Firefox */
+  scroll-behavior: smooth;
+}
+
+.product-scroll::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+/* Individual Furniture Card */
+.furniture-card {
+  min-width: 200px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.img-container {
+  height: 200px; /* Square container for furniture */
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fdfdfd;
+  margin-bottom: 12px;
+}
+
+.img-container img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+}
+
+.info .name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #212121;
+  margin-bottom: 4px;
+}
+
+.info .price {
+  font-size: 14px;
+  color: #212121;
+}
+
+.item-card, .furniture-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.item-card:hover, .furniture-card:hover {
+  transform: translateY(-5px); /* Lifts the card up */
+  box-shadow: 0 10px 20px rgba(0,0,0,0.12); /* Adds a shadow depth */
+  z-index: 2;
+}
+
+.img-wrapper img, .img-container img {
+  transition: transform 0.3s ease;
+}
+
+.item-card:hover img, .furniture-card:hover img {
+  transform: scale(1.05); /* Slight zoom on the product image */
+}

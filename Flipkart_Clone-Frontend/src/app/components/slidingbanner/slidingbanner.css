@@ -1,0 +1,92 @@
+.slider-container {
+  position: relative;
+  width: 100%;
+  max-width: 100vw;
+  height: 280px; /* Adjust based on your banner height */
+  margin: 10px 0;
+  overflow: hidden;
+  background-color: #f1f3f6;
+}
+
+.slider-viewport {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.slider-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s ease-in-out; /* Smooth sliding effect */
+}
+
+.slide {
+  min-width: 100%;
+  height: 100%;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image fills the banner area */
+}
+
+/* Navigation Buttons */
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  border: none;
+  width: 45px;
+  height: 100px;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+}
+
+.prev { left: 0; border-radius: 0 4px 4px 0; }
+.next { right: 0; border-radius: 4px 0 0 4px; }
+
+/* Indicators / Dots */
+.dots-container {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 15; /* Ensure it stays above the images */
+}
+
+.dot {
+  width: 15px;
+  height: 4px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden; /* Important: clips the growing inner bar */
+  position: relative;
+}
+
+.dot.active {
+  background: rgba(255, 255, 255, 0.4);
+  width: 40px; /* Rectangular active indicator like Flipkart */
+  border-radius: 4px;
+}
+
+.inner-progress {
+  height: 100%;
+  background: #212121; /* The black moving line */
+  width: 0;
+  /* Match the 5s to your TypeScript slider interval */
+  animation: progressAnimation 5s linear forwards; 
+}
+
+@keyframes progressAnimation {
+  from { width: 0%; }
+  to { width: 100%; }
+}

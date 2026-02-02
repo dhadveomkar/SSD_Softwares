@@ -1,0 +1,112 @@
+/* Update BOTH components to use these alignment rules */
+
+.section-container, .grid-container {
+  background: white;
+  margin: 10px;          /* Ensure BOTH have the exact same margin */
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-sizing: border-box; /* Prevents padding from increasing width */
+  
+  /* Calculate width to account for the 10px margin on both sides */
+  width: calc(100% - 20px); 
+}
+
+/* Specific overrides to keep your height requirements */
+.section-container {
+  display: flex;
+  height: 360px;
+}
+
+.grid-container {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  height: auto; /* Grids usually need to grow with content */
+}
+
+.grid-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.grid-header h3 {
+  font-size: 18px;
+  font-weight: 500;
+  color: #212121;
+}
+
+.round-arrow-btn {
+  background-color: #2874f0;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  flex-grow: 1; /* Pushes grid to fill remaining vertical space */
+}
+
+.item-card {
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  padding: 8px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.img-wrapper {
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.img-wrapper img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.item-title {
+  font-size: 13px;
+  color: #212121;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-deal {
+  font-size: 13px;
+  color: #388e3c; /* Flipkart Green */
+  font-weight: 500;
+}
+
+.item-card, .furniture-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.item-card:hover, .furniture-card:hover {
+  transform: translateY(-5px); /* Lifts the card up */
+  box-shadow: 0 10px 20px rgba(0,0,0,0.12); /* Adds a shadow depth */
+  z-index: 2;
+}
+
+.img-wrapper img, .img-container img {
+  transition: transform 0.3s ease;
+}
+
+.item-card:hover img, .furniture-card:hover img {
+  transform: scale(1.05); /* Slight zoom on the product image */
+}
