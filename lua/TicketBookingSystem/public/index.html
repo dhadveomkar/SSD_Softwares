@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lua Ticket Booking Demo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Online Ticket Booking</h1>
+      <p>Simple demo running on <strong>Lua</strong> backend</p>
+    </header>
+
+    <main>
+      <section id="events-section">
+        <h2>Available Events</h2>
+        <div id="events" class="grid"></div>
+      </section>
+
+      <section id="booking-section">
+        <h2>Book Tickets</h2>
+        <form id="booking-form">
+          <label>
+            Your name
+            <input type="text" id="name" required />
+          </label>
+          <label>
+            Email
+            <input type="email" id="email" required />
+          </label>
+          <label>
+            Select event
+            <select id="eventSelect" required></select>
+          </label>
+          <label>
+            Quantity
+            <input type="number" id="quantity" min="1" value="1" required />
+          </label>
+          <button type="submit">Book Now</button>
+        </form>
+        <div id="booking-result"></div>
+      </section>
+
+      <section id="bookings-list">
+        <h2>Previous Bookings</h2>
+        <div id="bookings"></div>
+      </section>
+    </main>
+
+    <footer>
+      <small>Demo — in-memory + persisted to file on server. No authentication.</small>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

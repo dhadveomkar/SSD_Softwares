@@ -1,0 +1,106 @@
+[{
+    "brand":"MOTOROLA",
+    "rom":"128 GB",
+    "ram":"8 GB",
+    "id":1,
+    "battery":"7000 mAh",
+    "camera":{
+      "front":"32 MP",
+      "rear":"50 MP + 8 MP"
+    },
+    "model":"g67 Power 5G",
+    "display":"17.02 cm (6.7 inch) Full HD+ Display",
+    "image":"images/moto_g67.webp",
+    "processor":"Snapdragon 7s Gen 2",
+    "price":"₹15,999"
+  },{
+    "brand":"POCO",
+    "rom":"128 GB",
+    "ram":"6 GB",
+    "id":2,
+    "battery":"5200 mAh",
+    "camera":{
+      "front":"8 MP",
+      "rear":"32 MP"
+    },
+    "model":"C71",
+    "display":"17.48 cm (6.88 inch) HD+ Display",
+    "image":"images/poco_c71.png",
+    "processor":"Unisoc T7250 Max clock speed: 2 x A75@1.8GHz 6 x A55@1.6GHz",
+    "price":"₹6,799"
+  },{
+    "brand":"REDMI",
+    "rom":"128 GB",
+    "ram":"6 GB",
+    "id":3,
+    "battery":"5110 mAh",
+    "camera":{
+      "front":"20 MP",
+      "rear":"32 MP + 8 MP + 2 MP"
+    },
+    "model":"Note 14 SE 5G",
+    "display":"16.94 cm (6.67 inch) Full HD+ Display",
+    "image":"images/redminote14se.png",
+    "processor":"Dimensity 7025 Ultra",
+    "price":"₹13,499"
+  },{
+    "brand":"SAMSUNG",
+    "rom":"64 GB",
+    "ram":"4 GB",
+    "id":4,
+    "battery":"5000 mAh",
+    "camera":{
+      "front":"8 MP",
+      "rear":"50 MP + 2 MP"
+    },
+    "model":"Galaxy F07",
+    "display":"17.02 cm (6.7 inch) HD+ Display",
+    "image":"images/samsungf07.webp",
+    "processor":"Helio G99 Processor",
+    "price":"₹6,999"
+  },{
+    "brand":"REALME",
+    "rom":"64 GB",
+    "ram":"4 GB",
+    "id":5,
+    "battery":"5000 mAh",
+    "camera":{
+      "front":"5 MP",
+      "rear":"32 MP"
+    },
+    "model":"C61",
+    "display":"17.13 cm (6.745 inch) HD+ Display",
+    "image":"images/realmec61.webp",
+    "processor":"T612 Processor",
+    "price":"₹6,499"
+  },{
+    "processor":"Dimensity 6300 5G Processor",
+    "rom":"128 GB",
+    "ram":"4 GB",
+    "price":"₹10,499",
+    "battery":"6000 mAh",
+    "camera":{
+      "front":"5 MP",
+      "rear":"50 MP + 2 MP"
+    },
+    "model":"T4 Lite 5G",
+    "display":"17.12 cm (6.74 inch) HD+ Display",
+    "brand":"VIVO",
+    "image":"images/vivot4li5g.webp",
+    "id":6
+  },{
+    "processor":"T760 Processor",
+    "rom":"128 GB",
+    "ram":"4 GB",
+    "price":"₹9,999",
+    "battery":"5000 mAh",
+    "camera":{
+      "front":"16 MP",
+      "rear":"50 MP + 8 MP"
+    },
+    "model":"g35 5G",
+    "display":"17.07 cm (6.72 inch) Full HD+ Display",
+    "id":7,
+    "image":"images/motog35.webp",
+    "brand":"MOTOROLA"
+  }]

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* Extra admin styling */
+    .admin-body {
+      font-family: Arial;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f5f5f5;
+      padding: 40px 20px;
+    }
+
+    .admin-title {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #222;
+    }
+
+    .admin-form {
+      width: 100%;
+      max-width: 450px;
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    .admin-form input {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+      width: 100%;
+    }
+
+    #addBtn {
+      padding: 12px;
+      font-size: 16px;
+      background: #007bff;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #addBtn:hover {
+      background: #005ad5;
+    }
+
+    #msg {
+      font-size: 16px;
+      text-align: center;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+  </style>
+
+</head>
+
+<body class="admin-body">
+
+    <button id="logoutBtn" class="logout-btn">Logout</button>
+
+  <h2 class="admin-title">Admin Panel — Add Smartphone</h2>
+
+  <div class="admin-form">
+
+    <input id="brand" placeholder="Brand">
+    <input id="model" placeholder="Model">
+    <input id="ram" placeholder="RAM">
+    <input id="rom" placeholder="ROM">
+    <input id="display" placeholder="Display Size">
+    <input id="rearCam" placeholder="Rear Camera">
+    <input id="frontCam" placeholder="Front Camera">
+    <input id="processor" placeholder="Processor">
+    <input id="battery" placeholder="Battery">
+    <input id="price" placeholder="Price">
+    <input id="image" placeholder="Image Path (images/...)">
+
+    <button id="addBtn">Add Smartphone</button>
+    <p id="msg"></p>
+
+  </div>
+
+<script>
+/* -------------------------
+   Redirect if not logged in
+---------------------------*/
+if (!localStorage.getItem("adminToken")) {
+  window.location.href = "/admin-login.html";
+}
+
+/* -------------------------
+   Add Smartphone Handler
+---------------------------*/
+document.getElementById("addBtn").onclick = async () => {
+
+  const data = {
+    brand: brand.value.trim(),
+    model: model.value.trim(),
+    ram: ram.value.trim(),
+    rom: rom.value.trim(),
+    display: display.value.trim(),
+    camera: { rear: rearCam.value.trim(), front: frontCam.value.trim() },
+    processor: processor.value.trim(),
+    battery: battery.value.trim(),
+    price: price.value.trim(),
+    image: image.value.trim(),
+    token: localStorage.getItem("adminToken")
+  };
+
+  // Validation
+  if (!data.brand || !data.model || !data.price) {
+    msg.style.color = "red";
+    msg.textContent = "Brand, Model and Price are required!";
+    return;
+  }
+
+  const resp = await fetch("/api/add-product", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },   // IMPORTANT FIX
+    body: JSON.stringify(data)
+  });
+
+  const result = await resp.json();
+
+  if (result.success) {
+    msg.style.color = "green";
+    msg.textContent = "Smartphone Added Successfully!";
+
+    // Clear inputs
+    document.querySelectorAll("input").forEach(i => i.value = "");
+  } else {
+    msg.style.color = "red";
+    msg.textContent = result.error || "Error adding smartphone!";
+  }
+};
+</script>
+
+</body>
+</html>

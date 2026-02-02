@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Select seats — BusExpress</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Add jsPDF here -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    /* Seat selection specific styles */
+    .seat-wrap { max-width:1100px;margin:18px auto;padding:12px; }
+    .seat-legend { display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;align-items:center; }
+    .legend-item { display:flex;gap:8px;align-items:center;font-size:14px }
+    .legend-swatch { width:18px;height:18px;border-radius:4px;border:1px solid rgba(0,0,0,0.06) }
+    .screen { text-align:center;margin:10px 0 18px;padding:8px 12px;background:#eef6ff;border-radius:8px;font-weight:700;color:#0b5cff; position:relative;}
+    .driver { display:flex;align-items:center;gap:10px; justify-content:center; margin-bottom:12px; }
+    .driver svg { width:72px; height:48px; opacity:0.95; }
+    .seat-map { display:flex; gap:8px; justify-content:center; margin: 12px 0; }
+    .grid { display:flex; flex-direction:column; gap:10px; align-items:center; width:100%; }
+    .row { display:flex; gap:10px; align-items:center; justify-content:center; width:100%; max-width:720px; }
+    .block { display:flex; gap:8px; } /* left/right 2-seat block */
+    .aisle { width:42px; } /* visual aisle space between blocks */
+    .seat {
+      width:46px;height:46px;border-radius:8px;background:#fff;border:1px solid #dbeafe;display:flex;align-items:center;justify-content:center;
+      cursor:pointer;font-weight:700;color:#0b1220;user-select:none;
+      box-shadow: 0 4px 8px rgba(2,6,23,0.04);
+    }
+    .seat.small { width:38px;height:38px;font-size:13px }
+    .seat.disabled { cursor:not-allowed; opacity:0.38; transform: none; pointer-events:none; }
+    .seat.selected { outline:3px solid rgba(11,92,255,0.16); box-shadow:0 6px 18px rgba(11,92,255,0.08) }
+    /* seat type colors */
+    .s-unreserved { background: #ffffff; }
+    .s-reserved { background: #ef4444; color: white; }           /* red - already booked */
+    .s-senior { background: #fde68a; }                          /* yellow */
+    .s-mla { background: #bbf7d0; }                             /* light green */
+    .s-female { background: #fbcfe8; }                          /* pink */
+    .s-soldier { background: #dbeafe; }                         /* pale blue */
+
+    .seat-info { display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:12px }
+    .summary { padding:10px 12px;background:#fff;border-radius:10px;border:1px solid #eef6ff; font-weight:700; }
+    .proceed { background:#0b5cff;color:#fff;padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:800 }
+    .row-label { min-width:36px; text-align:center; color:#475569; font-size:13px; font-weight:600; }
+
+    /* Last row seats visually same as others but slightly centered */
+    .seat.last-row { margin: 0.0px;}
+
+    /* Modal overlay for passenger forms */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.45); display:flex; align-items:center; justify-content:center; z-index:1000;
+    }
+    .modal {
+      width: min(880px, 96%); max-height: 88vh; overflow:auto;
+      background:#fff; border-radius:12px; padding:18px; box-shadow:0 12px 40px rgba(2,6,23,0.3);
+    }
+    .modal h3 { margin-bottom:8px; }
+    .passenger-grid { display:flex; flex-direction:column; gap:10px; margin-bottom:12px; }
+    .passenger-row { display:flex; gap:10px; align-items:center; }
+    .passenger-row input, .passenger-row select {
+      padding:8px 10px; border-radius:8px; border:1px solid #e6eefb; font-size:14px;
+    }
+    .modal-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:10px; }
+    .btn { padding:10px 12px; border-radius:8px; border:0; cursor:pointer; font-weight:700; }
+    .btn.cancel { background:#eef2ff; color:#0b5cff; }
+    .btn.confirm { background:#0b5cff; color:#fff; }
+
+    @media (max-width:720px) {
+      .seat-map { flex-direction:column; gap:16px; align-items:center; }
+      .aisle { width:28px; }
+      .seat { width:40px;height:40px }
+      .passenger-row { flex-direction: column; align-items:stretch; }
+    }
+  </style>
+</head>
+<body>
+  <header style="display:flex;justify-content:space-between;align-items:center;padding:12px 18px;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.04)">
+    <div style="font-weight:800;color:#0b5cff">BusExpress</div>
+    <div><a href="search-results.html" style="color:#0b5cff;font-weight:700">← Back</a></div>
+  </header>
+
+  <div class="seat-wrap">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
+      <div>
+        <div style="font-weight:800;font-size:18px" id="journeyTitle">Journey</div>
+        <div style="color:#475569;font-size:14px" id="journeySub">From → To • Date</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:14px;color:#64748b">Trip ID: <span id="tripIdText">-</span></div>
+        <div style="margin-top:6px"><span id="pricePerSeat" style="font-weight:900;font-size:18px;color:#0b5cff">₹0</span> <span style="font-weight:600;color:#475569;font-size:13px">per seat</span></div>
+      </div>
+    </div>
+
+    <div class="seat-legend" aria-hidden="false" style="margin-top:14px;">
+      <div class="legend-item"><div class="legend-swatch" style="background:#fff;border:1px solid #dbeafe"></div> Unreserved</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#ef4444"></div> Reserved</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#fde68a"></div> Senior Citizen</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#bbf7d0"></div> MLA</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#fbcfe8"></div> Female</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#dbeafe"></div> Soldier</div>
+    </div>
+
+    <!-- driver drawing -->
+    <div class="driver" aria-hidden="true">
+      <svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Driver">
+        <rect x="6" y="10" width="108" height="40" rx="8" fill="#0b5cff" opacity="0.12" stroke="#0b5cff" stroke-width="1.2"></rect>
+        <circle cx="60" cy="30" r="8" fill="#0b5cff" opacity="0.18"></circle>
+        <circle cx="60" cy="30" r="3" fill="#0b5cff"></circle>
+        <circle cx="60" cy="20" r="6" fill="#0b1220" opacity="0.12"></circle>
+      </svg>
+      <div style="font-weight:700;color:#0b5cff">Driver / Front</div>
+    </div>
+
+    <div class="screen">Front — Driver here ►</div>
+
+    <!-- unified seat grid -->
+    <div class="seat-map" id="seatMap" role="application" aria-label="Seat selection map">
+      <!-- grid will be injected here: rows 1..11 (rows 1-10 => 4 seats; row 11 => 5 seats) -->
+    </div>
+
+    <div class="seat-info">
+      <div class="summary" id="selectionSummary">Selected: 0 seats</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="proceed" id="proceedBtn">Proceed to Book</button>
+      </div>
+    </div>
+
+    <div style="margin-top:12px;color:#6b7280;font-size:13px">Tip: click seats to select/unselect. Provide one passenger per seat.</div>
+  </div>
+
+  <!-- modal placeholder -->
+  <div id="modalRoot"></div>
+
+  <script src="seat-seats.js" defer></script>
+</body>
+</html>

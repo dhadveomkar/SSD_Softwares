@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin — BusExpress</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* small admin-specific styles */
+    .admin-wrap { max-width:1100px;margin:20px auto;padding:18px;background:#fff;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.04) }
+    h2 { margin-bottom:12px }
+    form { display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px }
+    form input, form select { padding:8px;border-radius:8px;border:1px solid #e6eefb }
+    .list { margin-top:12px }
+    .trip-row { display:flex;justify-content:space-between;padding:8px;border-bottom:1px solid #f1f5f9;align-items:center }
+    .danger { background:#fee2e2;border-color:#fca5a5;color:#b91c1c;padding:6px 10px;border-radius:8px;cursor:pointer }
+    .muted { color:#64748b;font-size:13px }
+  </style>
+</head>
+<body>
+  <header style="padding:14px 22px;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.04)"><strong style="color:#0b5cff">BusExpress — Admin</strong></header>
+
+  <main class="admin-wrap">
+    <section>
+      <h2>Manage Cities (Routes)</h2>
+      <form id="addCityForm">
+        <input type="text" id="cityName" placeholder="City name (e.g. Nashik)" required />
+        <button type="submit">Add City</button>
+      </form>
+      <div id="citiesList" class="muted">Loading cities...</div>
+    </section>
+
+    <hr />
+
+    <section>
+      <h2>Manage Trips (Master List)</h2>
+      <form id="addTripForm">
+        <select id="tripFrom" required></select>
+        <select id="tripTo" required></select>
+        <input type="date" id="tripDate" required />
+        <input type="time" id="tripDepart" />
+        <input type="text" id="tripType" placeholder="Bus type (AC Sleeper)" />
+        <input type="text" id="tripService" placeholder="Service no." />
+        <input type="text" id="tripDur" placeholder="Journey time (e.g. 4h 15m)" />
+        <input type="number" id="tripSeats" placeholder="Seats" min="0" style="width:90px" />
+        <input type="number" id="tripPrice" placeholder="Price" min="0" style="width:100px" />
+        <button type="submit">Add Trip</button>
+      </form>
+
+      <div class="list" id="tripsList">Loading trips...</div>
+    </section>
+  </main>
+
+  <script src="admin-dashboard.js" defer></script>
+</body>
+</html>

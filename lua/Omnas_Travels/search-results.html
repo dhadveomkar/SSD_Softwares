@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Search results — BusExpress</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* small page-specific styles for results */
+    .results-header { max-width:1100px;margin:18px auto 8px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:12px; }
+    .results-summary { font-weight:600; }
+    .results-container { max-width:1100px;margin:0 auto;padding:12px; display:grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap:14px; }
+    .bus-card {
+      background: #fff;
+      padding: 14px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(10,20,60,0.05);
+      border: 1px solid #eef6ff;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .card-top { display:flex;justify-content:space-between;align-items:center;gap:10px; }
+    .route { font-weight:700; font-size:16px; }
+    .meta { font-size:13px;color:#475569 }
+    .card-mid { display:flex;gap:12px;align-items:center; justify-content:space-between; flex-wrap:wrap; }
+    .pill { background:#f3f8ff; padding:6px 8px; border-radius:8px; font-weight:600; font-size:13px; }
+    .price { font-weight:800; font-size:18px; color:#0b5cff }
+    .seat-available { font-weight:700; color:#065f46 }
+    .actions { display:flex;gap:8px;margin-top:6px; }
+    .book-btn { background:#0b5cff;color:white;padding:10px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:700 }
+    .back-link { text-decoration:none;color:#0b5cff;font-weight:700 }
+    .no-result { max-width:1100px;margin:22px auto;padding:16px;background:#fff;border-radius:10px;border:1px solid #f1f5f9;text-align:center }
+  </style>
+</head>
+<body>
+  <header style="display:flex;justify-content:space-between;align-items:center;padding:16px 24px;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.04)">
+    <div style="font-weight:800;color:#0b5cff">BusExpress</div>
+    <div><a class="back-link" href="index.html">← Back to search</a></div>
+  </header>
+
+  <div class="results-header">
+    <div class="results-summary" id="resultsSummary">Searching...</div>
+  </div>
+
+  <main>
+    <div id="results" class="results-container"></div>
+    <div id="noresult" class="no-result" style="display:none;">No buses found for the selected route/date.</div>
+  </main>
+
+  <script>
+    (function(){
+      const API_BASE = 'http://localhost:8080';
+
+      // read query params
+      const params = new URLSearchParams(location.search);
+      const from = params.get('from') || '';
+      const to = params.get('to') || '';
+      const date = params.get('date') || '';
+
+      const resultsSummary = document.getElementById('resultsSummary');
+      resultsSummary.innerText = `Results: ${from} → ${to} • ${date || 'Any date'}`;
+
+      const resultsEl = document.getElementById('results');
+      const noResEl = document.getElementById('noresult');
+
+      async function fetchResults() {
+        try {
+          // call GET /api/search?from=..&to=..&date=..
+          const url = API_BASE + '/api/search?' + new URLSearchParams({ from, to, date }).toString();
+          const res = await fetch(url);
+          const j = await res.json();
+          renderResults(j.trips || []);
+        } catch (err) {
+          console.error('Error fetching results', err);
+          resultsEl.innerHTML = '<div style="grid-column:1/-1;padding:20px;background:#fff;border-radius:10px;">Service error — please try again later.</div>';
+        }
+      }
+
+      function renderResults(trips) {
+        resultsEl.innerHTML = '';
+        if (!trips || trips.length === 0) { noResEl.style.display = 'block'; return; }
+        noResEl.style.display = 'none';
+        trips.forEach(trip => {
+          const card = document.createElement('div');
+          card.className = 'bus-card';
+
+          // top: route + date
+          const top = document.createElement('div'); top.className = 'card-top';
+          const route = document.createElement('div'); route.className = 'route'; route.innerText = `${trip.from} → ${trip.to}`;
+          const dateDiv = document.createElement('div'); dateDiv.className = 'meta'; dateDiv.innerText = trip.date || '';
+          top.appendChild(route); top.appendChild(dateDiv);
+
+          // mid: depart, bus type, service no, journey time
+          const mid = document.createElement('div'); mid.className = 'card-mid';
+          const depart = document.createElement('div'); depart.className = 'pill'; depart.innerText = 'Depart: ' + (trip.depart || '—');
+          const type = document.createElement('div'); type.className = 'meta'; type.innerText = 'Type: ' + (trip.busType || '—');
+          const svc = document.createElement('div'); svc.className = 'meta'; svc.innerText = 'Service No.: ' + (trip.serviceNo || '—');
+          const duration = document.createElement('div'); duration.className = 'meta'; duration.innerText = 'Duration: ' + (trip.journeyTime || '—');
+          mid.appendChild(depart);
+          mid.appendChild(type);
+          mid.appendChild(svc);
+          mid.appendChild(duration);
+
+          // bottom: price, available seats, actions
+          const bottom = document.createElement('div'); bottom.style.display = 'flex'; bottom.style.justifyContent = 'space-between'; bottom.style.alignItems = 'center';
+          const left = document.createElement('div');
+          const price = document.createElement('div'); price.className = 'price'; price.innerText = '₹' + (trip.price || 0);
+          const seats = document.createElement('div'); seats.className = 'seat-available'; seats.innerText = (trip.seats || 0) + ' seats available';
+          left.appendChild(price); left.appendChild(seats);
+
+          const actions = document.createElement('div'); actions.className = 'actions';
+          const bookBtn = document.createElement('button'); bookBtn.className = 'book-btn'; bookBtn.innerText = 'Book';
+
+          // UPDATED: navigate to seat selection page with trip id and date
+          bookBtn.addEventListener('click', () => {
+            const qs = new URLSearchParams({ tripId: trip.id, date: trip.date || '' }).toString();
+            window.location.href = '/seat-selection.html?' + qs;
+          });
+
+          actions.appendChild(bookBtn);
+
+          bottom.appendChild(left);
+          bottom.appendChild(actions);
+
+          card.appendChild(top);
+          card.appendChild(mid);
+          card.appendChild(bottom);
+
+          resultsEl.appendChild(card);
+        });
+      }
+
+      // start
+      fetchResults();
+
+    })();
+  </script>
+</body>
+</html>

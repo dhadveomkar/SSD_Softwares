@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Omnas Travels — Home</title>
+
+  <!-- Link external stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="brand">Omnas Travels</div>
+    <div class="icons">
+      <button class="icon-btn" id="userBtn" title="Go to user dashboard">User</button>
+      <button class="icon-btn" id="adminBtn" title="Go to admin dashboard">Admin</button>
+    </div>
+  </header>
+
+  <main class="hero">
+    <!-- Hero / Carousel -->
+    <section class="carousel" id="carousel">
+      <img src="" alt="hero slide" id="carouselImage" />
+      <div class="dots" id="dots"></div>
+    </section>
+
+    <!-- Search card -->
+    <section class="search-card" aria-label="Search trips">
+      <div class="field">
+        <label for="from" class="sr-only">From</label>
+        <select id="from" aria-label="Source city"></select>
+      </div>
+
+      <button class="swap-btn" id="swapBtn" title="Swap source and destination" aria-label="Swap">
+        ⇄
+      </button>
+
+      <div class="field">
+        <label for="to" class="sr-only">To</label>
+        <select id="to" aria-label="Destination city"></select>
+      </div>
+
+      <div class="field">
+        <label for="date" class="sr-only">Date</label>
+        <input type="date" id="date" aria-label="Travel date" />
+      </div>
+
+      <div>
+        <button class="check-btn" id="checkBtn">Check availability</button>
+      </div>
+    </section>
+
+    <!-- Recent searches -->
+    <section class="recent" id="recentSection" aria-live="polite">
+      <h4>Recent searches</h4>
+      <div class="recent-list" id="recentList">—</div>
+    </section>
+  </main>
+
+  <!-- Bottom navigation -->
+  <nav class="bottom-nav" role="navigation" aria-label="Main navigation">
+    <a href="#" id="nav-home">Homepage</a>
+    <a href="#" id="nav-ticketlist">Ticket list</a>
+    <a href="#" id="nav-masterlist">Master list</a>
+    <a href="#" id="nav-cancelled">Cancelled tickets</a>
+    <a href="#" id="nav-edit">Edit account</a>
+  </nav>
+
+  <!-- Link external JS -->
+  <script src="app.js" defer></script>
+</body>
+</html>

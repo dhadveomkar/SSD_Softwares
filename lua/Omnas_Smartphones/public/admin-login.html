@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin-body">
+
+<div class="admin-login-box">
+  <h2>Admin Login</h2>
+  <input id="adminUser" placeholder="Username">
+  <input id="adminPass" placeholder="Password" type="password">
+  <button id="loginBtn">Login</button>
+
+  <p id="loginMsg"></p>
+</div>
+
+<script>
+document.getElementById("loginBtn").onclick = async () => {
+  const username = adminUser.value.trim();
+  const password = adminPass.value.trim();
+
+  const resp = await fetch("/api/login", {
+    method: "POST",
+    body: JSON.stringify({ username, password })
+  });
+
+  const result = await resp.json();
+
+  if (result.success) {
+    localStorage.setItem("adminToken", result.token);
+    window.location.href = "/admin-panel.html";
+  } else {
+    loginMsg.textContent = "Invalid Credentials!";
+  }
+};
+</script>
+</body>
+</html>

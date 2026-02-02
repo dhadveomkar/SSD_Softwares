@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Omnas Smartphones</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-row">
+      <div class="brand" aria-label="Omnas Smartphones">
+  <!-- Inline SVG icon (phone/shop style) -->
+  <div class="brand-icon" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 48 48"><path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" d="m14 19.121l8.307 8.166L34 15.723"/><path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" d="M39.203 39.203c-8.396 8.396-22.01 8.396-30.406 0c-8.396-8.397-8.396-22.01 0-30.406m30.406 0c-8.397-8.396-22.01-8.396-30.406 0m30.406 30.406"/></svg>
+  </div>
+
+  <div class="brand-text">
+    <div class="logo">Omnas</div>
+    <div class="tag">Smartphones</div>
+  </div>
+</div>
+
+
+      <div class="search-row">
+        <!-- location widget: paste into public/index.html -->
+<div class="location" id="location-widget" aria-haspopup="listbox" aria-expanded="false">
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true">
+    <path d="M12 2c2.8 0 5 2.2 5 5 0 4.2-5 9-5 9s-5-4.8-5-9c0-2.8 2.2-5 5-5z" stroke="#2b6f67" stroke-width="1.2" />
+    <circle cx="12" cy="7" r="1.5" fill="#2b6f67" />
+  </svg>
+
+  <span class="loc-text" id="selected-location" role="button" aria-label="Selected city">Mumbai</span>
+
+  <button class="loc-arrow" id="loc-toggle" aria-label="Open locations" aria-expanded="false">▾</button>
+
+  <!-- DROPDOWN MENU -->
+  <div class="location-dropdown" id="location-dropdown" role="listbox" aria-label="Choose location" tabindex="-1">
+    <div class="loc-option" role="option" data-city="Mumbai" tabindex="0">Mumbai</div>
+    <div class="loc-option" role="option" data-city="Delhi" tabindex="0">Delhi</div>
+    <div class="loc-option" role="option" data-city="Pune" tabindex="0">Pune</div>
+    <div class="loc-option" role="option" data-city="Bengaluru" tabindex="0">Bengaluru</div>
+    <div class="loc-option" role="option" data-city="Hyderabad" tabindex="0">Hyderabad</div>
+    <div class="loc-option" role="option" data-city="Chennai" tabindex="0">Chennai</div>
+    <div class="loc-option" role="option" data-city="Kolkata" tabindex="0">Kolkata</div>
+  </div>
+
+
+        </div>
+
+        <div class="search">
+          <input id="q" placeholder="Search for Smartphones" aria-label="search" />
+          <button id="searchBtn" aria-label="search-button">Search</button>
+        </div>
+        <button class="btn login" onclick="window.location.href='/admin-login.html'">Admin</button>
+
+      </div>  
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-inner container">
+        <button class="carousel-arrow left" id="prevBtn" aria-label="previous slide">&lsaquo;</button>
+
+        <div class="hero-frame" role="region" aria-label="hero carousel">
+          <img id="heroImg" src="images/hero1.png" alt="Hero banner" />
+          
+        </div>
+
+        <button class="carousel-arrow right" id="nextBtn" aria-label="next slide">&rsaquo;</button>
+      </div>
+
+      <div class="carousel-dots container" id="dots" aria-hidden="false"></div>
+    </section>
+
+    <section class="services container">
+      <div class="services-header">
+        <h2>Latest Smartphones</h2>
+        <div class="services-actions">
+          
+          <button class="small-btn">Buy New</button>
+        </div>
+      </div>
+
+      <!-- sorting & filtering -->
+       <!-- Filter bar (improved) -->
+<div class="filter-bar" id="filterBar">
+  <div class="filter-left">
+    <div class="filter-group">
+      <label for="filter-brand">Brand</label>
+      <select id="filter-brand" multiple>
+        <option value="SAMSUNG">Samsung</option>
+        <option value="APPLE">Apple</option>
+        <option value="ONEPLUS">OnePlus</option>
+        <option value="REALME">Realme</option>
+        <option value="OPPO">Oppo</option>
+        <option value="VIVO">Vivo</option>
+        <option value="MOTOROLA">Motorola</option>
+        <option value="REDMI">Redmi</option>
+        <option value="POCO">Poco</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="filter-ram">RAM</label>
+      <select id="filter-ram" multiple>
+        <option value="4 GB">4 GB</option>
+        <option value="6 GB">6 GB</option>
+        <option value="8 GB">8 GB</option>
+        <option value="12 GB">12 GB</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="filter-storage">ROM</label>
+      <select id="filter-storage" multiple>
+        <option value="64 GB">64 GB</option>
+        <option value="128 GB">128 GB</option>
+        <option value="256 GB">256 GB</option>
+        <option value="512 GB">512 GB</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="filter-price">Price</label>
+      <select id="filter-price">
+        <option value="">All</option>
+        <option value="0-10000">Below ₹10,000</option>
+        <option value="10000-20000">₹10,000 - ₹20,000</option>
+        <option value="20000-40000">₹20,000 - ₹40,000</option>
+        <option value="40000-100000">₹40,000+</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="filter-right">
+    <div class="filter-group">
+      <label for="sort-by">Sort</label>
+      <select id="sort-by">
+        <option value="">Recommended</option>
+        <option value="low">Price: Low → High</option>
+        <option value="high">Price: High → Low</option>
+        <option value="new">Newest First</option>
+        <option value="rating">Top Rated</option>
+      </select>
+    </div>
+
+    <div class="filter-actions">
+      <button id="clearFilters" class="btn clear">Clear Filters</button>
+      <div id="activeCount" class="active-count" aria-live="polite">0 filters</div>
+    </div>
+  </div>
+</div>
+
+
+
+      <div id="products" class="products-grid" aria-live="polite"></div>
+    </section>
+
+    <!-- Reviews section -->
+<section class="reviews-section">
+  <div class="container reviews-top">
+    <div class="reviews-heading">
+      <h2>Trusted by 164.64 Lac + Happy Users and Major Brands since 2015</h2>
+    </div>
+
+    <div class="reviews-stats">
+      <div class="stat-card">
+        <div class="stat-icon">₹</div>
+        <div class="stat-value">12,347.77 Cr.</div>
+        <div class="stat-label">Cash Given</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📱</div>
+        <div class="stat-value">182.93 Lac</div>
+        <div class="stat-label">Gadgets Encashed</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container reviews-carousel-wrap">
+    <button class="rev-arrow rev-left" id="revPrev" aria-label="previous review">‹</button>
+
+    <div class="reviews-carousel" id="reviewsCarousel" aria-live="polite">
+      <div class="reviews-track" id="reviewsTrack">
+        <!-- Card 1 -->
+        <article class="review-card">
+          <div class="quote-mark">“</div>
+          <div class="review-body">
+            Payment was very instant and the whole process was quick. Will recommend it.
+          </div>
+          <div class="review-meta">
+            <img class="review-avatar" src="images/avatar1.png" alt="Abhiyash">
+            <div class="review-name">Abhiyash</div>
+            <div class="review-city">New Delhi</div>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="review-card">
+          <div class="quote-mark">“</div>
+          <div class="review-body">
+            It was a wonderful experience with Omnas. I got a reasonable price for my product and response was very quick!
+          </div>
+          <div class="review-meta">
+            <img class="review-avatar" src="images/avatar2.png" alt="Vinit Kumar">
+            <div class="review-name">Vinit Kumar</div>
+            <div class="review-city">New Delhi</div>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="review-card">
+          <div class="quote-mark">“</div>
+          <div class="review-body">
+            Good service! Customer support was polite & technician was experienced. Will recommend to others for sure.
+          </div>
+          <div class="review-meta">
+            <img class="review-avatar" src="images/avatar3.png" alt="Kiran Kumar">
+            <div class="review-name">Kiran Kumar Balusu</div>
+            <div class="review-city">Hyderabad</div>
+          </div>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="review-card">
+          <div class="quote-mark">“</div>
+          <div class="review-body">
+            Sold my phone very easily. Technician was professional and the pickup was on time.
+          </div>
+          <div class="review-meta">
+            <img class="review-avatar" src="images/avatar4.png" alt="Satheesh">
+            <div class="review-name">Satheesh Kumaram</div>
+            <div class="review-city">Bengaluru</div>
+          </div>
+        </article>
+
+        <!-- add more cards as needed -->
+      </div>
+    </div>
+
+    <button class="rev-arrow rev-right" id="revNext" aria-label="next review">›</button>
+  </div>
+
+  <div class="container reviews-dots-wrap">
+    <div id="reviewsDots" class="reviews-dots" role="tablist"></div>
+  </div>
+</section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© Omnas Smartphones — Built with ❤️</div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
