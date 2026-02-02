@@ -1,0 +1,41 @@
+.dashboard-container {
+  padding: 2rem;
+  background-color: #f4f7f6;
+  min-height: 100vh;
+}
+
+.device-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* The Base Card Style */
+.device-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  opacity: 0; /* Start invisible */
+  transform: translateY(30px); /* Start slightly lower */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* The Animation Class triggered by TS */
+.animate-in {
+  animation: slideIn 0.6s ease forwards;
+}
+
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hover Effect */
+.device-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  border-left: 5px solid #007bff;
+}

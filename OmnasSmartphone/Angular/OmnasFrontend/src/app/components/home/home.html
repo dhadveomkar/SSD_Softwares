@@ -1,0 +1,102 @@
+<div class="home-wrapper">
+  <nav class="navbar" [class.scrolled]="isScrolled">
+    <div class="nav-logo">OMNAS<span>CORE</span></div>
+    <ul class="nav-links">
+      <li><a (click)="scrollTo('home')">Home</a></li>
+      <li><a (click)="scrollTo('features')">Features</a></li>
+      <li><a (click)="scrollTo('inventory')">Inventory</a></li>
+    </ul>
+    <button class="nav-cta">Get Started</button>
+  </nav>
+
+  <section id="home" class="hero-section" [class.show]="isPageLoaded">
+    <div class="hero-content">
+      <h1 class="glow-text">Smart Device<br>Management</h1>
+      <p>The ultimate control center for your smartphone ecosystem. Track OS versions, sync status, and hardware health from one dashboard.</p>
+      <div class="cta-buttons">
+        <button class="btn-primary" (click)="scrollTo('inventory')">Explore Devices</button>
+        <button class="btn-outline">Watch Demo</button>
+      </div>
+    </div>
+    <div class="hero-image">
+      <div class="floating-phone">📱</div>
+    </div>
+  </section>
+
+<div class="slider-container">
+  <div class="slide-track" [style.transform]="'translateX(-' + (currentSlide * 100) + '%)'">
+    @for (banner of banners; track $index) {
+      <div class="slide">
+        <img [src]="banner.url" [alt]="banner.title">
+        <div class="slide-overlay">
+          <h3>{{ banner.title }}</h3>
+          <p>{{ banner.desc }}</p>
+        </div>
+      </div>
+    }
+  </div>
+  
+  <div class="slider-dots">
+    @for (dot of banners; track $index) {
+      <span class="dot" [class.active]="$index === currentSlide"></span>
+    }
+  </div>
+</div>
+
+  <section id="features" class="features-section">
+    <div class="section-header">
+      <h2>Why Choose Omnas?</h2>
+      <p>Built for speed, designed for clarity.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="icon">⚡</div>
+        <h3>Real-time Sync</h3>
+        <p>Instant updates from your .NET backend using SignalR technology.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🛡️</div>
+        <h3>Secure Core</h3>
+        <p>Enterprise-grade security for your smartphone data inventory.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📊</div>
+        <h3>Analytics</h3>
+        <p>Visualize OS distribution across your entire device fleet.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="inventory" class="inventory-section">
+    <div class="section-header">
+      <h2 style="color: #0f172a;">Live Inventory</h2>
+      <div class="divider"></div>
+    </div>
+    <app-device-list></app-device-list>
+  </section>
+
+  <footer class="main-footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3>OMNAS</h3>
+        <p>Leading the way in smartphone management solutions.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Links</h4>
+        <ul>
+          <li>About Us</li>
+          <li>Privacy Policy</li>
+          <li>API Docs</li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact</h4>
+        <p>support@omnas.com</p>
+        <div class="social-icons">🌐 🐦 📘</div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 OmnasSmartphone Project. All rights reserved.
+    </div>
+  </footer>
+</div>
