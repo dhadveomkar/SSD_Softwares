@@ -1,0 +1,106 @@
+:root {
+  --max: 1100px;
+  --muted: #6b6b6b;
+  --accent: #111;
+}
+
+/* container */
+.container {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 18px;
+}
+
+/* overall layout */
+.reviews-root {
+  padding: 18px 0 36px;
+  text-align: center;
+  font-family: "Courier New", Courier, monospace;
+}
+
+/* header */
+.reviews-header h2 {
+  margin: 4px 0 8px;
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+/* rating row */
+.rating-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.stars { color: #111; font-size: 18px; letter-spacing: 2px; }
+.star { color: #111; margin-right: 6px; font-size: 18px; }
+
+/* avg and count */
+.avg-and-count { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: #111; }
+.avg { font-weight: 700; font-size: 14px; }
+
+/* review card wrapper */
+.review-wrap { display:flex; justify-content:center; }
+
+/* card */
+.review-card {
+  width: 80%;
+  max-width: 1000px;
+  border: 1px solid #111;
+  padding: 22px;
+  text-align: left;
+  background: #fff;
+  box-sizing: border-box;
+  /* ensure visible; animation only fades in, not out to transparent before content change */
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+/* fade-in animation (applied AFTER index change) */
+.review-card.fade-in {
+  animation: fadeIn 300ms ease forwards;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* review header (name + verified) */
+.review-header { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.reviewer { font-weight:700; letter-spacing:.6px; }
+.verified { display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:50%; background:#111; color:#fff; font-size:12px; }
+
+/* review stars row below name */
+.review-stars { margin-bottom:12px; color:#111; }
+
+/* main review text */
+.review-text {
+  font-size:16px;
+  line-height:1.6;
+  margin-bottom:14px;
+  letter-spacing:1px;
+  text-transform: uppercase;
+}
+
+/* tagline */
+.review-tagline { font-size:14px; letter-spacing:1px; }
+
+/* nav buttons below the card */
+.nav-row { margin-top:14px; display:flex; gap:18px; justify-content:center; }
+.nav-btn {
+  width:44px; height:44px; border-radius:50%; border:1px solid #111; background:transparent; font-size:22px; cursor:pointer;
+}
+
+/* responsive tweaks */
+@media (max-width:900px) {
+  .review-card { width:92%; padding:18px; }
+  .review-text { font-size:14px; }
+}
+@media (max-width:480px) {
+  .nav-btn { width:40px; height:40px; }
+  .review-card { padding:14px; }
+}

@@ -1,0 +1,43 @@
+<nav class="nav-root" role="navigation" aria-label="Main">
+  <div class="nav-container">
+
+    <!-- LEFT: Logo -->
+    <div class="nav-left" (click)="goHome()" role="button" tabindex="0" aria-label="Go to homepage">
+      <div class="logo">URBAN MONKEY®</div>
+    </div>
+
+    <!-- CENTER: Search -->
+    <div class="nav-center">
+      <form class="search-form" (submit)="onSearch($event)" role="search" aria-label="Search products">
+        <input
+          type="search"
+          class="search-input"
+          placeholder="SEARCH FOR PRODUCTS"
+          [(ngModel)]="searchText"
+          name="q"
+          aria-label="Search for products"
+        />
+        <button type="submit" class="search-btn" aria-label="Search">SEARCH</button>
+      </form>
+    </div>
+
+    <!-- RIGHT: Icons -->
+    <div class="nav-right" role="group" aria-label="User controls">
+      <button class="icon-btn" (click)="openProfile()" aria-label="Account">
+        <span class="icon user" aria-hidden="true">👤</span>
+      </button>
+
+      <button class="icon-btn" (click)="openWishlist()" aria-label="Wishlist">
+        <span class="icon heart" aria-hidden="true">♡</span>
+      </button>
+
+      <button class="icon-btn cart" (click)="openCart()" aria-label="Cart">
+        <span class="icon cart-icon" aria-hidden="true">🛒</span>
+        <span class="cart-badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
+      </button>
+    </div>
+
+  </div>
+</nav>
+
+

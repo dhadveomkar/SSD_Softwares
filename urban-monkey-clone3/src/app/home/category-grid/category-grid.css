@@ -1,0 +1,104 @@
+/* container utility (keeps same style as other components) */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 18px;
+}
+
+/* visually-hidden helper for accessibility */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+/* grid layout */
+.category-grid .grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+  margin: 22px 0;
+}
+
+/* single card */
+.card {
+  background: #f8f8f8; /* pale tile background */
+  border-radius: 8px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 300px; /* square-feel */
+  cursor: pointer;
+  border: 1px solid rgba(0,0,0,0.06);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+  outline: none;
+}
+
+/* focus/hover states */
+.card:hover,
+.card:focus {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+/* image area */
+.image-wrap {
+  width: 100%;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  background: #f5f5f5;
+}
+
+.image-wrap img {
+  max-width: 70%;
+  max-height: 160px;
+  object-fit: contain;
+  display: block;
+}
+
+/* label below image as black rounded pill */
+.label {
+  width: fit-content;
+  margin: 18px 0 26px;
+  padding: 10px 18px;
+  background: #000;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+/* responsive: 3 cols on medium, 2 on small, 1 on mobile */
+@media (max-width: 1100px) {
+  .category-grid .grid { grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .image-wrap img { max-height: 140px; }
+}
+@media (max-width: 780px) {
+  .category-grid .grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .image-wrap img { max-height: 120px; }
+}
+@media (max-width: 420px) {
+  .category-grid .grid { grid-template-columns: repeat(1, 1fr); gap: 14px; }
+  .image-wrap img { max-height: 100px; }
+  .label { font-size: 13px; padding: 10px 14px; }
+}
+
+/* accessibility focus ring for keyboard users */
+.card:focus {
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.12);
+}
+
+/* small touch improvements */
+@media (pointer: coarse) {
+  .card { transition: none; }
+}

@@ -1,0 +1,41 @@
+<!-- marquee root; tabindex so it can receive keyboard events -->
+<div
+  class="marquee-root"
+  tabindex="0"
+  role="region"
+  aria-label="Site notifications"
+  [class.paused]="isPaused"
+>
+  <!-- moving viewport: we set animationDuration inline so it's dynamic -->
+  <div
+    class="marquee-viewport"
+    [style.animationPlayState]="isPaused ? 'paused' : 'running'"
+  >
+    <div
+      class="marquee-track"
+      [style.animationDuration]="animationDuration()"
+      aria-hidden="true"
+    >
+      <!-- duplicate sequence twice for seamless loop -->
+      <ng-container *ngFor="let repeat of [0,1]">
+        <span class="marq-item" *ngFor="let msg of messages">
+          <span class="star">★</span>
+          <span class="msg">{{ msg }}</span>
+        </span>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- pause/play control (mouse users) -->
+  <button
+    class="marq-btn"
+    type="button"
+    (click)="togglePause()"
+    [attr.aria-pressed]="isPaused"
+    aria-label="Pause or resume notifications"
+    title="Pause or resume notifications"
+  >
+    <span *ngIf="!isPaused">⏸</span>
+    <span *ngIf="isPaused">▶</span>
+  </button>
+</div>

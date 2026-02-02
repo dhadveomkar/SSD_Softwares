@@ -1,0 +1,119 @@
+:root{
+  --marq-height: 32px;        /* height of the bar */
+  --bg: #000000;              /* black background */
+  --fg: #ffffff;              /* white text & stars */
+  --gap: 56px;                /* spacing between messages */
+}
+
+/* root: full width black bar at top (not fixed here — place it where you want) */
+.marquee-root {
+  width: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px;
+  height: var(--marq-height);
+  user-select: none;
+}
+
+/* viewport masks overflow */
+.marquee-viewport {
+  flex: 1 1 auto;
+  overflow: hidden;
+  height: 100%;
+  position: relative;
+}
+
+/* track moves left; animation-duration set inline by component */
+.marquee-track {
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  white-space: nowrap;
+  will-change: transform;
+  animation-name: marquee-left;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* each message block */
+.marq-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: var(--gap);
+  text-transform: uppercase;
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: var(--fg);
+}
+
+/* star also white */
+.star {
+  color: var(--fg);
+  margin-right: 6px;
+  font-weight: 700;
+}
+
+/* play/pause button at right edge */
+.marq-btn {
+  flex: 0 0 auto;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.85);
+  color: var(--fg);
+  width: 36px;
+  height: 22px;
+  border-radius: 4px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  cursor: pointer;
+}
+
+/* when paused, slightly dim items */
+.marquee-root.paused .marq-item {
+  color: rgba(255,255,255,0.78);
+}
+
+/* keyframes: move duplicated content left by 50% for seamless loop */
+@keyframes marquee-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* pause on hover */
+.marquee-root:hover .marquee-track {
+  animation-play-state: paused;
+  animation: none;
+}
+
+/* accessibility: respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none !important;
+  }
+}
+
+/* responsive breakpoints */
+@media (min-width: 1400px) {
+  :root { --gap: 72px; --marq-height: 36px; }
+  .marq-item { font-size: 15px; }
+}
+@media (min-width: 1024px) and (max-width: 1399px) {
+  :root { --gap: 56px; --marq-height: 34px; }
+  .marq-item { font-size: 14px; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root { --gap: 40px; --marq-height: 30px; }
+  .marq-item { font-size: 13px; }
+}
+@media (max-width: 767px) {
+  :root { --gap: 28px; --marq-height: 28px; }
+  .marq-item { font-size: 12px; padding-right: var(--gap); }
+  .marq-btn { display: none; } /* hide button on small screens */
+}

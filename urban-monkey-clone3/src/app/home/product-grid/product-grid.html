@@ -1,0 +1,53 @@
+<section class="products-root">
+  <div class="container">
+
+    <!-- icon shortcuts row -->
+    <div class="shortcuts">
+      <div class="shortcut" *ngFor="let s of shortcuts" tabindex="0" role="button" aria-label="{{s.label}}">
+        <div class="icon">{{ s.icon }}</div>
+        <div class="label">{{ s.label }}</div>
+      </div>
+    </div>
+
+    <!-- filter chips & search -->
+    <div class="filters-row">
+      <div class="chips">
+        <button
+          class="chip"
+          *ngFor="let c of categories"
+          [class.active]="c === activeCategory"
+          (click)="setCategory(c)"
+        >
+          {{ c }}
+        </button>
+      </div>
+
+      <div class="search-and-view">
+        <input type="search" placeholder="Search products..." [(ngModel)]="searchQuery" />
+        <button class="view-all" (click)="viewAll()">VIEW ALL</button>
+      </div>
+    </div>
+
+    <!-- product grid -->
+    <div class="grid">
+      <article class="card" *ngFor="let p of filteredProducts" (click)="openProduct(p)" tabindex="0" role="button">
+        <div class="card-top">
+          <span class="badge" *ngIf="p.badge">{{ p.badge }}</span>
+          <button class="heart" (click)="toggleFavorite(p, $event)" [attr.aria-pressed]="p.favorite ? 'true' : 'false'" aria-label="Toggle favorite">
+            <span [class.faved]="p.favorite">♡</span>
+          </button>
+        </div>
+
+        <div class="img-wrap">
+          <img [src]="p.img" [alt]="p.title" loading="lazy" />
+        </div>
+
+        <div class="meta">
+          <div class="title">{{ p.title }}</div>
+          <div class="price">{{ p.price }}</div>
+        </div>
+      </article>
+    </div>
+
+  </div>
+</section>

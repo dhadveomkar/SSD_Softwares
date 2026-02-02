@@ -1,0 +1,260 @@
+.nav-strip {
+  background: #fff;
+  border-bottom: 1px solid #e6e6e6;
+  padding: 10px 24px;
+  font-family: Arial, sans-serif;
+}
+
+.nav-list {
+  display: flex;
+  gap: 22px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item { position: relative; }
+
+.nav-link {
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 6px 4px;
+}
+
+.badge {
+  background: #ff4d4d;
+  color: white;
+  padding: 2px 6px;
+  font-size: 10px;
+  border-radius: 12px;
+  margin-left: 6px;
+}
+
+.caret { margin-left: 6px; font-size: 11px; }
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  padding: 12px;
+  z-index: 200;
+  min-width: 220px;
+}
+
+/* Generic dropdown items */
+.dropdown .dropdown-item { margin-bottom: 4px; }
+.dropdown .dropdown-link,
+.child-title {
+  background: none;
+  border: none;
+  padding: 8px 10px;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* Collabs two-column */
+.collabs-box {
+  display: flex;
+  gap: 24px;
+  min-width: 480px;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #eee;
+  padding-right: 12px;
+  min-width: 200px;
+}
+
+.left-item {
+  background: none;
+  border: none;
+  padding: 8px 6px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.left-item:hover { color: #e53935; }
+
+.right {
+  min-width: 220px;
+}
+
+.right h4 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: #1976d2;
+}
+
+.hint { color: #666; margin: 6px 0; }
+
+/* responsive fallback */
+@media (max-width: 880px) {
+  .dropdown { position: fixed; left: 0; right: 0; top: 56px; min-width: auto; }
+  .collabs-box { flex-direction: column; min-width: auto; }
+  .left { border-right: none; padding-right: 0; }
+}
+
+/* Hide all dropdowns by default */
+.dropdown {
+  display: none;
+}
+
+/* Show dropdown only when hovering the parent nav item */
+.nav-item:hover > .dropdown,
+.nav-item:focus-within > .dropdown {
+  display: flex;     /* or block for regular dropdown */
+}
+
+/* For normal non-collabs dropdowns, we need block instead of flex */
+.nav-item:hover > ul.dropdown:not(.collabs-box),
+.nav-item:focus-within > ul.dropdown:not(.collabs-box) {
+  display: block;
+}
+
+/* COLLABS special two-column dropdown */
+.collabs-box {
+  display: none; /* hidden by default */
+  gap: 24px;
+  min-width: 480px;
+}
+
+/* Show collabs dropdown only on hover */
+.nav-item:hover > .collabs-box,
+.nav-item:focus-within > .collabs-box {
+  display: flex;
+}
+
+.nav-item .dropdown {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.nav-item:hover .dropdown,
+.nav-item:focus-within .dropdown {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* ✅ Desktop (default) */
+.collabs-box {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  padding: 18px 22px;
+  z-index: 50;
+  border-top: 1px solid #eee;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+  gap: 32px;
+  min-width: 550px;
+}
+
+.collabs-box .left,
+.collabs-box .right {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.collabs-box .left {
+  width: 200px;
+  border-right: 1px solid #eee;
+}
+
+.collabs-box .right {
+  width: 100%;
+}
+
+.left-item {
+  padding: 8px;
+  text-align: left;
+  background: none;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+.left-item:hover {
+  background: #f5f5f5;
+}
+
+.right h4 {
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+
+.right ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.right li button {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+}
+
+.right li button:hover {
+  background: #f5f5f5;
+}
+
+/* ✅ ✅ RESPONSIVE — TABLET + MOBILE */
+@media (max-width: 768px) {
+  .collabs-box {
+    position: static;    /* attach under menu item */
+    flex-direction: column;
+    min-width: 100%;
+    width: 100%;
+    box-shadow: none;
+    border-radius: 0;
+    gap: 16px;
+    padding: 14px;
+  }
+
+  .collabs-box .left {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+  }
+
+  .collabs-box .right {
+    width: 100%;
+  }
+
+  /* Make left items scroll if too many */
+  .collabs-box .left {
+    max-height: 160px;
+    overflow-y: auto;
+  }
+}
+
+/* ✅ SMALL MOBILE (single column) */
+@media (max-width: 480px) {
+  .collabs-box {
+    padding: 10px 12px;
+  }
+
+  .left-item,
+  .right li button {
+    font-size: 14px;
+    padding: 6px;
+  }
+}

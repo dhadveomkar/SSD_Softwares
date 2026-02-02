@@ -1,0 +1,40 @@
+<section class="grid-scroll-section">
+  <div class="container">
+    <div class="row-header">
+      <h3>FEATURED</h3>
+    </div>
+
+    <div class="scroller-wrap">
+      
+      <!-- LEFT ARROW -->
+      <button
+        class="arrow-overlay left"
+        (click)="scrollLeft()"
+        [class.hidden]="!showLeft">
+        ‹
+      </button>
+
+      <div #scroller class="scroller" role="list">
+        <article class="card" *ngFor="let c of cards" role="listitem" tabindex="0">
+          <div class="img-wrap">
+            <img [src]="c.img" [alt]="c.name" />
+          </div>
+          <div class="card-body">
+            <h4 class="name">{{ c.name }}</h4>
+            <div class="subtitle">{{ c.subtitle }}</div>
+            <div class="wearing">{{ c.wearing }}</div>
+          </div>
+        </article>
+      </div>
+
+      <!-- RIGHT ARROW -->
+      <button
+        class="arrow-overlay right"
+        (click)="scrollRight()"
+        [class.hidden]="!showRight">
+        ›
+      </button>
+
+    </div>
+  </div>
+</section>

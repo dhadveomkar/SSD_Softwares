@@ -1,0 +1,81 @@
+<nav class="nav-strip">
+  <ul class="nav-list">
+
+    @for (n of navItems; track n.key) {
+      <li class="nav-item" role="none" (mouseleave)="clearHover()">
+
+        <!-- Top-level button -->
+        <button class="nav-link"
+                (click)="openCategory(n.key)"
+                [attr.title]="n.label"
+                role="menuitem"
+                [attr.aria-haspopup]="n.children ? 'true' : 'false'">
+          <span>{{ n.label }}</span>
+          @if (n.badge) { <span class="badge">{{ n.badge }}</span> }
+          @if (n.children) { <span class="caret">▾</span> }
+        </button>
+
+        <!-- Generic dropdown for non-collabs -->
+        @if (n.children && n.key !== 'collabs') {
+          <ul class="dropdown" role="menu" aria-label="{{ n.label }} submenu">
+            @for (c of n.children; track c.key) {
+              <li role="none" class="dropdown-item">
+                @if (c.children) {
+                  <!-- third-level: show header + items -->
+                  <div class="child-with-children" role="group" aria-label="{{ c.label }}">
+                    <button class="child-title" (click)="openCategory(c.key)">{{ c.label }}</button>
+                    <ul class="subchildren-list" role="menu">
+                      @for (s of c.children; track s.key) {
+                        <li role="none">
+                          <button class="dropdown-link" (click)="openCategory(s.key)">{{ s.label }}</button>
+                        </li>
+                      }
+                    </ul>
+                  </div>
+                } @else {
+                  <button class="dropdown-link" (click)="openCategory(c.key)">{{ c.label }}</button>
+                }
+              </li>
+            }
+          </ul>
+        }
+
+        <!-- Special COLLABS dropdown (two-column) -->
+        @if (n.key === 'collabs') {
+          <div class="dropdown collabs-box" role="menu" aria-label="Collabs submenu" (mouseleave)="clearHover()">
+
+            <!-- left column -->
+            <div class="left" role="presentation">
+              @for (c of n.children; track c.key) {
+                <button class="left-item"
+                        (mouseenter)="setHovered(c.key)"
+                        (focus)="setHovered(c.key)"
+                        (click)="openCategory(c.key)">
+                  {{ c.label }}
+                </button>
+              }
+            </div>
+
+            <!-- right column -->
+            <div class="right" role="presentation" aria-live="polite">
+              @if (selectedHover && selectedHover.children) {
+                <h4>{{ selectedHover.label }}</h4>
+                <ul>
+                  @for (m of selectedHover.children; track m.key) {
+                    <li>
+                      <button (click)="openCategory(m.key)">{{ m.label }}</button>
+                    </li>
+                  }
+                </ul>
+              } @else {
+                <p class="hint">Hover a left item to see sub-items</p>
+              }
+            </div>
+
+          </div>
+        }
+      </li>
+    }
+
+  </ul>
+</nav>

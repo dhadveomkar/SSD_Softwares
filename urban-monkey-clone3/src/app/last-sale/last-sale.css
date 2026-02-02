@@ -1,0 +1,149 @@
+:root {
+  --muted: #6b6b6b;
+  --accent: #111;
+  --panel-w: 320px;
+}
+
+/* page container */
+.last-sale-page.container {
+  padding: 28px 36px;
+  box-sizing: border-box;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color: var(--accent);
+}
+
+/* top bar */
+.top-bar {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom: 18px;
+}
+.filter-toggle {
+  border: none;
+  background: transparent;
+  font-weight:700;
+  text-transform: uppercase;
+  cursor: pointer;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.filter-toggle .count { font-weight:700; margin-left:6px; color:var(--accent); }
+
+.sort select {
+  padding: 10px 14px;
+  border-radius:6px;
+  border:1px solid rgba(0,0,0,0.08);
+  background: #fff;
+  text-transform: uppercase;
+}
+
+/* layout */
+.content { display:flex; gap:18px; align-items:flex-start; }
+
+/* filter panel */
+.filter-panel {
+  width: var(--panel-w);
+  background: #fff;
+  border:1px solid rgba(0,0,0,0.06);
+  padding: 12px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.05);
+  transform: translateX(-8px);
+  transition: transform .16s ease, opacity .12s ease;
+  opacity: .98;
+  position: relative;
+}
+.filter-panel.open {
+  transform: translateX(0);
+  opacity: 1;
+}
+.filter-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.filter-group { margin-bottom:12px; }
+.filter-group label { display:block; font-weight:700; font-size:13px; margin-bottom:6px; text-transform:uppercase; letter-spacing:1px; }
+.checkbox-list { display:flex; flex-direction:column; gap:6px; }
+.checkbox-item { display:flex; align-items:center; gap:8px; }
+
+/* product area */
+.product-area { flex:1; }
+
+.grid {
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 26px;
+}
+
+/* card */
+.card {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.04);
+  padding:12px;
+  border-radius:6px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  transition: transform .14s ease, box-shadow .14s ease;
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(8,8,8,0.04);
+}
+
+.img-wrap {
+  position:relative;
+  width:100%;
+  height:200px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  background: #f8f8f8;
+  border-radius:4px;
+}
+.img-wrap img { width:100%; height:100%; object-fit:cover; display:block; }
+
+/* love */
+.love {
+  position:absolute;
+  right:8px;
+  top:8px;
+  background:rgba(255,255,255,0.95);
+  border:1px solid rgba(0,0,0,0.06);
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+.love span { color:#aaa; transition: color .12s ease, transform .12s; }
+.love span.active { color:crimson; transform: scale(1.05); }
+
+/* card body */
+.card-body .title { font-weight:700; margin:0; text-transform:uppercase; letter-spacing:1px; }
+.card-body .subtitle { font-size:13px; color:var(--muted); margin-top:6px; text-transform:lowercase; }
+.price { margin-top:10px; font-weight:700; display:flex; gap:8px; align-items:center; }
+.price .old { text-decoration: line-through; color:#9b9b9b; font-weight:400; }
+.price .off { color: #ff4a4a; font-size:12px; font-weight:700; }
+
+/* load more */
+.load-more { text-align:center; margin:20px 0; }
+.load-more button { padding:10px 18px; border:1px solid rgba(0,0,0,0.08); background:transparent; }
+
+/* responsive tweaks */
+@media (max-width:1100px) {
+  .grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width:800px) {
+  .content { flex-direction: column; }
+  .filter-panel { width:100%; position:relative; transform:none; opacity:1; box-shadow:none; border:none; padding:10px 0; }
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .img-wrap { height:160px; }
+}
+@media (max-width:420px) {
+  .grid { grid-template-columns: 1fr; }
+  .img-wrap { height:140px; }
+  .top-bar { flex-direction:column; align-items:flex-start; gap:10px; }
+}

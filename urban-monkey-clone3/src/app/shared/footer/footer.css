@@ -1,0 +1,215 @@
+/* layout tokens */
+:root {
+  --container-max: 1200px;
+  --bg: #f6f6f6;
+  --text: #111;
+  --muted: #6d6d6d;
+  --accent: #000;
+  --newsletter-height: auto;
+  --gap: 28px;
+  
+}
+
+/* base container */
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 18px;
+  
+}
+
+/* ---------- Newsletter ---------- */
+.newsletter {
+  background: #fff;
+  padding: 26px 0 18px;
+  border-bottom: 1px solid #e7e7e7;
+}
+
+.newsletter-title {
+  text-align: center;
+  margin: 0 0 14px;
+  font-family: monospace, monospace;
+  letter-spacing: 2px;
+  font-size: 18px;
+  color: var(--text);
+}
+
+/* subscribe form: full width input + button on right */
+.subscribe-form {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  margin-left: 150px;
+  margin-right: 150px;
+}
+
+/* visually hidden label for accessibility */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+/* input stretched, button fixed */
+.subscribe-form input[type="email"] {
+  flex: 1;
+  padding: 14px 18px;
+  border: 1px solid #ddd;
+  background: #fff;
+  font-size: 14px;
+  letter-spacing: 1px;
+  border-radius: 2px;
+  outline: none;
+}
+
+.subscribe-form input::placeholder {
+  color: #222;
+  font-family: monospace;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.subscribe-btn {
+  background: #fff;
+  border: none;
+  padding: 12px 20px;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #111;
+  border-radius: 2px;
+  box-shadow: none;
+}
+
+/* ---------- Footer columns ---------- */
+.footer-columns {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--gap);
+  padding: 34px 0;
+  background: var(--bg);
+  color: var(--text);
+  margin-left: 150px;
+  margin-right: 150px;
+}
+
+/* Column headings */
+.footer-columns .col h3 {
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-family: monospace, monospace;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* lists */
+.footer-columns ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-columns li {
+  margin-bottom: 10px;
+}
+
+.footer-columns a {
+  color: #222;
+  text-decoration: none;
+  font-size: 18px;
+  letter-spacing: .4px;
+  opacity: 0.9;
+}
+
+.footer-columns a:hover {
+  opacity: 0.7;
+}
+
+/* social row */
+.social-row {
+  margin-top: 18px;
+  margin-left: 150px;
+}
+
+.icons {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+  margin-left: 0px;
+}
+
+.social {
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  text-decoration: none;
+  color: #222;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+
+
+/* popular searches */
+.popular {
+  padding: 18px 0 8px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.popular strong {
+  display: block;
+  margin-bottom: 8px;
+  font-family: monospace, monospace;
+  letter-spacing: 1px;
+  font-size: 17px;
+  margin-left: 150px;
+  
+}
+
+.search-links {
+  margin: 0;
+  line-height: 1.6;
+  font-size: 16px;
+  color: #222;
+  margin-right: 150px;
+  margin-left: 150px;
+}
+
+.search-links a {
+  color: #111;
+  text-decoration: underline;
+  margin-right: 6px;
+}
+
+/* copyright */
+.copyright {
+  padding: 20px 0;
+  background: var(--bg);
+  color: var(--muted);
+  text-align: center;      /* center alignment */
+  font-size: 13px;
+}
+
+.copyright p {
+  margin: 0 auto;
+  width: fit-content;
+  letter-spacing: 0.5px;
+  word-spacing: 1px;
+  text-transform: uppercase; /* optional, matches screenshot style */
+}
+
+.copyright .container {
+  max-width: 1200px;
+  margin: auto;
+}
+

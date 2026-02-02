@@ -1,0 +1,40 @@
+<section class="hero-slider" aria-label="Hero slider">
+  <div class="slide-wrap">
+
+    <ng-container *ngFor="let s of slides; let i = index">
+      <div
+        class="slide"
+        [class.active]="i === current"
+        [class.fading]="isAnimating && i === current"
+        aria-hidden="{{ i !== current }}"
+      >
+        <!-- left text block -->
+        <div class="slide-left container">
+          <div class="text-vertical">
+            <h1 class="hero-title" [innerText]="s.title"></h1>
+            <p class="hero-sub">{{ s.subtitle }}</p>
+          </div>
+        </div>
+
+        <!-- right image and small caption -->
+        <div class="slide-right">
+          <img class="hero-img" [src]="s.img" [alt]="s.title" />
+          <div class="right-caption" *ngIf="s.captionRight">
+            <pre>{{ s.captionRight }}</pre>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- arrows -->
+    <button class="arrow left" (click)="prev()" aria-label="Previous slide">‹</button>
+    <button class="arrow right" (click)="next()" aria-label="Next slide">›</button>
+
+    <!-- CTA (center bottom) -->
+    <div class="cta-wrap">
+      <button class="cta" (click)="onCtaClick(slides[current])">
+        {{ slides[current]?.cta || 'SHOP NOW' }}
+      </button>
+    </div>
+  </div>
+</section>

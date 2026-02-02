@@ -1,0 +1,129 @@
+:root {
+  --container-max: 1200px;
+  --card-bg: #fff;
+  --muted: #666;
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.grid-scroll-section {
+  padding: 20px 0 36px;
+}
+
+.row-header h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+/* wrapper allows arrow overlay */
+.scroller-wrap {
+  position: relative;
+}
+
+/* scroll area */
+.scroller {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px 0;
+  scrollbar-width: none;
+}
+.scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  flex: 0 0 260px;
+  background: var(--card-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #eee;
+  cursor: pointer;
+}
+
+.img-wrap {
+  height: 270px;
+  overflow: hidden;
+}
+
+.img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-body {
+  text-align: center;
+  font-family: "Courier New", monospace;
+  padding: 10px;
+}
+.name {
+  font-size: 16px;
+  font-weight: bold;
+}
+.subtitle {
+  font-size: 13px;
+  color: var(--muted);
+}
+.wearing {
+  font-size: 12px;
+}
+
+/* ✅ arrows on the image area */
+.arrow-overlay {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 9;
+
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 24px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.28);
+}
+
+.arrow-overlay.right {
+  right: 5px;
+}
+
+.arrow-overlay.left {
+  left: 5px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media (max-width: 600px) {
+  .card {
+    flex: 0 0 200px;
+  }
+
+  .img-wrap {
+    height: 200px;
+  }
+
+  .arrow-overlay {
+    width: 42px;
+    height: 42px;
+    font-size: 18px;
+  }
+}

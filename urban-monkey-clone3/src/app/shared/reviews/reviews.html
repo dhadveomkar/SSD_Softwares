@@ -1,0 +1,57 @@
+<section class="reviews-root" aria-labelledby="reviews-heading">
+  <div class="reviews-inner container">
+    <header class="reviews-header">
+      <h2 id="reviews-heading">CUSTOMERS ARE SAYING</h2>
+
+      <div class="rating-row">
+        <div class="stars">
+          <ng-container *ngFor="let _ of stars(flooredAverage)">
+            <span class="star">★</span>
+          </ng-container>
+
+          <span *ngIf="hasHalfStar" class="star">☆</span>
+        </div>
+
+        <div class="avg-and-count">
+          <strong class="avg">{{ averageRating }}</strong>
+          <span class="dot">★</span>
+          <span class="count"> ({{ totalReviews }})</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="review-wrap">
+      <div
+        class="review-card"
+        [class.fade-in]="isAnimating"
+        role="region"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        <div class="review-header">
+          <span class="reviewer">{{ reviews[currentIndex].name }}</span>
+          <span *ngIf="reviews[currentIndex].verified" class="verified" aria-label="Verified customer">✔</span>
+        </div>
+
+        <div class="review-stars" aria-hidden="true">
+          <ng-container *ngFor="let _ of stars(reviews[currentIndex].rating)">
+            <span class="star">★</span>
+          </ng-container>
+        </div>
+
+        <p class="review-text">{{ reviews[currentIndex].text }}</p>
+
+        <div class="review-tagline">{{ reviews[currentIndex].tagline }}</div>
+      </div>
+    </div>
+
+    <div class="nav-row" role="tablist" aria-label="Review navigation">
+      <button class="nav-btn" aria-label="Previous review" (click)="prev()">
+        ‹
+      </button>
+      <button class="nav-btn" aria-label="Next review" (click)="next()">
+        ›
+      </button>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,76 @@
+:root {
+  --bg: #000;
+  --fg: #fff;
+  --gap: 50px;
+  --speed: 18s;
+}
+
+/* ✅ Moving Ticker */
+.ticker-container {
+  width: 100%;
+  background: var(--bg);
+  white-space: nowrap;
+  overflow: hidden;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #333;
+}
+
+.ticker-content {
+  display: inline-block;
+  animation: scroll var(--speed) linear infinite;
+  color: var(--fg);
+  font-size: 13px;
+  font-weight: 600;
+  padding-left: 100%;
+}
+
+.ticker-content span {
+  padding: 0 var(--gap);
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+/* ✅ Main Header Area */
+.main-header {
+  width: 100%;
+  background: #fff;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  border-bottom: 1px solid #ddd;
+}
+
+.logo {
+  font-weight: 900;
+  font-size: 20px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.header-actions .action {
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* ✅ Responsive */
+@media(max-width: 768px) {
+  .ticker-content span { padding: 0 30px; }
+  .main-header { height: 50px; }
+  .logo { font-size: 16px; }
+  .header-actions .action { font-size: 12px; }
+}

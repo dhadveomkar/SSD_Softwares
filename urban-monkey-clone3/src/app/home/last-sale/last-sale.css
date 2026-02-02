@@ -1,0 +1,96 @@
+/* Full-width hero */
+.last-sale-hero {
+  background: #f6f2ef; /* pale warm background like screenshot */
+  color: #111;
+  padding: 56px 0 80px;
+  position: relative;
+  overflow: hidden;
+  font-family: "Courier New", Courier, monospace;
+}
+
+/* decorative plus signs */
+.plus {
+  position: absolute;
+  font-size: 22px;
+  color: rgba(0,0,0,0.6);
+  font-weight: 700;
+}
+.plus-tl { left: 18px; top: 10px; }
+.plus-tr { right: 18px; top: 10px; }
+
+/* center container */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 18px; text-align: center; }
+
+/* headline (very large on desktop) */
+.hero-title {
+  font-size: clamp(32px, 10vw, 100px);
+  line-height: 0.9;
+  letter-spacing: 6px;
+  font-weight: 600;
+  white-space: nowrap;
+  
+}
+
+/* supporting text */
+.hero-sub {
+  margin: 0 auto;
+  max-width: 980px;
+  font-size: 20px;
+  letter-spacing: 1px;
+  margin-bottom: 18px;
+}
+
+/* main description with highlighted part */
+.hero-desc {
+  margin: 0 auto 26px;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+/* red emphasis */
+.highlight {
+  color: #d82727;
+  font-weight: 700;
+}
+
+/* CTA */
+.cta-wrap { margin: 20px 0; }
+.cta {
+  background: #111;
+  color: #fff;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 2px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+.cta:active { transform: translateY(1px); }
+
+/* small note under CTA */
+.hero-note {
+  margin-top: 22px;
+  font-size: 18px;
+  letter-spacing: 1.6px;
+}
+
+/* Responsive rules */
+@media (max-width: 1200px) {
+  .hero-title { font-size: 72px; letter-spacing: 4px; }
+}
+@media (max-width: 900px) {
+  .last-sale-hero { padding: 40px 0 60px; }
+  .hero-title { font-size: 48px; }
+  .hero-sub, .hero-desc { font-size: 16px; }
+  .cta { font-size: 16px; padding: 12px 22px; }
+  .plus { font-size: 18px; }
+}
+@media (max-width: 480px) {
+  .hero-title { font-size: 32px; letter-spacing: 2px; margin-bottom: 10px; }
+  .hero-sub, .hero-desc { font-size: 14px; padding: 0 8px; }
+  .highlight { display:inline-block; }
+  .cta { width: 220px; max-width: 90%; }
+  .plus { display: none; } /* hide decorative plus on small screens */
+}

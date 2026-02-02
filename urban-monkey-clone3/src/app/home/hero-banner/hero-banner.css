@@ -1,0 +1,115 @@
+/* Hero full width, large visual */
+.hero-banner {
+  width: 100%;
+  min-height: 72vh; /* tall area; adjust to taste */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  background: linear-gradient(180deg, #f3f6f8 0%, #eef2f5 100%); /* pale background */
+  overflow: hidden;
+  padding-top: 28px;
+  box-sizing: border-box;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+/* top logo & tagline */
+.hero-top {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 6px;
+  pointer-events: none;
+}
+
+.logo {
+  font-size: 96px;       /* big brand logotype size */
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #0b0b0b;
+  margin: 6px 0 2px;
+  font-family: "Georgia", serif;
+}
+
+/* tagline under the logo */
+.tagline {
+  margin: 0;
+  font-size: 18px;
+  color: #222;
+  opacity: 0.95;
+  letter-spacing: .4px;
+}
+
+/* center area keeps model centered horizontally */
+.hero-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex: 1 1 auto;
+}
+
+/* a wrap around the model to control width/height */
+.model-wrap {
+  width: 420px;
+  max-width: 50%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none; /* image itself not clickable; CTA handles click */
+}
+
+.model-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform: translateY(0);
+  object-fit: contain;
+}
+
+/* CTA: black pill centered over bottom of model */
+.hero-cta {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 34px;
+  z-index: 30;
+}
+
+/* button style */
+.cta-btn {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 12px 26px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.15);
+  transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+}
+.cta-btn:active { transform: translateY(1px); }
+.cta-btn:hover { opacity: 0.95; }
+
+/* Responsive: shrink headline and model on smaller screens */
+@media (max-width: 1100px) {
+  .logo { font-size: 72px; }
+  .model-wrap { width: 360px; max-width: 60%; }
+  .tagline { font-size: 16px; }
+}
+
+@media (max-width: 800px) {
+  .logo { font-size: 52px; }
+  .model-wrap { width: 300px; max-width: 70%; }
+  .cta-btn { padding: 10px 20px; font-size: 15px; }
+  .hero-banner { padding-top: 16px; min-height: 60vh; }
+}
+
+@media (max-width: 420px) {
+  .logo { font-size: 36px; }
+  .model-wrap { width: 240px; max-width: 86%; }
+  .tagline { font-size: 13px; padding: 0 8px; }
+  .hero-cta { bottom: 18px; }
+}

@@ -1,0 +1,24 @@
+<section class="category-grid container" aria-labelledby="categories-heading">
+  <h2 id="categories-heading" class="visually-hidden">Shop Categories</h2>
+
+  <div class="grid">
+    <div
+      class="card"
+      *ngFor="let c of categories"
+      role="button"
+      tabindex="0"
+      aria-label="Open {{ c.title }} category"
+      (click)="goTo(c.route)"
+      (keydown)="onKeydown($event, c.route)"
+    >
+      <div class="image-wrap">
+        <img [src]="c.img" [alt]="c.alt || c.title" loading="lazy" />
+      </div>
+
+      <div class="label">
+        {{ c.title }}
+      </div>
+    </div>
+  </div>
+</section>
+
