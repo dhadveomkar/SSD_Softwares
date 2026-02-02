@@ -1,0 +1,29 @@
+/* You can add global styles to this file, and also import other style files */
+:host {
+  display: block;
+}
+
+/* Custom Scrollbar for a premium look */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Staggered animation effect for cards */
+.animate__fadeInUp {
+  animation-duration: 0.8s;
+  animation-fill-mode: both;
+}
+
+html {
+  scroll-behavior: smooth;
+}

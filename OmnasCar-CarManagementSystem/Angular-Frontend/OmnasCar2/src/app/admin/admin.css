@@ -1,0 +1,40 @@
+.admin-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  font-family: Arial;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="password"] {
+  padding: 8px;
+  font-size: 14px;
+}
+
+button {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #1565c0;
+}
+
+.car-card {
+  background-color: #f1f1f1;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+}

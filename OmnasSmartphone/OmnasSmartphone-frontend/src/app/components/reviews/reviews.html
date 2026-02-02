@@ -1,0 +1,59 @@
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+
+  <div class="bg-white w-full max-w-xl rounded-2xl p-6 relative animate__animated animate__fadeInUp">
+
+    <button (click)="onClose()" 
+            class="absolute top-3 right-4 text-xl hover:text-red-500 transition">✖</button>
+
+    <h2 class="text-2xl font-bold mb-2">Customer Reviews</h2>
+
+    <div class="bg-blue-50 p-3 rounded-lg mb-4">
+      <p class="text-sm text-gray-700 font-medium">
+        ⭐ {{ratingSummary?.AverageRating || 0}} / 5 
+        <span class="text-gray-500">({{ratingSummary?.TotalReviews || 0}} reviews)</span>
+      </p>
+    </div>
+
+    <div class="space-y-2 border-b pb-5 mb-5">
+      <input class="border p-2 rounded w-full focus:ring-2 focus:ring-blue-500 outline-none" 
+             placeholder="Your Name" 
+             [(ngModel)]="newReview.customerName">
+
+      <select class="border p-2 rounded w-full focus:ring-2 focus:ring-blue-500 outline-none" 
+              [(ngModel)]="newReview.rating">
+        <option *ngFor="let r of [5,4,3,2,1]" [value]="r">{{r}} ⭐</option>
+      </select>
+
+      <textarea class="border p-2 rounded w-full focus:ring-2 focus:ring-blue-500 outline-none" 
+                rows="3" 
+                placeholder="Write your review..." 
+                [(ngModel)]="newReview.comment"></textarea>
+
+      <button (click)="submitReview()" 
+              class="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 w-full font-bold transition">
+        Submit Review
+      </button>
+    </div>
+
+    <div class="max-h-64 overflow-y-auto pr-2 custom-scrollbar">
+      <div *ngFor="let r of reviews" class="border-b last:border-0 py-3">
+        <div class="flex justify-between items-start">
+          <div>
+            <p class="font-bold text-gray-800">{{r.customerName}}</p>
+            <p class="text-yellow-500 text-xs">
+              <span *ngFor="let star of [].constructor(r.rating)">⭐</span>
+            </p>
+          </div>
+          <button class="text-red-400 hover:text-red-600 text-xs font-semibold" 
+                  (click)="deleteReview(r.id!)">Delete</button>
+        </div>
+        <p class="text-sm text-gray-600 mt-1">{{r.comment}}</p>
+      </div>
+
+      <div *ngIf="reviews.length === 0" class="text-center py-5 text-gray-400 italic">
+        No reviews yet. Be the first!
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<nav class="navbar">
+  <div class="logo">
+    <img src="logo1.png" alt="OmnasCar Logo" />
+    <span>OmnasCar</span>
+  </div>
+
+  <ul>
+    <li><a routerLink="/home">Home</a></li>
+    <li><a routerLink="/cars/all">View All</a></li>
+    <li><a routerLink="/cars/latest">Latest</a></li>
+    <li><a routerLink="/cars/upcoming">Upcoming</a></li>
+    <li><a routerLink="/cars/electric">Electric</a></li>
+    <li><a routerLink="/about">About</a></li>
+    <li><a routerLink="/contact">Contact</a></li>
+    <li><a routerLink="/review">Reviews</a></li>
+  </ul>
+
+  <div class="auth-buttons">
+    <!-- Show if NOT logged in -->
+    <ng-container *ngIf="!isLoggedIn()">
+      
+      <a routerLink="/login" class="btn login-btn">Login</a>
+      <a routerLink="/signup" class="btn signup-btn">Sign Up</a>
+      <a routerLink="/admin/manage-cars">Admin Panel</a>
+    </ng-container>
+
+    <!-- Show if logged in -->
+    <ng-container *ngIf="isLoggedIn()">
+      <a routerLink="/profile" class="btn signup-btn">Profile</a>
+      <a (click)="logout()" class="btn login-btn" style="cursor: pointer;">Logout</a>
+    </ng-container>
+  </div>
+</nav>
+
+

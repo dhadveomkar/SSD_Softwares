@@ -1,0 +1,134 @@
+<!-- ===== NAVBAR ===== -->
+<header class="navbar">
+  <div class="logo">📱 SmartStore</div>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Phones</a>
+    <a href="#">Services</a>
+    <a href="#">Reviews</a>
+    <a href="#">Contact</a>
+  </nav>
+</header>
+
+<!-- ===== SLIDER / BANNER ===== -->
+<section class="banner">
+  <div class="banner-content">
+    <h1>Discover the Future of Smartphones</h1>
+    <p>Latest phones · Best prices · Trusted brands</p>
+    <button>Explore Now</button>
+  </div>
+</section>
+
+<!-- ===== PHONE LIST ===== -->
+<section class="phones">
+  <h2>Latest Smartphones</h2>
+
+  <!-- Loading -->
+  <!-- SEARCH BAR -->
+<div class="search-box">
+  <input
+    type="text"
+    placeholder="Search by brand, model or processor"
+    [formControl]="searchControl">
+</div>
+
+<!-- PHONE GRID -->
+<div class="phone-grid">
+  <div class="phone-card" *ngFor="let phone of filteredPhones">
+
+    <img [src]="phone.imageUrl" alt="{{ phone.brand }} {{ phone.model }}">
+
+    <h3>{{ phone.brand }} {{ phone.model }}</h3>
+
+    <p class="specs">
+      {{ phone.ram }}GB RAM · {{ phone.rom }}GB ROM<br>
+      {{ phone.processor }}<br>
+      {{ phone.display }}
+    </p>
+
+    <p class="camera">
+      📸 {{ phone.rearCamera }} | 🤳 {{ phone.frontCamera }}
+    </p>
+
+    <p class="battery">
+      🔋 {{ phone.battery }}mAh · {{ phone.warranty }}
+    </p>
+
+    <span class="price">₹ {{ phone.price | number }}</span>
+
+    <button (click)="openDetails(phone)">View Details</button>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="selectedPhone" (click)="closeDetails()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeDetails()">×</button>
+    
+    <div class="modal-body">
+      <img [src]="selectedPhone.imageUrl" [alt]="selectedPhone.model">
+      
+      <div class="info">
+        <h2>{{ selectedPhone.brand }} {{ selectedPhone.model }}</h2>
+        <p class="price-large">₹ {{ selectedPhone.price | number }}</p>
+        
+        <div class="specs-grid">
+           <div class="spec-item"><strong>Processor:</strong> {{ selectedPhone.processor }}</div>
+           <div class="spec-item"><strong>Battery:</strong> {{ selectedPhone.battery }}mAh</div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="buy-btn">Buy Now</button>
+          
+            ⭐ View Customer Reviews
+              <button class ="review-btn">View Customer Reviews</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FEATURES ===== -->
+<section class="features">
+  <h2>Why Choose Us</h2>
+
+  <div class="feature-grid">
+    <div class="feature-box">🚚 Fast Delivery</div>
+    <div class="feature-box">💳 Secure Payments</div>
+    <div class="feature-box">⭐ Top Brands</div>
+    <div class="feature-box">📞 24/7 Support</div>
+  </div>
+</section>
+
+<!-- ===== SERVICES ===== -->
+<section class="services">
+  <h2>Our Services</h2>
+  <div class="service-grid">
+    <div class="service-card">Mobile Repair</div>
+    <div class="service-card">Exchange Offers</div>
+    <div class="service-card">Extended Warranty</div>
+  </div>
+</section>
+
+<!-- ===== REVIEWS ===== -->
+<section class="reviews">
+  <h2>Customer Reviews</h2>
+
+  <div class="review-grid">
+    <div class="review-card">
+      ⭐⭐⭐⭐⭐
+      <p>"Best phone buying experience!"</p>
+      <span>- Rahul</span>
+    </div>
+
+    <div class="review-card">
+      ⭐⭐⭐⭐☆
+      <p>"Fast delivery and great support."</p>
+      <span>- Sneha</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <p>© 2026 SmartStore | All Rights Reserved</p>
+</footer>

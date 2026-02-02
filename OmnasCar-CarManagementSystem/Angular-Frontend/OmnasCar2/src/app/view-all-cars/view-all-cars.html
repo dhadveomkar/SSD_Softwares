@@ -1,0 +1,48 @@
+<div class="all-cars-page">
+  <h2 class="page-title">Explore All Cars</h2>
+
+  <!-- Latest Cars Section -->
+  <section class="car-category" *ngIf="latestCars.length > 0">
+    <h3>🚗 Latest Cars</h3>
+    <div class="car-grid">
+      <div class="car-card" *ngFor="let car of latestCars">
+        
+        <div class="card-content">
+          <h4 class="car-name">{{ car.name }}</h4>
+          <p class="car-brand">{{ car.brand }}</p>
+          <p class="car-price">₹{{ car.price | number }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Cars Section -->
+  <section class="car-category" *ngIf="upcomingCars.length > 0">
+    <h3>🚙 Upcoming Cars</h3>
+    <div class="car-grid">
+      <div class="car-card" *ngFor="let car of upcomingCars">
+        
+        <div class="card-content">
+          <h4 class="car-name">{{ car.name }}</h4>
+          <p class="car-brand">{{ car.brand }}</p>
+          <p class="car-price">₹{{ car.price | number }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Electric Cars Section -->
+  <section class="car-category" *ngIf="electricCars.length > 0">
+    <h3>⚡ Electric Cars</h3>
+    <div class="car-grid">
+      <div class="car-card" *ngFor="let car of electricCars">
+        
+        <div class="card-content">
+          <h4 class="car-name">{{ car.name }}</h4>
+          <p class="car-brand">{{ car.brand }}</p>
+          <p class="car-price">₹{{ car.price | number }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

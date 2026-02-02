@@ -1,0 +1,46 @@
+<div class="container mx-auto p-6 bg-slate-50 min-h-screen">
+  <h1 class="text-4xl font-extrabold text-center mb-10 animate__animated animate__fadeInDown">
+    Omnas <span class="text-blue-600">Smartphones</span>
+  </h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+    <div *ngFor="let phone of phones" 
+         class="bg-white rounded-3xl shadow-xl overflow-hidden transform transition duration-500 hover:scale-105 hover:shadow-2xl animate__animated animate__zoomIn">
+      
+      <div class="relative bg-gradient-to-tr from-blue-100 to-white p-4">
+        <img [src]="phone.imageUrl" [alt]="phone.model" class="h-48 w-full object-contain mx-auto">
+        <span class="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-bold">
+          ${{phone.price}}
+        </span>
+      </div>
+
+      <div class="p-5">
+        <h2 class="text-xl font-bold text-gray-800">{{phone.brand}} {{phone.model}}</h2>
+        <p class="text-sm text-gray-500 mb-4 italic">{{phone.processor}} | {{phone.color}}</p>
+        
+        <div class="flex justify-between text-xs text-gray-600 border-t pt-4">
+          <div class="text-center">
+            <span class="block font-bold">{{phone.ram}}GB</span> RAM
+          </div>
+          <div class="text-center">
+            <span class="block font-bold">{{phone.battery}}mAh</span> Battery
+          </div>
+          <div class="text-center">
+            <span class="block font-bold">{{phone.rom}}GB</span> Storage
+          </div>
+        </div>
+        <button
+  class="w-full mt-5 bg-black text-white py-3 rounded-xl"
+  (click)="openReviews(phone.id)">
+  View Details
+</button>
+
+<!-- Reviews Modal -->
+<app-reviews
+  *ngIf="selectedPhoneId !== undefined"
+  [phoneId]="selectedPhoneId">
+</app-reviews>
+      </div>
+    </div>
+  </div>
+</div>

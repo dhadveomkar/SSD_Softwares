@@ -1,0 +1,84 @@
+<div class="admin-container">
+  <h2>🚘 Admin Car Management Panel</h2>
+
+  <!-- Add Car Form -->
+  <div class="form-section animated-section">
+  <h3>🚗 Add New Car</h3>
+  <form #carForm="ngForm" (ngSubmit)="addCar()" novalidate>
+    <div class="input-group">
+      <label for="name">Car Name</label>
+      <input id="name" [(ngModel)]="newCar.name" name="name" required #nameRef="ngModel" placeholder="e.g. Tata Nexon" />
+      <div *ngIf="nameRef.invalid && nameRef.touched" class="error">Car name is required.</div>
+    </div>
+
+    <div class="input-group">
+      <label for="brand">Brand</label>
+      <input id="brand" [(ngModel)]="newCar.brand" name="brand" required #brandRef="ngModel" placeholder="e.g. Tata" />
+      <div *ngIf="brandRef.invalid && brandRef.touched" class="error">Brand is required.</div>
+    </div>
+
+    <div class="input-group">
+      <label for="type">Type</label>
+      <input id="type" [(ngModel)]="newCar.type" name="type" required #typeRef="ngModel" placeholder="e.g. SUV" />
+      <div *ngIf="typeRef.invalid && typeRef.touched" class="error">Type is required.</div>
+    </div>
+
+    <div class="input-group">
+      <label for="price">Price (₹)</label>
+      <input id="price" type="number" [(ngModel)]="newCar.price" name="price" required min="10000" #priceRef="ngModel" placeholder="e.g. 800000" />
+      <div *ngIf="priceRef.invalid && priceRef.touched" class="error">Enter a valid price.</div>
+    </div>
+
+    <div class="checkbox-group">
+      <label><input type="checkbox" [(ngModel)]="newCar.latest" name="latest" /> Latest</label>
+      <label><input type="checkbox" [(ngModel)]="newCar.upcoming" name="upcoming" /> Upcoming</label>
+      <label><input type="checkbox" [(ngModel)]="newCar.electric" name="electric" /> Electric</label>
+    </div>
+
+    <button type="submit" [disabled]="carForm.invalid" class="animated-btn">➕ Add Car</button>
+  </form>
+</div>
+
+
+
+  <hr />
+
+  <!-- Car List with Edit/Delete -->
+  <div class="car-list">
+    <h3>Manage Cars</h3>
+    <div *ngFor="let car of cars" class="car-card">
+      <div *ngIf="editingCar?.id !== car.id">
+        <p><strong>{{ car.name }}</strong> - {{ car.brand }} ({{ car.type }}) - ₹{{ car.price }}</p>
+        <button (click)="editCar(car)">✏️ Edit</button>
+        <button (click)="deleteCar(car.id)">🗑️ Delete</button>
+      </div>
+
+      <!-- Edit Mode -->
+      <div *ngIf="editingCar?.id === car.id && editingCar">
+        <input [(ngModel)]="editingCar.name" placeholder="Car Name" required />
+        <input [(ngModel)]="editingCar.brand" placeholder="Brand" required />
+        <input [(ngModel)]="editingCar.type" placeholder="Type" required />
+        <input [(ngModel)]="editingCar.price" type="number" placeholder="Price" required />
+
+        <label>
+          <input type="checkbox" [(ngModel)]="editingCar.latest" /> Latest
+        </label>
+        <label>
+          <input type="checkbox" [(ngModel)]="editingCar.upcoming" /> Upcoming
+        </label>
+        <label>
+          <input type="checkbox" [(ngModel)]="editingCar.electric" /> Electric
+        </label>
+
+        <button (click)="updateCar()" 
+                [disabled]="!editingCar.name || !editingCar.brand || !editingCar.type || !editingCar.price">
+          💾 Save
+        </button>
+        <button (click)="cancelEdit()">❌ Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

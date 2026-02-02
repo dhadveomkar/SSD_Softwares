@@ -1,0 +1,20 @@
+<div class="page">
+  <h2>Upcoming Cars</h2>
+
+  <div class="card-container">
+    <div class="car-card" *ngFor="let car of upcomingCars">
+      
+
+      <div class="car-details">
+        <h3>{{ car.name }}</h3>
+        <p class="brand">Brand: {{ car.brand }}</p>
+        <p class="price">Price: {{ car.price | currency:'INR' }}</p>
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

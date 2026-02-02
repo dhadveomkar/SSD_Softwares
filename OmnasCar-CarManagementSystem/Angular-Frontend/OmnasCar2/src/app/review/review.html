@@ -1,0 +1,15 @@
+<div class="page">
+  <h2>User Reviews</h2>
+
+  <div class="review" *ngFor="let review of reviews">
+    <div class="profile-icon">
+      {{ review.name.charAt(0).toUpperCase() }}
+    </div>
+
+    <div class="review-content">
+      <h4>{{ review.name }}</h4>
+      <p>"{{ review.comment }}"</p>
+    </div>
+  </div>
+</div>
+

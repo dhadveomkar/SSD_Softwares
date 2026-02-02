@@ -1,0 +1,43 @@
+<app-navbar></app-navbar>
+<div class="banner-slider">
+  <div
+    class="slide"
+    *ngFor="let banner of banners; let i = index"
+    [class.active]="i === currentIndex"
+  >
+    <img [src]="banner.image" [alt]="banner.title" />
+    <div class="slide-caption">
+      <h2>{{ banner.title }}</h2>
+      <p>{{ banner.description }}</p>
+    </div>
+  </div>
+
+  <!-- Navigation Arrows -->
+  <button class="nav-arrow left" (click)="prevSlide()">❮</button>
+  <button class="nav-arrow right" (click)="nextSlide()">❯</button>
+
+  <!-- Dots -->
+  <div class="dots">
+    <span
+      *ngFor="let banner of banners; let i = index"
+      [class.active]="i === currentIndex"
+      (click)="goToSlide(i)"
+    ></span>
+  </div>
+</div>
+
+
+
+<router-outlet></router-outlet>
+<app-cardview-features></app-cardview-features>
+<div class="features-section">
+  <h2>Available Brands</h2>
+<div class="brand-list">
+  <app-brand-card
+    *ngFor="let brand of brands"
+    [brandName]="brand.name"
+    [brandLogo]="brand.logo"
+  ></app-brand-card>
+</div>
+<app-footer></app-footer>
+
