@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>DALMA Header</title>
+  <style>
+    /* Reset inside the iframe so it won't inherit page CSS */
+    html,body{margin:0;padding:0;font-family:Segoe UI,Roboto,Arial,sans-serif;background:transparent}
+    a{color:inherit;text-decoration:none}
+    #dalma-container{
+      box-sizing:border-box;
+      width:100%;
+      background:transparent;
+    }
+    .dalma-topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:10px 24px;
+      gap:12px;
+    }
+    .dalma-left img{height:36px; display:block;}
+    .dalma-right{
+      font-size:14px;
+      line-height:1;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .dalma-right .email{
+      font-weight:600;
+    }
+    .dalma-blue-line{
+      height:6px;
+      background:#0078d4; /* SharePoint blue - change if you want */
+      width:100%;
+    }
+
+    /* Small device adjustments */
+    @media (max-width:520px){
+      .dalma-topbar{padding:8px 12px}
+      .dalma-left img{height:30px}
+      .dalma-right{font-size:13px}
+      .dalma-blue-line{height:4px}
+    }
+
+    /* Optional small shadow to separate from page */
+    .dalma-topbar{background:transparent}
+  </style>
+</head>
+<body>
+  <div id="dalma-container" role="banner" aria-label="DALMA digitalization header">
+    <div class="dalma-topbar" id="dalmaTopbar">
+      <div class="dalma-left">
+        <!-- Replace src with actual logo path in Site Assets -->
+        <img id="dalmaLogo" src="/sites/DALMADIGITALIZATION/SiteAssets/dalma-logo.png" alt="DALMA DIGITALIZATION logo">
+      </div>
+      <div class="dalma-right">
+        <div class="contact">
+          <a class="email" href="mailto:digitalization@dalma.com" id="dalmaEmail">digitalization@dalma.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="dalma-blue-line" id="dalmaBlueLine"></div>
+  </div>
+
+  <script>
+    // Simple script to adjust page content if needed (safe and minimal).
+    // When embedded via iframe this mostly does nothing; kept for cases where the HTML
+    // is added via Script Editor web part and may overlay the page.
+    (function(){
+      try{
+        // If the file is inserted via Script Editor (not iframe), avoid overlapping page content:
+        if (window.frameElement == null) {
+          // This means the code is running in top window (Script Editor case)
+          var topbar = document.getElementById('dalmaTopbar');
+          if(topbar){
+            // Insert a spacer just after the header so page content moves down
+            var spacer = document.createElement('div');
+            spacer.style.height = document.getElementById('dalmaBlueLine').offsetHeight + topbar.offsetHeight + 'px';
+            spacer.id = 'dalma-header-spacer';
+            document.body.insertBefore(spacer, document.body.firstChild);
+            // Minimal styles to avoid conflicts
+            topbar.style.position='fixed';
+            topbar.style.left='0';
+            topbar.style.right='0';
+            topbar.style.top='0';
+            topbar.style.zIndex='9999';
+            document.getElementById('dalmaBlueLine').style.position='fixed';
+            document.getElementById('dalmaBlueLine').style.top = topbar.offsetHeight + 'px';
+            document.getElementById('dalmaBlueLine').style.zIndex='9998';
+          }
+        }
+      }catch(e){
+        console.warn('DALMA header script error', e);
+      }
+    })();
+  </script>
+</body>
+</html>

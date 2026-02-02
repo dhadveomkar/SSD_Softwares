@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <CustomAction
+        Title="DynamicNavigationHeader"
+        Location="ClientSideExtension.ApplicationCustomizer"
+        ClientSideComponentId="b065cde8-1c77-44f4-8c80-78505615e158"
+        ClientSideComponentProperties="{&quot;testMessage&quot;:&quot;Test message&quot;}">
+    </CustomAction>
+</Elements>

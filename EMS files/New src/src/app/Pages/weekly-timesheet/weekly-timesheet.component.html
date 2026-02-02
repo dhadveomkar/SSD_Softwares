@@ -1,0 +1,1075 @@
+<div class="weekly-timesheet-page">
+  <p-toast position="top-right"></p-toast>
+  <div class="title-container">
+    <span class="title">
+      <span class="vertical-line"></span>
+      Weekly Timesheet
+    </span>
+  </div>
+
+  <div class="weekly-timesheet-container">
+    <!-- Company Name -->
+    <div class="weekly-timesheet-header">
+      <div class="Employee-Name">
+        <span>
+          <strong>Name:</strong>
+          {{ currentUserName }}
+        </span>
+      </div>
+
+      <div class="filters" *ngIf="isAdmin || isManager">
+        <input type="text" [(ngModel)]="searchText" (ngModelChange)="onSearchChange()"
+          placeholder="--Search by Employee Name or Project--" class="search-input" style="font-size: 12px" />
+      </div>
+
+      <div class="header-Week-No">
+        <div class="employee-section" *ngIf="matchedRoleName?.toLowerCase() === 'admin'">
+          <!-- Debug: isAdmin={{isAdmin}} isManager={{isManager}} employees={{employees?.length}} -->
+          <div class="week-text" style="white-space: nowrap;">
+            <strong>Select Employee:</strong>
+          </div>
+          <div class="week-dropdown-container" [class.open]="showEmployeeDropdown">
+            <div class="dropdown-display" (click)="toggleEmployeeDropdown()">
+              {{ selectedEmployee ? (selectedEmployee.firstName + ' ' + selectedEmployee.lastName) : 'Select Employee' }}
+              <span class="dropdown-arrow">&#9662;</span>
+            </div>
+            <div *ngIf="showEmployeeDropdown" class="dropdown-list">
+              <ul>
+                <li *ngFor="let emp of employees" 
+                    (click)="selectEmployee(emp)"
+                    [class.selected]="selectedEmployee && selectedEmployee.employeeName === emp.employeeName">
+                  {{ emp.firstName + ' ' + emp.lastName }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="fiscal-week-section">
+          <div class="week-text" style="white-space: nowrap;">
+            <strong>Fiscal Week:</strong>
+          </div>
+
+          <div class="week-dropdown-container" [class.open]="showHeaderDropdown">
+            <div class="dropdown-display" (click)="toggleHeaderDropdown()">
+              {{ selectedHeaderWeekNo ? 'Fiscal Week ' + selectedHeaderWeekNo : 'Fiscal Week Select' }}
+              <span class="dropdown-arrow">&#9662;</span>
+            </div>
+            <div *ngIf="showHeaderDropdown" class="dropdown-list">
+              <ul>
+                <li *ngFor="let week of fiscalWeeks">
+                  <label>
+                    <input type="checkbox" [value]="week.fiscalWeek" (change)="toggleHeaderWeek($event, week.fiscalWeek)"
+                      [checked]="selectedHeaderWeeks.includes(week.fiscalWeek)">
+                    {{ week.fiscalWeek }}
+                  </label>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="leave-cards-row">
+      <div class="leave-card total-card" [class.selected-card]="isCardSelected('Total')" (click)="selectCard('Total')">
+        <h6>Total Leave</h6>
+        <p><b> Total Allocated :</b> {{ leaveTypeCounts.Total.allocated }}</p>
+        <p><b> Total Availed :</b> {{ leaveTypeCounts.Total.taken}}</p>
+        <p><b>Total Balance :</b> {{ leaveTypeCounts.Total.remaining }}</p>
+      </div>
+      <div class="leave-card" [class.selected-card]="isCardSelected('PaidLeave')" (click)="selectCard('PaidLeave')">
+        <h6>Paid Leave (PL)</h6>
+        <p><b>Allocated:</b> {{ leaveTypeCounts.PaidLeave.allocated }}</p>
+        <p><b>Availed:</b> {{ leaveTypeCounts.PaidLeave.taken }}</p>
+        <p><b>Balance:</b> {{ leaveTypeCounts.PaidLeave.remaining }}</p>
+      </div>
+
+      <div class="leave-card" [class.selected-card]="isCardSelected('CasualLeaveCount')"
+        (click)="selectCard('CasualLeaveCount')">
+        <h6>Sick / Casual Leave</h6>
+        <p><b>Allocated:</b> {{ leaveTypeCounts.CasualLeaveCount.allocated }}</p>
+        <p><b>Availed:</b> {{ leaveTypeCounts.CasualLeaveCount.taken }}</p>
+        <p><b>Balance:</b> {{ leaveTypeCounts.CasualLeaveCount.remaining }}</p>
+      </div>
+      <div class="leave-card" [class.selected-card]="isCardSelected('FlexiHoliday')"
+        (click)="selectCard('FlexiHoliday')">
+        <h6>Flexi Holiday</h6>
+        <p><b>Allocated:</b> {{ leaveTypeCounts.FlexiHoliday.allocated }}</p>
+        <p><b>Availed:</b> {{ leaveTypeCounts.FlexiHoliday.taken }}</p>
+        <p><b>Balance:</b> {{ leaveTypeCounts.FlexiHoliday.remaining }}</p>
+      </div>
+    </div>
+    <div class="add-row-container">
+      <button class="add-row-btn" (click)="addRow()">
+        <i class="pi pi-plus"></i>
+      </button>
+      <div class="save-edit-btns">
+        <button class="save-row-btn" (click)="saveTimesheets()">Submit</button>
+        <button class="edit-row-btn" (click)="enableEditMode()">Edit</button>
+        <button class="download-btn" (click)="showModal = true" [disabled]="getExportDataCount() === 0">
+          <i class="fas fa-download"></i> Download Excel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Download modal -->
+  <div class="upload-modal" *ngIf="showModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6>Download Timesheet</h6>
+        <span class="close" (click)="showModal = false">&times;</span>
+      </div>
+      <div class="upload-drop-area">
+        <div class="timesheet-type">
+          <label for="timesheetSelect">Select Timesheet:</label>
+          <select id="timesheetSelect" [(ngModel)]="selectedTimesheet">
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+          </select>
+        </div>
+
+        <div *ngIf="selectedTimesheet === 'weekly'" class="header-Week-No">
+          <div class="week-text" style="white-space: nowrap;">
+            Select Week:
+          </div>
+          <div class="week-dropdown-container" [class.open]="showModalDropdown">
+            <div class="modal-dropdown-display" (click)="toggleModalDropdown()">
+              {{ selectedHeaderWeekNo ? 'Fiscal Week ' + selectedHeaderWeekNo : ' Select Week' }}
+              <span class="dropdown-arrow">&#9662;</span>
+            </div>
+            <div *ngIf="showModalDropdown" class="modal-dropdown-list ">
+              <ul>
+                <li *ngFor="let week of fiscalWeeks">
+                  <label>
+                    <input type="checkbox" [value]="week.fiscalWeek"
+                      (change)="toggleHeaderWeek($event, week.fiscalWeek)"
+                      [checked]="selectedHeaderWeeks.includes(week.fiscalWeek)">
+                    {{ week.fiscalWeek }}
+                  </label>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="selectedTimesheet === 'monthly'" class="header-Week-No">
+          <div class="week-text" style="white-space: nowrap;">
+            Select Month:
+          </div>
+          <div class="week-dropdown-container" [class.open]="showMonthDropdown">
+            <div class="modal-dropdown-display" (click)="toggleMonthDropdown()">
+              <input type="text" class="month-search" placeholder="Search month..." [(ngModel)]="monthSearchText"
+                (input)="onMonthSearch($event)">
+              <span class="dropdown-arrow">&#9662;</span>
+            </div>
+            <div *ngIf="showMonthDropdown" class="modal-dropdown-list">
+              <ul>
+                <li *ngFor="let month of filteredMonths">
+                  <label>
+                    <input type="checkbox" [value]="month.value" (change)="toggleMonthSelection($event, month.value)"
+                      [checked]="selectedMonths.includes(month.value)">
+                    {{ month.label }}
+                  </label>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-row">
+        <button class="download-btn" (click)="exportWithFilterInfo()" [disabled]="getExportDataCount() === 0">
+          <i class="fas fa-download"></i> Download Excel
+        </button>
+        <button class="cancel-btn" (click)="resetModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <!-- Required Fields Modal -->
+  <div class="modal-backdrop" *ngIf="showRequiredModal">
+    <div class="required-modal-content">
+
+      <div class="required-modal-header">
+        <strong> ⚠️ Please Fill Required Fields:</strong>
+        <p class="missing-fields-text">
+          {{ allMissingFields.join(', ') }}
+        </p>
+        <button class="required-modal-btn" (click)="showRequiredModal = false">OK</button>
+      </div>
+
+    </div>
+  </div>
+  <!-- Half day modal (unchanged) -->
+  <div class="modal-backdrop" *ngIf="showHalfDayModal">
+    <div class="modal-content modal-font" *ngIf="showHalfDayModal">
+      <div class="modal-title modal-font">
+        You have {{totalHalfDays}} half-day(s) in your timesheet.<br>
+        {{halfDayMessage}}.<br>
+         Did you work on another project?"
+        <div class="modal-actions">
+          <button class="modal-yes modal-btn" (click)="confirmHalfDay(true)">Yes</button>
+          <button class="modal-no modal-btn" (click)="confirmHalfDay(false)">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+ <div class="modal-backdrop" *ngIf="showOtherProjectInfo">
+  <div class="required-modal-content">
+      <div class="warning-title">
+        ⚠️Work On Another Project
+      <span class="close-icon" role="button"aria-label="Close"(click)="showOtherProjectInfo = false">
+        ✕
+      </span>
+      </div>
+      <div class="warning-text">
+        On {{ getFullDayName(selectedRow?.day) }}
+        (Week No  {{ selectedRow?.weekNo }}), you selected
+        <b>"Worked on another project"</b>.
+        Please add a new row for other project hours.
+      <div class="modal-actions">
+        <button class="save-row-btn" (click)="showOtherProjectInfo = false">
+          OK
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- Work Details Modal -->
+  <!-- <div class="upload-modal" *ngIf="showWorkDetailsModal">
+  <div class="upload-modal-content work-details-modal">
+    <div class="upload-modal-header">
+      <span class="upload-modal-title">Work Details</span>
+      <button class="upload-modal-close" (click)="cancelWorkDetails()">&times;</button>
+    </div>
+
+    <div class="upload-modal-body">
+      <textarea
+        class="work-details-textarea"
+        placeholder="Enter work details"
+        [(ngModel)]="workDetailsText"
+        rows="7"
+        maxlength="1000"
+      ></textarea>
+      <div class="work-details-foot">
+        <small *ngIf="workDetailsText.length">{{ workDetailsText.length }}/1000</small>
+        <small *ngIf="!workDetailsText.length">0/1000</small>
+      </div>
+    </div>
+
+    <div class="upload-modal-footer">
+      <button type="button" class="proceed-btn upload-modal-action" (click)="confirmWorkDetails()">Add</button>
+      <button type="button" class="cancel-btn upload-modal-action" (click)="cancelWorkDetails()">Cancel</button>
+    </div>
+  </div>
+</div> -->
+
+  <!-- Timesheet table -->
+  <div class="timesheet-table-container">
+    <!-- Adding a class binding --><table class="timesheet-table">
+      <thead>
+        <tr class="total-row">
+          <th><input type="text" class="timesheet-input" readonly></th>
+          <th><input type="text" class="timesheet-input" readonly></th>
+          <th><input type="text" class="timesheet-input" readonly></th>
+          <th><input type="text" class="timesheet-input" readonly></th>
+          <th *ngIf="isAdmin || isManager"><input type="text" class="timesheet-input" readonly></th>
+          <th><input type="number" class="timesheet-input" [value]="totalWeekSum" readonly></th>
+          <th><input type="number" class="timesheet-input" [value]="totalSunHours" readonly></th>
+          <th><input type="number" class="timesheet-input" [value]="totalMonHours" readonly></th>
+          <th><input type="number" class="timesheet-input" [value]="totalTuesHours" readonly></th>
+          <th><input type="number" class="timesheet-input" [value]="totalWedHours" readonly></th>
+          <th><input type="number" class="timesheet-input" [value]="totalThursHours" readonly></th>
+          <th><input type="number" class="timesheet-input" [value]="totalFriHours" readonly></th>
+          <th><input type="number" class="timesheet-input" [value]="totalSatHours" readonly></th>
+        </tr>
+
+        <tr class="timesheet-header-row">
+          <th *ngIf="isAdmin || isManager">
+            Employee Name
+            <i class="pi pi-filter filter-icon" (click)="toggleFilter('employeeName')"></i>
+            <input *ngIf="showColumnFilter.employeeName" type="text" class="header-filter-input"
+              [(ngModel)]="filters.employeeName" (input)="applyFilter()">
+          </th>
+          <th>
+            Fiscal Week
+            <i class="pi pi-filter filter-icon" (click)="toggleFilter('FiscalWeek')"></i>
+            <input *ngIf="showColumnFilter.FiscalWeek" type="text" class="header-filter-input"
+              [(ngModel)]="filters.FiscalWeek" (input)="applyFilter()">
+          </th>
+          <th>
+            Week No
+            <i class="pi pi-filter filter-icon" (click)="toggleFilter('weekNo')"></i>
+            <input *ngIf="showColumnFilter.weekNo" type="number" class="header-filter-input"
+              [(ngModel)]="filters.weekNo" (input)="applyFilter()">
+          </th>
+          <th>
+            Project Manager
+            <i class="pi pi-filter filter-icon" (click)="toggleFilter('projectManager')"></i>
+            <select *ngIf="showColumnFilter.projectManager" class="header-filter-input"
+              [(ngModel)]="filters.projectManager" (change)="applyFilter()">
+              <option value="">Select Project Manager</option>
+              <option *ngFor="let pm of projectManagers" [value]="pm.empId">
+                {{ pm.firstName }} {{ pm.lastName }}
+              </option>
+            </select>
+          </th>
+          <th>
+            Project Name
+            <i class="pi pi-filter filter-icon" (click)="toggleFilter('projectName')"></i>
+            <input *ngIf="showColumnFilter.projectName" type="text" class="header-filter-input"
+              [(ngModel)]="filters.projectName" (input)="applyFilter()">
+          </th>
+          <th>
+            Total Week (hrs)
+            <i class="pi pi-filter filter-icon" (click)="toggleFilter('totalWeek')"></i>
+            <input *ngIf="showColumnFilter.totalWeek" type="number" class="header-filter-input"
+              [(ngModel)]="filters.totalWeek" (input)="applyFilter()">
+          </th>
+          <th>
+            Sun (hrs)
+            <i class="pi pi-filter filter-icon" (click)="toggleFilter('sunHours')"></i>
+            <input *ngIf="showColumnFilter.sunHours" type="number" class="header-filter-input"
+              [(ngModel)]="filters.sunHours" (input)="applyFilter()">
+          </th>
+          <th>
+            Mon (hrs)
+            <i class="pi pi-filter filter-icon" (click)="toggleFilter('monHours')"></i>
+            <input *ngIf="showColumnFilter.monHours" type="number" class="header-filter-input"
+              [(ngModel)]="filters.monHours" (input)="applyFilter()">
+          </th>
+          <th>
+            Tues (hrs)
+            <i class="pi pi-filter filter-icon" (click)="toggleFilter('tuesHours')"></i>
+            <input *ngIf="showColumnFilter.tuesHours" type="number" class="header-filter-input"
+              [(ngModel)]="filters.tuesHours" (input)="applyFilter()">
+          </th>
+          <th>
+            Wed (hrs)
+            <i class="pi pi-filter filter-icon" (click)="toggleFilter('wedHours')"></i>
+            <input *ngIf="showColumnFilter.wedHours" type="number" class="header-filter-input"
+              [(ngModel)]="filters.wedHours" (input)="applyFilter()">
+          </th>
+          <th>
+            Thurs (hrs)
+            <i class="pi pi-filter filter-icon" (click)="toggleFilter('thursHours')"></i>
+            <input *ngIf="showColumnFilter.thursHours" type="number" class="header-filter-input"
+              [(ngModel)]="filters.thursHours" (input)="applyFilter()">
+          </th>
+          <th>
+            Fri (hrs)
+            <i class="pi pi-filter filter-icon" (click)="toggleFilter('friHours')"></i>
+            <input *ngIf="showColumnFilter.friHours" type="number" class="header-filter-input"
+              [(ngModel)]="filters.friHours" (input)="applyFilter()">
+          </th>
+          <th>
+            Sat (hrs)
+            <i class="pi pi-filter filter-icon" (click)="toggleFilter('satHours')"></i>
+            <input *ngIf="showColumnFilter.satHours" type="number" class="header-filter-input"
+              [(ngModel)]="filters.satHours" (input)="applyFilter()">
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="timesheet-data-row" *ngFor="let row of timesheetRows; let i = index"
+          [class.selected-row]="isRowSelected(i)" (click)="selectRow(i, $event)">
+          <td *ngIf="isAdmin || isManager">
+            <input type="text" class="timesheet-input" [(ngModel)]="row.employeeName" readonly>
+          </td>
+          <td>
+            <div *ngIf="!isEditMode || selectedRowIndex !== i" class="week-no-display">
+              {{ row.fiscalWeek ? ' ' + row.fiscalWeek : 'Select Week' }}
+            </div>
+            <div *ngIf="isEditMode && selectedRowIndex === i" class="week-dropdown-container"
+              [class.open]="showDropdownIndex === i">
+              <div class="dropdown-display" (click)="toggleDropdown(i,$event)">
+                {{ row.fiscalWeek ? ' ' + row.fiscalWeek : 'Select Fiscal Week' }}
+                <span class="dropdown-arrow">&#9662;</span>
+              </div>
+              <div *ngIf="showDropdownIndex === i" class="dropdown-list">
+                <ul>
+                  <li *ngFor="let week of fiscalWeeks" (click)="selectFiscalWeek(i, week, $event)"
+                    [class.selected]="timesheetRows[i].fiscalWeek === week.fiscalWeek">
+                    {{ week.fiscalWeek }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </td>
+
+          <td>
+            <input type="text" class="timesheet-input" [value]="row.weekNo" readonly>
+          </td>
+
+          <td>
+            <div *ngIf="(!isEditMode || selectedRowIndex !== i) && row.projectManager" class="project-manager-display">
+              {{ row.projectManager }}
+            </div>
+            <div *ngIf="isEditMode && selectedRowIndex === i" class="project-manager-dropdown">
+              <select class="timesheet-input" [(ngModel)]="row.projectManager" (change)="onProjectManagerChange(i)"
+                [disabled]="isFieldDisabled(i)">
+                <option value="">Select Manager</option>
+                <option *ngFor="let pm of projectManagers">
+                  {{ pm.firstName }} {{ pm.lastName }}
+                </option>
+              </select>
+            </div>
+          </td>
+
+          <td>
+            <input type="text" class="timesheet-input" [(ngModel)]="row.projectName" [disabled]="isFieldDisabled(i)">
+          </td>
+
+          <td>
+            <input type="number" class="timesheet-input" [(ngModel)]="row.totalWeek" readonly>
+          </td>
+
+          <!-- ========== SUNDAY ========== -->
+          <td>
+
+  <!-- DISPLAY MODE (NO DOTS) -->
+  <div *ngIf="!isEditMode || selectedRowIndex !== i">
+    <div *ngIf="row.sunHours > 1" class="hours-display">
+      {{ row.sunHours || 0 }}
+    </div>
+
+    <div *ngIf="row.sunHours <= 1">
+      <div *ngIf="row.sunLeaveType === 'Worked on another project'">
+        <div *ngIf="row.sunHours > 0" class="hours-display">
+          {{ row.sunHours }}
+        </div>
+        <div *ngIf="row.sunHours === 0 || !row.sunHours"
+             class="leave-type-display">
+          {{ row.sunLeaveType }}
+        </div>
+      </div>
+
+      <div *ngIf="row.sunLeaveType && row.sunLeaveType !== 'Worked on another project'"
+           class="leave-type-display">
+        {{ row.sunLeaveType }}
+      </div>
+
+      <div *ngIf="!row.sunLeaveType" class="hours-display">
+        {{ row.sunHours || 0 }}
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT MODE (SHOW DOTS) -->
+<div *ngIf="isEditMode && selectedRowIndex === i"
+     class="hours-cell"
+     (click)="openWorkDetails(i, 'sun', $event)">
+
+  <!-- LEAVE DROPDOWN -->
+  <div *ngIf="row.showSunLeaveDropdown"
+       class="leave-dropdown-container"
+       [class.holiday-disabled]="row.sunLeaveType === 'Holiday'">
+
+    <select class="timesheet-input leave-select"
+            [(ngModel)]="row.sunLeaveType"
+            (ngModelChange)="onLeaveTypeChange(i, 'sun', $event)"
+            [disabled]="isFieldDisabled(i) || row.sunFieldDisabled">
+
+      <option value="">Select Leave</option>
+      <option value="Paid Leave">Paid Leave</option>
+      <option value="Casual Leave">Sick/Casual Leave</option>
+
+      <option *ngIf="isDayOptionalHoliday(row, 'sun') 
+                     && leaveTypeCounts.FlexiHoliday.remaining > 0"
+              value="Optional Holiday">
+        Flexi Holiday
+      </option>
+
+      <option *ngIf="isDayOfficialHoliday(row, 'sun')" value="Holiday">
+        Public Holiday
+      </option>
+
+      <option value="Weekly OFF">Weekly OFF</option>
+      <option value="Worked on another project">Worked on another project</option>
+      <option value="SWITCH_TO_HOURS">-- Switch to Hours --</option>
+    </select>
+
+    <span *ngIf="row.sunFieldDisabled && row.sunLeaveType !== 'Holiday'"
+          class="disabled-select-arrow">▼</span>
+  </div>
+
+  <!-- ✅ 3 DOTS FOR SUNDAY -->
+  <span class="three-dots"
+        (click)="openWorkDetails(i, 'sun', $event)">⋮</span>
+
+    <!-- HOURS INPUT -->
+    <input *ngIf="!row.showSunLeaveDropdown"
+           type="number"
+           class="timesheet-input"
+           [(ngModel)]="row.sunHours"
+           min="0" max="24" step="0.5"
+           (change)="onHoursChanged(i, 'sun')"
+           (click)="onCellClick(i, 'sun', $event)"
+           (blur)="checkAndShowLeaveDropdown(i, 'sun')"
+           [disabled]="isFieldDisabled(i) || row.sunFieldDisabled">
+  </div>
+
+</td>
+
+
+          <!-- ========== MONDAY ========== -->
+          <td>
+
+  <!-- DISPLAY MODE (NO 3 DOTS) -->
+  <div *ngIf="!isEditMode || selectedRowIndex !== i">
+    <div *ngIf="row.monHours > 1" class="hours-display">
+      {{ row.monHours || 0 }}
+    </div>
+
+    <div *ngIf="row.monHours <= 1">
+      <div *ngIf="row.monLeaveType === 'Worked on another project'">
+        <div *ngIf="row.monHours > 0" class="hours-display">
+          {{ row.monHours }}
+        </div>
+        <div *ngIf="row.monHours === 0 || !row.monHours"
+             class="leave-type-display">
+          {{ row.monLeaveType }}
+        </div>
+      </div>
+
+      <div *ngIf="row.monLeaveType && row.monLeaveType !== 'Worked on another project'"
+           class="leave-type-display">
+        {{ row.monLeaveType }}
+      </div>
+
+      <div *ngIf="!row.monLeaveType" class="hours-display">
+        {{ row.monHours || 0 }}
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT MODE (SHOW 3 DOTS) -->
+  <div *ngIf="isEditMode && selectedRowIndex === i"
+     class="hours-cell"
+     (click)="openWorkDetails(i, 'mon', $event)">
+
+  <!-- LEAVE DROPDOWN -->
+  <div *ngIf="row.showMonLeaveDropdown"
+       class="leave-dropdown-container"
+       [class.holiday-disabled]="row.monLeaveType === 'Holiday'">
+
+    <select class="timesheet-input leave-select"
+            [(ngModel)]="row.monLeaveType"
+            (ngModelChange)="onLeaveTypeChange(i, 'mon', $event)"
+            [disabled]="isFieldDisabled(i) || row.monFieldDisabled || (row.monLeaveLocked && !isAdmin)">
+
+      <option value="">Select Leave</option>
+      <option value="Paid Leave">Paid Leave</option>
+      <option value="Casual Leave">Sick/Casual Leave</option>
+
+      <option *ngIf="isDayOptionalHoliday(row, 'mon') 
+                     && leaveTypeCounts.FlexiHoliday.remaining > 0"
+              value="Optional Holiday">
+        Flexi Holiday
+      </option>
+
+      <option *ngIf="isDayOfficialHoliday(row, 'mon')" value="Holiday">
+        Public Holiday
+      </option>
+
+      <option value="Weekly OFF">Weekly OFF</option>
+      <option value="Worked on another project">Worked on another project</option>
+      <option value="SWITCH_TO_HOURS">-- Switch to Hours --</option>
+    </select>
+
+    <span *ngIf="row.monFieldDisabled && row.monLeaveType !== 'Holiday'"
+          class="disabled-select-arrow">▼</span>
+  </div>
+
+  <!-- ✅ 3 DOTS FOR MONDAY -->
+  <span class="three-dots"
+        (click)="openWorkDetails(i, 'mon', $event)">⋮</span>
+
+
+
+
+    <!-- HOURS INPUT -->
+    <input *ngIf="!row.showMonLeaveDropdown"
+           type="number"
+           class="timesheet-input"
+           [(ngModel)]="row.monHours"
+           min="0" max="24" step="0.5"
+           (change)="onHoursChanged(i, 'mon')"
+           (click)="onCellClick(i, 'mon', $event)"
+           (blur)="checkAndShowLeaveDropdown(i, 'mon')"
+           [disabled]="isFieldDisabled(i) || row.monFieldDisabled">
+  </div>
+
+</td>
+
+
+          <!-- ========== TUESDAY ========== -->
+          <td>
+
+  <!-- DISPLAY MODE (NO 3 DOTS) -->
+  <div *ngIf="!isEditMode || selectedRowIndex !== i">
+    <div *ngIf="row.tuesHours > 1" class="hours-display">
+      {{ row.tuesHours || 0 }}
+    </div>
+
+    <div *ngIf="row.tuesHours <= 1">
+      <div *ngIf="row.tuesLeaveType === 'Worked on another project'">
+        <div *ngIf="row.tuesHours > 0" class="hours-display">
+          {{ row.tuesHours }}
+        </div>
+        <div *ngIf="row.tuesHours === 0 || !row.tuesHours"
+             class="leave-type-display">
+          {{ row.tuesLeaveType }}
+        </div>
+      </div>
+
+      <div *ngIf="row.tuesLeaveType && row.tuesLeaveType !== 'Worked on another project'"
+           class="leave-type-display">
+        {{ row.tuesLeaveType }}
+      </div>
+
+      <div *ngIf="!row.tuesLeaveType" class="hours-display">
+        {{ row.tuesHours || 0 }}
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT MODE (SHOW 3 DOTS) -->
+  <div *ngIf="isEditMode && selectedRowIndex === i"
+     class="hours-cell"
+     (click)="openWorkDetails(i, 'tues', $event)">
+
+  <!-- LEAVE DROPDOWN -->
+  <div *ngIf="row.showTuesLeaveDropdown"
+       class="leave-dropdown-container"
+       [class.holiday-disabled]="row.tuesLeaveType === 'Holiday'">
+
+    <select class="timesheet-input leave-select"
+            [(ngModel)]="row.tuesLeaveType"
+            (ngModelChange)="onLeaveTypeChange(i, 'tues', $event)"
+            [disabled]="isFieldDisabled(i) || row.tuesFieldDisabled || (row.tuesLeaveLocked && !isAdmin)">
+
+      <option value="">Select Leave</option>
+      <option value="Paid Leave">Paid Leave</option>
+      <option value="Casual Leave">Sick/Casual Leave</option>
+
+      <option *ngIf="isDayOptionalHoliday(row, 'tues') 
+                     && leaveTypeCounts.FlexiHoliday.remaining > 0"
+              value="Optional Holiday">
+        Flexi Holiday
+      </option>
+
+      <option *ngIf="isDayOfficialHoliday(row, 'tues')" value="Holiday">
+        Public Holiday
+      </option>
+
+      <option value="Weekly OFF">Weekly OFF</option>
+      <option value="Worked on another project">Worked on another project</option>
+      <option value="SWITCH_TO_HOURS">-- Switch to Hours --</option>
+    </select>
+
+    <span *ngIf="row.tuesFieldDisabled && row.tuesLeaveType !== 'Holiday'"
+          class="disabled-select-arrow">▼</span>
+  </div>
+
+  <!-- ✅ 3 DOTS FOR TUESDAY -->
+  <span class="three-dots"
+        (click)="openWorkDetails(i, 'tues', $event)">⋮</span>
+
+
+
+
+    <!-- HOURS INPUT -->
+    <input *ngIf="!row.showTuesLeaveDropdown"
+           type="number"
+           class="timesheet-input"
+           [(ngModel)]="row.tuesHours"
+           min="0" max="24" step="0.5"
+           (change)="onHoursChanged(i, 'tues')"
+           (click)="onCellClick(i, 'tues', $event)"
+           (blur)="checkAndShowLeaveDropdown(i, 'tues')"
+           [disabled]="isFieldDisabled(i) || row.tuesFieldDisabled">
+  </div>
+
+</td>
+
+
+          <!-- ========== WEDNESDAY ========== -->
+          <td>
+
+  <!-- DISPLAY MODE (NO 3 DOTS) -->
+  <div *ngIf="!isEditMode || selectedRowIndex !== i">
+    <div *ngIf="row.wedHours > 1" class="hours-display">
+      {{ row.wedHours || 0 }}
+    </div>
+
+    <div *ngIf="!(row.wedHours > 1)">
+      <div *ngIf="row.wedLeaveType === 'Worked on another project'">
+        <div *ngIf="row.wedHours > 0" class="hours-display">
+          {{ row.wedHours }}
+        </div>
+        <div *ngIf="row.wedHours === 0 || !row.wedHours"
+             class="leave-type-display">
+          {{ row.wedLeaveType }}
+        </div>
+      </div>
+
+      <div *ngIf="row.wedLeaveType && row.wedLeaveType !== 'Worked on another project'"
+           class="leave-type-display">
+        {{ row.wedLeaveType }}
+      </div>
+
+      <div *ngIf="!row.wedLeaveType" class="hours-display">
+        {{ row.wedHours || 0 }}
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT MODE (SHOW 3 DOTS) -->
+  <div *ngIf="isEditMode && selectedRowIndex === i"
+     class="hours-cell"
+     (click)="openWorkDetails(i, 'wed', $event)">
+
+  <!-- LEAVE DROPDOWN -->
+  <div *ngIf="row.showWedLeaveDropdown"
+       class="leave-dropdown-container"
+       [class.holiday-disabled]="row.wedLeaveType === 'Holiday'">
+
+    <select class="timesheet-input leave-select"
+            [(ngModel)]="row.wedLeaveType"
+            (ngModelChange)="onLeaveTypeChange(i, 'wed', $event)"
+            [disabled]="isFieldDisabled(i) || row.wedFieldDisabled || (row.wedLeaveLocked && !isAdmin)">
+
+      <option value="">Select Leave</option>
+      <option value="Paid Leave">Paid Leave</option>
+      <option value="Casual Leave">Sick/Casual Leave</option>
+
+      <option *ngIf="isDayOptionalHoliday(row, 'wed') 
+                     && leaveTypeCounts.FlexiHoliday.remaining > 0"
+              value="Optional Holiday">
+        Flexi Holiday
+      </option>
+
+      <option *ngIf="isDayOfficialHoliday(row, 'wed')" value="Holiday">
+        Public Holiday
+      </option>
+
+      <option value="Weekly OFF">Weekly OFF</option>
+      <option value="Worked on another project">Worked on another project</option>
+      <option value="SWITCH_TO_HOURS">-- Switch to Hours --</option>
+    </select>
+
+    <span *ngIf="row.wedFieldDisabled && row.wedLeaveType !== 'Holiday'"
+          class="disabled-select-arrow">▼</span>
+  </div>
+
+  <!-- ✅ 3 DOTS FOR WEDNESDAY -->
+  <span class="three-dots"
+        (click)="openWorkDetails(i, 'wed', $event)">⋮</span>
+
+
+
+
+    <!-- HOURS INPUT -->
+    <input *ngIf="!row.showWedLeaveDropdown"
+           type="number"
+           class="timesheet-input"
+           [(ngModel)]="row.wedHours"
+           min="0" max="24" step="0.5"
+           (change)="onHoursChanged(i, 'wed')"
+           (click)="onCellClick(i, 'wed', $event)"
+           (blur)="checkAndShowLeaveDropdown(i, 'wed')"
+           [disabled]="isFieldDisabled(i) || row.wedFieldDisabled">
+  </div>
+
+</td>
+
+
+          <!-- ========== THURSDAY ========== -->
+          <td>
+
+  <!-- DISPLAY MODE (NO DOTS) -->
+  <div *ngIf="!isEditMode || selectedRowIndex !== i">
+    <div *ngIf="row.thursHours > 1" class="hours-display">
+      {{ row.thursHours || 0 }}
+    </div>
+
+    <div *ngIf="!(row.thursHours > 1)">
+      <div *ngIf="row.thursLeaveType === 'Worked on another project'">
+        <div *ngIf="row.thursHours > 0" class="hours-display">
+          {{ row.thursHours }}
+        </div>
+        <div *ngIf="row.thursHours === 0 || !row.thursHours"
+             class="leave-type-display">
+          {{ row.thursLeaveType }}
+        </div>
+      </div>
+
+      <div *ngIf="row.thursLeaveType && row.thursLeaveType !== 'Worked on another project'"
+           class="leave-type-display">
+        {{ row.thursLeaveType }}
+      </div>
+
+      <div *ngIf="!row.thursLeaveType" class="hours-display">
+        {{ row.thursHours }}
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT MODE (WITH 3 DOTS) -->
+  <div *ngIf="isEditMode && selectedRowIndex === i"
+     class="hours-cell"
+     (click)="openWorkDetails(i, 'thurs', $event)">
+
+  <!-- LEAVE DROPDOWN -->
+  <div *ngIf="row.showThursLeaveDropdown"
+       class="leave-dropdown-container"
+       [class.holiday-disabled]="row.thursLeaveType === 'Holiday'">
+
+    <select class="timesheet-input leave-select"
+            [(ngModel)]="row.thursLeaveType"
+            (ngModelChange)="onLeaveTypeChange(i, 'thurs', $event)"
+            [disabled]="isFieldDisabled(i) || row.thursFieldDisabled || (row.thursLeaveLocked && !isAdmin)">
+
+      <option value="">Select Leave</option>
+      <option value="Paid Leave">Paid Leave</option>
+      <option value="Casual Leave">Sick/Casual Leave</option>
+
+      <option *ngIf="isDayOptionalHoliday(row, 'thurs') 
+                     && leaveTypeCounts.FlexiHoliday.remaining > 0"
+              value="Optional Holiday">
+        Flexi Holiday
+      </option>
+
+      <option *ngIf="isDayOfficialHoliday(row, 'thurs')" value="Holiday">
+        Public Holiday
+      </option>
+
+      <option value="Weekly OFF">Weekly OFF</option>
+      <option value="Worked on another project">Worked on another project</option>
+      <option value="SWITCH_TO_HOURS">-- Switch to Hours --</option>
+    </select>
+
+    <span *ngIf="row.thursFieldDisabled && row.thursLeaveType !== 'Holiday'"
+          class="disabled-select-arrow">▼</span>
+  </div>
+
+  <!-- ✅ 3 DOTS FOR THURSDAY -->
+  <span class="three-dots"
+        (click)="openWorkDetails(i, 'thurs', $event)">⋮</span>
+
+
+
+
+    <!-- HOURS INPUT -->
+    <input *ngIf="!row.showThursLeaveDropdown"
+           type="number"
+           class="timesheet-input"
+           [(ngModel)]="row.thursHours"
+           min="0" max="24" step="0.5"
+           (change)="onHoursChanged(i, 'thurs')"
+           (click)="onCellClick(i, 'thurs', $event)"
+           (blur)="checkAndShowLeaveDropdown(i, 'thurs')"
+           [disabled]="isFieldDisabled(i) || row.thursFieldDisabled">
+  </div>
+
+</td>
+
+
+          <!-- ========== FRIDAY ========== -->
+          <td>
+
+  <!-- DISPLAY MODE (NO DOTS) -->
+  <div *ngIf="!isEditMode || selectedRowIndex !== i">
+    <div *ngIf="row.friHours > 1" class="hours-display">
+      {{ row.friHours || 0 }}
+    </div>
+
+    <div *ngIf="!(row.friHours > 1)">
+      <div *ngIf="row.friLeaveType === 'Worked on another project'">
+        <div *ngIf="row.friHours > 0" class="hours-display">
+          {{ row.friHours }}
+        </div>
+        <div *ngIf="row.friHours === 0 || !row.friHours"
+             class="leave-type-display">
+          {{ row.friLeaveType }}
+        </div>
+      </div>
+
+      <div *ngIf="row.friLeaveType && row.friLeaveType !== 'Worked on another project'"
+           class="leave-type-display">
+        {{ row.friLeaveType }}
+      </div>
+
+      <div *ngIf="!row.friLeaveType" class="hours-display">
+        {{ row.friHours || 0 }}
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT MODE (WITH 3 DOTS) -->
+  <div *ngIf="isEditMode && selectedRowIndex === i"
+     class="hours-cell"
+     (click)="openWorkDetails(i, 'fri', $event)">
+
+  <!-- LEAVE DROPDOWN -->
+  <div *ngIf="row.showFriLeaveDropdown"
+       class="leave-dropdown-container"
+       [class.holiday-disabled]="row.friLeaveType === 'Holiday'">
+
+    <select class="timesheet-input leave-select"
+            [(ngModel)]="row.friLeaveType"
+            (ngModelChange)="onLeaveTypeChange(i, 'fri', $event)"
+            [disabled]="isFieldDisabled(i) || row.friFieldDisabled || (row.friLeaveLocked && !isAdmin)">
+
+      <option value="">Select Leave</option>
+      <option value="Paid Leave">Paid Leave</option>
+      <option value="Casual Leave">Sick/Casual Leave</option>
+
+      <option *ngIf="isDayOptionalHoliday(row, 'fri') 
+                     && leaveTypeCounts.FlexiHoliday.remaining > 0"
+              value="Optional Holiday">
+        Flexi Holiday
+      </option>
+
+      <option *ngIf="isDayOfficialHoliday(row, 'fri')" value="Holiday">
+        Public Holiday
+      </option>
+
+      <option value="Weekly OFF">Weekly OFF</option>
+      <option value="Worked on another project">Worked on another project</option>
+      <option value="SWITCH_TO_HOURS">-- Switch to Hours --</option>
+    </select>
+
+    <span *ngIf="row.friFieldDisabled && row.friLeaveType !== 'Holiday'"
+          class="disabled-select-arrow">▼</span>
+  </div>
+
+  <!-- ✅ 3 DOTS FOR FRIDAY -->
+  <span class="three-dots"
+        (click)="openWorkDetails(i, 'fri', $event)">⋮</span>
+
+
+
+
+    <!-- HOURS INPUT -->
+    <input *ngIf="!row.showFriLeaveDropdown"
+           type="number"
+           class="timesheet-input"
+           [(ngModel)]="row.friHours"
+           min="0" max="24" step="0.5"
+           (change)="onHoursChanged(i, 'fri')"
+           (click)="onCellClick(i, 'fri', $event)"
+           (blur)="checkAndShowLeaveDropdown(i, 'fri')"
+           [disabled]="isFieldDisabled(i) || row.friFieldDisabled">
+  </div>
+
+</td>
+
+
+          <!-- ========== SATURDAY ========== -->
+          <td>
+  <!-- DISPLAY MODE (NO DOTS HERE) -->
+  <div *ngIf="!isEditMode || selectedRowIndex !== i">
+
+    <div *ngIf="row.satHours > 1">
+      {{ row.satHours || 0 }}
+    </div>
+
+    <div *ngIf="!(row.satHours > 1)">
+      <div *ngIf="row.satLeaveType === 'Worked on another project'">
+        <div *ngIf="row.satHours > 0">
+          {{ row.satHours }}
+        </div>
+        <div *ngIf="row.satHours === 0 || !row.satHours"
+             class="leave-type-display">
+          {{ row.satLeaveType }}
+        </div>
+      </div>
+
+      <div *ngIf="row.satLeaveType && row.satLeaveType !== 'Worked on another project'"
+           class="leave-type-display">
+        {{ row.satLeaveType }}
+      </div>
+
+      <div *ngIf="!row.satLeaveType" class="hours-display">
+        {{ row.satHours || 0 }}
+      </div>
+    </div>
+
+  </div>
+<!-- 3 Dots -->
+  <!-- EDIT MODE (DOTS + INPUTS) -->
+  <div *ngIf="isEditMode && selectedRowIndex === i"
+     class="hours-cell"
+     (click)="openWorkDetails(i, 'sun', $event)">
+
+  <div *ngIf="row.showSatLeaveDropdown"
+       class="leave-dropdown-container"
+       [class.holiday-disabled]="row.satLeaveType === 'Holiday'">
+
+    <select class="timesheet-input leave-select"
+            [(ngModel)]="row.satLeaveType"
+            (ngModelChange)="onLeaveTypeChange(i, 'sat', $event)"
+            [disabled]="isFieldDisabled(i) || row.satFieldDisabled || (row.satLeaveLocked && !isAdmin)">
+      <option value="">Select Leave</option>
+      <option value="Paid Leave">Paid Leave</option>
+      <option value="Casual Leave">Sick/Casual Leave</option>
+      <option *ngIf="isDayOptionalHoliday(row, 'sat') && leaveTypeCounts.FlexiHoliday.remaining > 0"
+              value="Optional Holiday">Flexi Holiday</option>
+      <option *ngIf="isDayOfficialHoliday(row, 'sat')" value="Holiday">Public Holiday</option>
+      <option value="Weekly OFF">Weekly OFF</option>
+      <option value="Worked on another project">Worked on another project</option>
+      <option value="SWITCH_TO_HOURS">-- Switch to Hours --</option>
+    </select>
+  </div>
+
+  <!-- ✅ REAL 3 DOTS -->
+  <span class="three-dots"
+        (click)="openWorkDetails(i, 'sat', $event)">⋮</span>
+
+
+
+    <input *ngIf="!row.showSatLeaveDropdown"
+           type="number"
+           class="timesheet-input"
+           [(ngModel)]="row.satHours"
+           min="0" max="24" step="0.5"
+           (change)="onHoursChanged(i, 'sat')"
+           (blur)="checkAndShowLeaveDropdown(i, 'sat')"
+           [disabled]="isFieldDisabled(i) || row.satFieldDisabled">
+  </div>
+
+</td>
+
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- popup model -->
+     <div class="upload-modal" *ngIf="showWorkDetailsModal">
+      <div class="upload-modal-content">
+        <div class="upload-modal-header">
+          <span class="upload-modal-title">Please Enter Task Details For {{ getFormattedDay() }}</span>
+          <button class="upload-modal-close" (click)="cancelWorkDetails()">&times;</button>
+      </div>
+
+      <div class="upload-modal-body">
+        <textarea
+          class="work-details-textarea"
+          placeholder="Enter Work Details..."
+          [(ngModel)]="workDetailsText"
+          rows="7"
+          maxlength="1000"
+        > </textarea>
+        <div class="work-details-foot">
+          <small *ngIf="workDetailsText.length">{{ workDetailsText.length }}/1000</small>
+          <small *ngIf="!workDetailsText.length">0/1000</small>
+        </div>
+      </div>
+
+      <div class="upload-modal-footer">
+        <button type="button" class="proceed-btn upload-modal-action" (click)="confirmWorkDetails()">Save</button>
+        <button type="button" class="cancel-btn upload-modal-action" (click)="cancelWorkDetails()">Cancel</button>
+      </div>
+    </div> <!-- end -->
+  </div>
+</div>

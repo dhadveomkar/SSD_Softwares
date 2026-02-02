@@ -1,0 +1,47 @@
+<!-- Upload Modal Popup -->
+  <div class="upload-modal" *ngIf="showUploadModal">
+    <div class="upload-modal-content">
+      <div class="upload-modal-header">
+        <span class="upload-modal-title">Employee Details - Select File</span>
+        <button class="upload-modal-close" (click)="showUploadModal = false">&times;</button>
+      </div>
+      <div class="upload-modal-body">
+        <!-- <div class="upload-modal-info">
+          Download a sample <a href="assets/Files/CSVFormat.csv" download>.csv format</a> or <a href="assets/Files/ExcalFormat.xlsx" download>.xls format</a> file and compare it with your import file to ensure that the file is ready to import.
+        </div> -->
+        <div class="upload-modal-info">
+          Download a sample<a href="assets/Files/ExcalFormat.xlsx" download>.xls format</a> file and compare it with
+          your import file to ensure that the file is ready to import.
+        </div>
+        <div class="upload-drop-area" (drop)="onFileDrop($event)" (dragover)="$event.preventDefault()"
+          (dragleave)="$event.preventDefault()">
+          <input type="file" #csvFileInputModal id="csvFileInputModal" accept=".csv, .xlsx" style="display: none"
+            (change)="onCsvFileSelected($event)" />
+          <div (click)="csvFileInputModal.click()" class="upload-drop-text">
+            <span class="upload-drop-icon">&#8682;</span>
+            <div>Drop files here or click here to upload</div>
+            <!-- <div class="upload-drop-desc">Maximum File Size: 5 MB | File Format: CSV or XLSX</div> -->
+            <div class="upload-drop-desc">Maximum File Size: 5 MB | File Format: XLSX</div>
+          </div>
+          <!-- Uploaded file name and download link -->
+          <div *ngIf="uploadedFileName" style="margin-top: 1rem;">
+            <span style="font-weight: 600;">Uploaded File:</span>
+            <a [href]="getUploadedFileUrl(csvFileInputModal)" [download]="uploadedFileName"
+              style="color: #4B5CF6; text-decoration: underline; cursor: pointer; margin-left: 8px;" target="_blank">
+              {{ uploadedFileName }}
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="upload-modal-footer">
+        <button type="button" class="proceed-btn upload-modal-action" (click)="onProceedUpload()">Proceed</button>
+        <button type="button" class="cancel-btn upload-modal-action" (click)="showUploadModal = false">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <div class="buttons" *ngIf="isViewMode">
+    <div class="form-actions">
+      <button type="button" class="back-btn" (click)="OnCancel()">Back</button>
+    </div>
+  </div>
+</div>

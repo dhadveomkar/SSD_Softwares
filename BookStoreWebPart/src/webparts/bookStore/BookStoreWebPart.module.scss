@@ -1,0 +1,115 @@
+@import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
+
+.bookStore {
+  overflow: hidden;
+  padding: 1em;
+  color: var(--bodyText);
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  border-radius: 12px;
+  font-family: "Segoe UI", $ms-font-family-fallbacks;
+  
+  &.teams {
+    font-family: $ms-font-family-fallbacks;
+  }
+}
+
+.welcome {
+  text-align: center;
+  margin-bottom: 1.5em;
+}
+
+.welcomeImage {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  justify-content: center;
+  margin-top: 1em;
+
+  a {
+    text-decoration: none;
+    color: var(--link);
+    transition: color 0.3s, text-decoration 0.3s;
+
+    &:hover {
+      text-decoration: underline;
+      color: var(--linkHovered);
+    }
+  }
+}
+
+// -----------------------------
+// Book Card Layout
+// -----------------------------
+.bookGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.bookCard {
+  background: white;
+  padding: 18px;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+  }
+}
+
+.bookIcon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.price {
+  display: block;
+  margin: 8px 0;
+  font-weight: bold;
+}
+
+.buyBtn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  background: #0078d4;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+
+  &:hover {
+    background: #005a9e;
+  }
+}
+
+// -----------------------------
+// Search Box
+// -----------------------------
+.search {
+  padding: 10px;
+  width: 260px;
+  max-width: 100%;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  outline: none;
+  margin: 0.5em auto 1em auto;
+  display: block;
+}
+
+.header {
+  font-size: 2em;
+  font-weight: 600;
+  margin-bottom: 1em;
+  text-align: center;
+  color: var(--bodyText);
+}

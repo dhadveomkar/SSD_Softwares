@@ -1,0 +1,72 @@
+.p-inputswitch {
+    height: 20px
+}
+
+.p-inputswitch .p-inputswitch-slider {
+    box-shadow: none;
+    background-color: #797878;
+    color: #f0f0f0
+}
+
+.p-inputswitch .p-inputswitch-slider::before {
+    height: 14px;
+    width: 14px;
+    top: 13px;
+    left: 2px
+}
+
+.p-inputswitch .p-inputswitch-slider:after {
+    content: " NO";
+    position: absolute;
+    right: 8px;
+    top: 3px;
+    font-weight: 500;
+    font-size: 9px
+}
+
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+    background-color: #198754;
+    color: #f0f0f0
+}
+
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider::before {
+    left: 10px
+}
+
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider:after {
+    content: " YES";
+    position: absolute;
+    left: 5px;
+    top: 3px;
+    font-weight: 500;
+    font-size: 9px
+}
+
+.custom-select .p-inputtext {
+    font-size: 12px;
+    padding: 5px 10px;
+    border: none;
+    outline: none
+}
+
+.custom-select .p-dropdown {
+    background: #f5f5f5;
+    box-shadow: none;
+    border: none
+}
+
+.custom-select .p-dropdown .p-icon {
+    width: .75rem
+}
+
+.custom-select .p-dropdown-panel .p-dropdown-items {
+    padding: 0;
+    margin-bottom: 0
+}
+
+.custom-select .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+    padding: 5px 10px;
+    font-size: 12px
+}
+
+/*# sourceMappingURL=lib-styles.css.map */

@@ -1,0 +1,28 @@
+loadWeeklyTimesheets() {
+    this.apiService.getWeeklyTimesheet().subscribe({
+      next: (res: any) => {
+        console.log(res);
+        if (Array.isArray(res) && res.length > 0) {
+          if (this.isManager) {
+            // For manager, we need to get team data asynchronously
+            this.loadManagerTimesheets(res);
+          } else {
+            // For admin and regular users, use existing logic
+            this.processTimesheets(res, this.filterTimesheetsByRole(res));
+          }
+        } else {
+          this.addEmptyRows(0);
+          this.loadLeaveDataForTimesheets();
+          this.calculateColumnTotals();
+        }
+      },
+      error: (err) => {
+        this.addEmptyRows(0);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: err.error?.message || 'Failed to load timesheets.'
+        });
+      }
+    });
+  }    checked this old and give updated function 

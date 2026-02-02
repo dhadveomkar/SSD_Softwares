@@ -1,0 +1,19 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "useGulp": false,
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "22.16.0",
+    "sdksVersions": {},
+    "version": "1.22.1",
+    "libraryName": "omnas-store",
+    "libraryId": "49107a59-7e85-489c-85b7-788271e0fcca",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "omnas-store",
+    "solutionShortDescription": "omnas-store description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

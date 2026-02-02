@@ -1,0 +1,19 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "22.16.0",
+    "sdksVersions": {},
+    "version": "1.21.1",
+    "libraryName": "spfx-dyn-nav",
+    "libraryId": "59a98336-683e-4b8a-b27a-58b7d822533a",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "spfx-dyn-nav",
+    "solutionShortDescription": "spfx-dyn-nav description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "extension",
+    "extensionType": "ApplicationCustomizer"
+  }
+}

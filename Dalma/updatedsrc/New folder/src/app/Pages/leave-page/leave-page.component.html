@@ -1,0 +1,345 @@
+<p-toast></p-toast>
+<div class="leave-page">
+  <div class="title-container">
+    <span class="title">
+      <span class="vertical-line"></span>
+      Apply for Leave
+    </span>
+
+    <!-- <div class="user-selection-container" *ngIf="isAdmin || isManager">
+      <select id="employeeSelect" [(ngModel)]="selectedEmployeeId" (change)="onEmployeeSelect()"
+        class="employee-dropdown">
+        <option value="">-- Select {{ isAdmin ? 'Employee' : 'Team Member' }} --</option>
+        <option *ngFor="let emp of (isAdmin ? allEmployees : employeesUnderManager)" [value]="emp.empId">
+          {{ emp.empId }} - {{ emp.firstName }} {{ emp.lastName }}
+        </option>
+      </select>
+    </div> -->
+
+     <div class="user-selection-container" *ngIf="isAdmin || isManager"> 
+      <p-dropdown #empDropdown [options]="isAdmin ? allEmployees : employeesUnderManager" [(ngModel)]="selectedEmployeeId"
+        (onChange)="onEmployeeSelect()" optionLabel="firstName" [filter]="true"
+        filterBy="firstName,lastName,empId,department,designation"
+        placeholder="Search {{ isAdmin ? 'Employee' : 'Team Member' }}"(onChange)="onEmployeeSelect()"  (onBlur)="checkValidSelection(empDropdown)">
+
+        <ng-template pTemplate="selectedItem">
+          <div *ngIf="selectedEmployee" class="selected-employee">
+            {{ selectedEmployee.empId }} - {{ selectedEmployee.firstName }} {{ selectedEmployee.lastName }}
+          </div>
+        </ng-template>
+
+        <ng-template let-emp pTemplate="item">
+          <div class="employee-option">
+            <div class="employee-main">
+              {{ emp.empId }} - {{ emp.firstName }} {{ emp.lastName }}
+            </div>
+            <!-- <div class="employee-details" *ngIf="emp.department || emp.designation">
+              {{ emp.department }} • {{ emp.designation }}
+            </div> -->
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div> 
+
+  </div>
+  <span class="horizontal-line"></span>
+
+
+  <!-- <div class="leave-form-flex">
+    <div class="leave-form leave-form-block leave-form-block-responsive">
+      <div class="leave-form-row">
+        <span><strong>ID:</strong> {{ userData?.empId }}</span>
+        <span style="margin-left: 18px"><strong>Name:</strong> {{ userData?.firstName }}
+          {{ userData?.lastName }}</span>
+      </div>
+
+      <div class="leave-summary-cards">
+        <div class="card paid-leave">
+          <h3>Paid Leave</h3>
+          <p class="leave-count">{{ leaveTypeCounts.paidLeaveCount }}</p>
+        </div>
+        <div class="card casual-leave">
+          <h3>Casual Leave</h3>
+          <p class="leave-count">{{ leaveTypeCounts.casualLeaveCount }}</p>
+        </div>
+        <div class="card sick-leave">
+          <h3>Sick Leave</h3>
+          <p class="leave-count">{{ leaveTypeCounts.sickLeaveCount }}</p>
+        </div>
+        <div class="card optional-holiday">
+          <h3>Optional Holiday</h3>
+          <p class="leave-count">{{ leaveTypeCounts.optionalHolidayCount }}</p>
+        </div>
+      </div>
+      <div class="leave-form-row leave-form-row-actions">
+        <select [(ngModel)]="newLeave.leaveType">
+          <option value="">Select Leave Type</option>
+          <option *ngFor="let type of leaveTypes">{{ type }}</option>
+        </select>
+        <span><strong>Start Date:</strong></span>
+  <input type="date" [(ngModel)]="newLeave.startDate" (change)="onDateChange('startDate')" [min]="getTodayDate()" />
+        <span><strong>End Date:</strong></span>
+        <input type="date" [(ngModel)]="newLeave.endDate" (change)="onDateChange('endDate')" [min]="minEndDate" />
+        <span><strong>Reason:</strong></span>
+        <textarea rows="2" placeholder="Reason for Leave" [(ngModel)]="newLeave.description"
+          class="leave-reason-textarea"></textarea>
+        <button (click)="submitLeave()" class="submit-btn">Submit</button>
+      </div>
+    </div>
+  </div> -->
+
+
+
+  <!-- Calendar View (shown when showTableView is false) -->
+  <div *ngIf="!showTableView" class="calendar-view">
+    <full-calendar [options]="calendarOptions"></full-calendar>
+  </div>
+
+  <div class="child-container">
+    <div class="leave-table-container" *ngIf="showTableView">
+      <div class="table-action-header">
+        <div class="leave-summary-action-row">
+          <div class="leave-summary-cards">
+            <div class="card paid-leave" (click)="filterByLeaveType('Paid Leave')">
+              <h3>Privileged Leave</h3>
+              <p class="leave-count">{{ leaveTypeCounts.PaidLeaveCount }} / {{ getMaxLeaveCount('Paid Leave') }}</p>
+            </div>
+            <div class="card casual-leave" (click)="filterByLeaveType('Casual Leave')">
+              <h3>Casual / Sick Leave</h3>
+              <p class="leave-count">{{ leaveTypeCounts.casualLeaveCount }} / {{ getMaxLeaveCount('Casual Leave') }}</p>
+            </div>
+            <div class="card optional-holiday" (click)="filterByLeaveType('Optional Holiday')">
+              <h3>Optional / Flexi Holiday</h3>
+              <p class="leave-count">{{ leaveTypeCounts.optionalHolidayCount }} / {{ getMaxLeaveCount('Optional
+                Holiday') }}</p>
+            </div>
+            <div class="card all-leave" [class.active]="!currentFilter" (click)="clearFilter()">
+              <h3>Total</h3>
+              <p class="leave-count">{{ leaveTypeCounts.totalLeaveCount }}</p>
+            </div>
+          </div>
+          <div class="leave-action-btns filter-actions">
+            <button class="action-btn request-btn" (click)="showLeaveRequestModal = true">
+              <i class="fas fa-plus"></i> Leave Request
+            </button>
+            <button class="action-btn edit-btn" (click)="onEditAction()">
+              <i class="fas fa-edit"></i> Edit
+            </button>
+            <button class="action-btn cancel-btn" (click)="onDeleteAction()">
+              <i class="fas fa-times"></i> Cancel
+            </button>
+            <button class="download-btn" (click)="downloadTableAsExcel()">
+              <i class="fas fa-download"></i> Download Excel
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="table-scroll-wrapper">
+        <table class="leave-table" #employeeTable>
+          <thead>
+            <tr>
+              <th>Leave Type</th>
+              <th>Duration</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>No of Days</th>
+              <th>Requested Date</th>
+              <th>Reason</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let leave of filteredLeaveRequests" [class.selected-row]="leave === selectedLeave"
+              [class.disabled-row]="isRowDisabled(leave)" (click)="!isRowDisabled(leave) && selectLeave(leave)">
+              <td>{{ leave.leaveType }}</td>
+              <td>{{ leave.leaveDuration }}</td>
+              <td>{{ leave.startDate | date: 'dd/MM/yyyy' }}</td>
+              <td>{{ leave.endDate | date: 'dd/MM/yyyy' }}</td>
+              <td>{{ leave.leaveCount == 0.5 ? '1/2' : leave.leaveCount }}</td>
+              <td>{{ leave.createdOn | date: 'dd/MM/yyyy' }}</td>
+              <td>{{ leave.description }}</td>
+              <td>
+                <ng-container [ngSwitch]="leave.status">
+                  <span *ngSwitchCase="'Approved'" class="status status-approved">Approved</span>
+                  <span *ngSwitchCase="'Pending'" class="status status-pending">Pending</span>
+                  <span *ngSwitchCase="'Rejected'" class="status status-rejected">Rejected</span>
+                  <span *ngSwitchDefault class="status">{{ leave.status }}</span>
+                </ng-container>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Delete Confirmation Popup -->
+    <div class="modal-overlay" *ngIf="showDeleteConfirm">
+      <div class="modal-content confirm-delete-modal">
+        <h3>Confirm Cancel</h3>
+        <p>Are you sure you want to cancel this leave request?</p>
+        <div class="modal-actions center-actions">
+          <button class="submit-btn" (click)="confirmDeleteLeave()">Yes</button>
+          <button class="reset-btn" (click)="cancelDeleteLeave()">No</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Unified Modal for Create/Edit/View Leave Request -->
+
+
+    <!-- Unified Modal for Create/Edit/View Leave Request -->
+    <div class="modal-overlay" *ngIf="showLeaveRequestModal || showEditModal">
+      <div class="modal-content">
+        <button type="button" class="modal-close-btn"
+          (click)="showLeaveRequestModal ? showLeaveRequestModal = false : closeEditModal()" aria-label="Close">
+          &times;
+        </button>
+          
+        <h3>{{ showEditModal ? (isViewMode ? 'View Leave Request' : 'Edit Leave Request') : 'Leave Request' }}</h3>
+        <div class="modal-field-row">
+          <div class="modal-field">
+            <span><strong>Leave Type:</strong></span>
+            <select [(ngModel)]="editLeave.leaveType" *ngIf="showEditModal; else newLeaveSelect"
+              [disabled]="isViewMode">
+              <option [ngValue]="''">Select Leave Type</option>
+              <ng-container *ngFor="let type of leaveTypes">
+                <option *ngIf="type !== 'Optional Holiday' || showOptionalHolidayOption" [ngValue]="type">{{ type }}
+                </option>
+              </ng-container>
+            </select>
+            <ng-template #newLeaveSelect>
+              <select [(ngModel)]="newLeave.leaveType" [disabled]="isViewMode">
+                <option [ngValue]="''">Select Leave Type</option>
+                <ng-container *ngFor="let type of leaveTypes">
+                  <option *ngIf="type !== 'Optional Holiday' || showOptionalHolidayOption" [ngValue]="type">{{ type }}
+                  </option>
+                </ng-container>
+              </select>
+            </ng-template>
+          </div>
+          <div class="modal-field">
+            <span><strong>Duration:</strong></span>
+            <select [(ngModel)]="editLeave.leaveDuration" *ngIf="showEditModal; else newLeaveDuration"
+              [disabled]="isViewMode || isMultiDayLeave(editLeave)">
+              <option value="">Select Duration</option>
+              <ng-container
+                *ngIf="editLeave.leaveType === 'Optional Holiday' || isMultiDayLeave(editLeave); else normalDurationsEdit">
+                <option value="Full Day">Full Day</option>
+              </ng-container>
+              <ng-template #normalDurationsEdit>
+                <option *ngFor="let duration of leaveDurations" [value]="duration">{{ duration }}</option>
+              </ng-template>
+            </select>
+            <ng-template #newLeaveDuration>
+              <select [(ngModel)]="newLeave.leaveDuration" [disabled]="isViewMode || isMultiDayLeave(newLeave)">
+                <option value="">Select Duration</option>
+                <ng-container
+                  *ngIf="newLeave.leaveType === 'Optional Holiday' || isMultiDayLeave(newLeave); else normalDurationsNew">
+                  <option value="Full Day">Full Day</option>
+                </ng-container>
+                <ng-template #normalDurationsNew>
+                  <option *ngFor="let duration of leaveDurations" [value]="duration">{{ duration }}</option>
+                </ng-template>
+              </select>
+            </ng-template>
+          </div>
+        </div>
+        <div class="modal-field-row">
+          <div class="modal-field">
+            <span><strong>Start Date:</strong></span>
+            <input type="date" [(ngModel)]="editLeave.startDate" *ngIf="showEditModal; else newLeaveStartDate"
+              (change)="onDateChange('startDate')" [min]="getMinStartDate()" [disabled]="isViewMode" />
+            <ng-template #newLeaveStartDate>
+              <input type="date" [(ngModel)]="newLeave.startDate" (change)="onDateChange('startDate')"
+                [min]="getMinStartDate()" [disabled]="isViewMode" />
+            </ng-template>
+          </div>
+          <div class="modal-field">
+            <span><strong>End Date:</strong></span>
+            <input type="date" [(ngModel)]="editLeave.endDate" *ngIf="showEditModal; else newLeaveEndDate"
+              (change)="onDateChange('endDate')" [min]="editLeave.startDate" [disabled]="isViewMode" />
+            <ng-template #newLeaveEndDate>
+              <input type="date" [(ngModel)]="newLeave.endDate" (change)="onDateChange('endDate')"
+                [min]="newLeave.startDate" [disabled]="isViewMode" />
+            </ng-template>
+          </div>
+        </div>
+        <div class="modal-field-row">
+          <div class="modal-field">
+            <span><strong>Approval Name:</strong></span>
+            <select [(ngModel)]="editLeave.approval" *ngIf="showEditModal; else newLeaveApproval" name="approval"
+              [disabled]="isViewMode">
+              <option value="">Select Approval</option>
+              <option *ngFor="let option of approvalOptions" [ngValue]="option">
+                {{ option.name }}
+                <span class="approval-email-option">({{ option.email }})</span>
+              </option>
+            </select>
+            <ng-template #newLeaveApproval>
+              <select [(ngModel)]="newLeave.approval" name="approval" [disabled]="isViewMode">
+                <option value="">Select Approval</option>
+                <option *ngFor="let option of approvalOptions" [ngValue]="option">
+                  {{ option.name }}
+                  <span class="approval-email-option">({{ option.email }})</span>
+                </option>
+              </select>
+            </ng-template>
+          </div>
+        </div>
+        <!--<div class="modal-field-row">
+          <div class="modal-field">
+            <span><strong>Mail Body For Approval:</strong></span>
+            <textarea placeholder="Enter mail body" name="mailBody" class="modal-textarea mail-body-textarea" [(ngModel)]="editLeave.mailBody" *ngIf="showEditModal; else newLeaveMailBody" [readonly]="isViewMode"></textarea>
+            <ng-template #newLeaveMailBody>
+              <textarea placeholder="Enter mail body" name="mailBody" class="modal-textarea mail-body-textarea" [(ngModel)]="newLeave.mailBody" [readonly]="isViewMode"></textarea>
+            </ng-template>
+          </div>
+        </div>
+      -->
+        <div class="modal-field-row">
+        </div>
+        <div class="modal-field-row to-cc-row">
+          <div class="modal-field to-field">
+            <div class="label-note-row">
+              <span><strong>To:</strong></span>
+              <span class="semicolon-note">separate by semicolon</span>
+            </div>
+            <input type="email" placeholder="Enter mail" [(ngModel)]="editLeave.to"
+              *ngIf="showEditModal; else newLeaveTo" name="to" class="full-width-input" [readonly]="isViewMode"/>
+            <ng-template #newLeaveTo>
+              <input type="email" placeholder="Enter mail" [(ngModel)]="newLeave.to" name="to" class="full-width-input"
+                [readonly]="isViewMode" />
+            </ng-template>
+          </div>
+          <div class="modal-field cc-field">
+            <div class="label-note-row">
+              <span><strong>Cc :</strong></span>
+              <span class="semicolon-note">separate by semicolon</span>
+            </div>
+            <input type="email" placeholder="Enter mail" [(ngModel)]="editLeave.cc"
+              *ngIf="showEditModal; else newLeaveCc" name="cc" class="full-width-input" [readonly]="isViewMode" />
+            <ng-template #newLeaveCc>
+              <input type="email" placeholder="Enter mail" [(ngModel)]="newLeave.cc" name="cc" class="full-width-input"
+                [readonly]="isViewMode" />
+            </ng-template>
+          </div>
+        </div>
+        <div class="modal-field">
+          <span><strong>Reason:</strong></span>
+          <textarea placeholder="Reason for Leave" [(ngModel)]="editLeave.description"
+            *ngIf="showEditModal; else newLeaveReason" class="modal-textarea" [readonly]="isViewMode"></textarea>
+          <ng-template #newLeaveReason>
+            <textarea placeholder="Reason for Leave" [(ngModel)]="newLeave.description" class="modal-textarea"
+              [readonly]="isViewMode"></textarea>
+          </ng-template>
+        </div>
+        <div class="leave-form-row" style="justify-content:flex-end;">
+          <button *ngIf="!showEditModal" (click)="submitLeave()" class="submit-btn">Submit</button>
+          <button *ngIf="showEditModal && !isViewMode" (click)="saveEdit()" class="submit-btn">Update</button>
+          <button *ngIf="!showEditModal" type="button" (click)="cancelLeave()" class="cancel-btn"> Cancel </button>
+         
+      </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,530 @@
+<p-toast></p-toast>
+<div class="task-entry-page">
+  <div class="title-container">
+    <span class="title">
+      <span class="vertical-line"></span>
+      {{ showTaskList ? "Task List" : "Task Details" }}
+    </span>
+  </div>
+  <span class="horizontal-line"></span>
+
+  <div class="header-container">
+    <div class="user-info-wrapper">
+      <!-- <div class="user-info">
+        <ng-container
+          *ngIf="
+            selectedEmployeeId && nameList.length > 0;
+            else loggedInUserInfo
+          "
+        >
+          <span
+            ><strong>ID:</strong>
+            {{ selectedEmployeeId || userData?.empId }}</span
+          >
+          <span class="user-margin"
+            ><strong>Name:</strong>
+            {{
+              getSelectedEmployeeName() ||
+                userData.firstName + " " + userData.lastName
+            }}</span
+          >
+          <span
+            ><strong>Date:</strong>
+            {{ todayAttendance.date | date : "yyyy-MM-dd" }}</span
+          >
+        </ng-container>
+        <ng-template #loggedInUserInfo>
+          <span><strong>ID:</strong> {{ userData?.empId }}</span>
+          <span class="user-margin"><strong>Name:</strong> {{ userData?.firstName }}
+            {{ userData?.lastName }}</span>
+          <span class="user-margin"><strong>Date:</strong>
+            {{ todayAttendance.date | date : "yyyy-MM-dd" }}</span>
+        </ng-template>
+      </div> -->
+      <div *ngIf="!showTaskList" class="employee-select-relative employee-select-row">
+        <label for="employeeSearchSelect" class="employee-search-label">Search :</label>
+        <div class="employee-search-dropdown" style="position: relative;">
+          <input id="employeeSearchInput" class="custom-select" type="text" placeholder="Search Employee"
+            [(ngModel)]="employeeSearchText" (input)="filterEmployeeOptions()" autocomplete="off" style="width:100%;" />
+          <div class="employee-options-scroll" *ngIf="filteredEmployeeOptions.length > 0">
+            <div *ngFor="let user of filteredEmployeeOptions" (click)="selectEmployeeOption(user)"
+              [class.selected]="user.empId === selectedEmployeeId">
+              {{ user.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="date-filter">
+        <div class="start-date-filter">
+        <label>Start Date:</label>
+        <input type="date" [(ngModel)]="filterStartDate" />
+        </div>
+
+        <div class="end-date-filter">
+        <label>End Date:</label>
+        <input type="date" [(ngModel)]="filterEndDate" />
+        </div>
+        <div class="apply-filter-btn">
+        <button (click)="applyDateFilter()">Apply Filter</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="button-row" style="display: flex; gap: 10px; align-items: center">
+      <button *ngIf="
+          !showTaskList &&
+          (!selectedEmployeeId || selectedEmployeeId === userData?.empId)
+        " class="create-btn" (click)="openCreateTaskModal()">
+        Create
+      </button>
+
+      <!-- Upload Excel button -->
+      <button class="upload-btn upload-btn-margin" type="button" (click)="openUploadExcelModal()">
+        Upload Excel
+      </button>
+
+      <button *ngIf="!showTaskList" class="download-btn download-btn-margin" (click)="downloadTasksAsExcel()">
+        Download Excel
+      </button>
+    </div>
+
+    <!-- Task Create Modal Popup -->
+    <div *ngIf="showTaskModal" class="modal-backdrop">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>Task Request Form</h4>
+          <button class="btn btn-danger" style="float: right" (click)="showTaskModal = false; resetTaskModal()">
+            &times;
+          </button>
+        </div>
+        <form #taskCreateForm="ngForm" (ngSubmit)="isEditMode ? onUpdateTaskModal() : submitTaskModal()" [ngClass]="{
+            'readonly-modal':
+              isEditMode &&
+              selectedEmployeeId &&
+              selectedEmployeeId !== userData?.empId
+          }">
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Task Details</label>
+              <input type="text" class="form-control" [(ngModel)]="modalTask.taskDetails" name="modalTaskDetails"
+                required #taskDetails="ngModel" [readonly]="
+                  (isModalReadOnly && !isEditMode) ||
+                  (isEditMode &&
+                    selectedEmployeeId &&
+                    selectedEmployeeId !== userData?.empId)
+                " />
+              <div *ngIf="
+                  taskDetails.invalid &&
+                  (taskDetails.touched ||
+                    taskDetails.dirty ||
+                    taskCreateForm.submitted)
+                " class="text-danger small">
+                Task Details is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Start Date</label>
+              <input type="date" class="form-control" [(ngModel)]="modalTask.startDate" name="modalStartDate" required
+                #startDate="ngModel" [readonly]="
+                  (isModalReadOnly && !isEditMode) ||
+                  (isEditMode &&
+                    selectedEmployeeId &&
+                    selectedEmployeeId !== userData?.empId)
+                " (change)="onStartDateChange(modalTask)" (input)="onStartDateInput($event)" />
+              <div *ngIf="
+                  startDate.invalid &&
+                  (startDate.touched || taskCreateForm.submitted)
+                " class="text-danger small">
+                Start Date is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <label>End Date</label>
+              <input type="date" class="form-control" [(ngModel)]="modalTask.endDate" name="modalEndDate" required
+                #endDate="ngModel" [readonly]="
+                  (isModalReadOnly && !isEditMode) ||
+                  (isEditMode &&
+                    selectedEmployeeId &&
+                    selectedEmployeeId !== userData?.empId)
+                " (change)="onEndDateChange(modalTask)" [min]="modalTask.startDate" (input)="onEndDateInput($event)" />
+              <div *ngIf="
+                  endDate.invalid &&
+                  (endDate.touched || endDate.dirty || taskCreateForm.submitted)
+                " class="text-danger small">
+                End Date is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Estimated Hours</label>
+              <input type="number" class="form-control" [(ngModel)]="modalTask.estimatedHours"
+                name="modalEstimatedHours" min="0" required #estimatedHours="ngModel" [readonly]="
+                  (isModalReadOnly && !isEditMode) ||
+                  (isEditMode &&
+                    selectedEmployeeId &&
+                    selectedEmployeeId !== userData?.empId)
+                " inputmode="numeric" pattern="[0-9]" onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                style="ime-mode: disabled" />
+              <div *ngIf="
+                  estimatedHours.invalid &&
+                  (estimatedHours.touched ||
+                    estimatedHours.dirty ||
+                    taskCreateForm.submitted)
+                " class="text-danger small">
+                Estimated Hours is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select class="form-control dark-input" [(ngModel)]="modalTask.status" name="modalStatus" required
+                #modalStatus="ngModel">
+                <option value="To Do">To Do</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Complete">Complete</option>
+              </select>
+              <div *ngIf="
+                  modalStatus.invalid &&
+                  (modalStatus.touched ||
+                    modalStatus.dirty ||
+                    taskCreateForm.submitted)
+                " class="text-danger small">
+                Status is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Comment</label>
+              <textarea class="form-control" [(ngModel)]="modalTask.comment" name="modalComment" [readonly]="
+                  (isModalReadOnly && !isEditMode) ||
+                  (isEditMode &&
+                    selectedEmployeeId &&
+                    selectedEmployeeId !== userData?.empId)
+                "></textarea>
+            </div>
+          </div>
+          <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 10px">
+            <button type="submit" class="btn btn-primary" *ngIf="
+                !(
+                  isEditMode &&
+                  selectedEmployeeId &&
+                  selectedEmployeeId !== userData?.empId
+                )
+              ">
+              {{ isEditMode ? "Update" : "Save" }}
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="resetTaskModal()" *ngIf="
+                !(
+                  isEditMode &&
+                  selectedEmployeeId &&
+                  selectedEmployeeId !== userData?.empId
+                )
+              ">
+              Reset
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Upload Excel Modal Popup -->
+    <!-- Upload Excel Modal Popup -->
+    <div *ngIf="showUploadExcelModal" class="upload-modal">
+      <div class="upload-modal-content">
+        <div class="upload-modal-header">
+          <span class="upload-modal-title">Upload Daily Tasks Excel</span>
+          <button class="upload-modal-close" (click)="closeUploadExcelModal()">&times;</button>
+        </div>
+
+        <div class="upload-modal-body">
+          <div class="upload-modal-info">
+            Download a sample <a href="assets\Files\Task_Details.xlsx" download>.xlsx format</a> file and compare
+            it
+            with your import file to ensure that the file is ready to import.
+          </div>
+
+          <div class="upload-drop-area" (drop)="onFileDrop($event)" (dragover)="$event.preventDefault()"
+            (dragleave)="$event.preventDefault()">
+            <input type="file" #dailyTaskExcelInput accept=".xlsx,.xls" style="display: none"
+              (change)="onDailyTaskFileSelected($event)" />
+            <div (click)="dailyTaskExcelInput.click()" class="upload-drop-text">
+              <span class="upload-drop-icon">&#8682;</span>
+              <div>Drop files here or click here to upload</div>
+              <div class="upload-drop-desc">Maximum File Size: 5 MB | File Format: XLSX or XLS</div>
+            </div>
+
+            <!-- Selected file name display -->
+            <div *ngIf="selectedDailyTaskFile" class="uploaded-file-info" style="margin-top: 1rem;">
+              <span style="font-weight: 600;">Selected File:</span>
+              <span style="color: #4B5CF6; margin-left: 8px;">
+                {{ selectedDailyTaskFile.name }}
+              </span>
+            </div>
+
+            <!-- Validation message -->
+            <div *ngIf="fileValidationMessage" class="text-danger" style="margin-top: 0.5rem;">
+              {{ fileValidationMessage }}
+            </div>
+
+            <!-- Progress bar -->
+            <div *ngIf="uploadProgress >= 0" class="progress-container" style="margin-top: 1rem;">
+              <div class="progress-bar" [style.width.%]="uploadProgress">
+                {{ uploadProgress }}%
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="upload-modal-footer">
+          <button type="button" class="proceed-btn upload-modal-action" (click)="uploadDailyTaskExcel()"
+            [disabled]="!selectedDailyTaskFile || isUploading">
+            {{ isUploading ? 'Uploading...' : 'Upload' }}
+          </button>
+          <button type="button" class="cancel-btn upload-modal-action" (click)="closeUploadExcelModal()"
+            [disabled]="isUploading">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="pending-module" *ngIf="showCard">
+      <div class="card toast-center bg-dark text-light shadow-lg">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="pending-search">
+              <input type="date" [(ngModel)]="pendingSearchDate" class="form-control dark-input"
+                placeholder="Filter by date" (change)="filterPendingDates()" />
+            </div>
+            <h5 class="card-title mb-0">Pending Tasks</h5>
+            <button type="button" class="btn-close btn-close-white" (click)="showCard = false"
+              aria-label="Close"></button>
+          </div>
+
+          <!-- Pending Dates List (centered) -->
+          <div class="pending-dates-container" *ngIf="!showPendingTaskForm">
+            <div class="pending-dates-list mb-3" *ngIf="filteredPendingDates.length > 0">
+              <div class="pending-date-item" *ngFor="let date of filteredPendingDates">
+                <span>{{ date | date : "yyyy-MM-dd" }}</span>
+                <button class="btn btn-sm btn-outline-light" (click)="loadPendingTasksForm(date)">
+                  <i class="fas fa-plus"></i> Attend
+                </button>
+              </div>
+            </div>
+            <div *ngIf="filteredPendingDates.length === 0" class="text-center py-3">
+              No pending task dates found.
+            </div>
+          </div>
+
+          <!-- Pending Attendance Form -->
+          <div class="pending-form-container" *ngIf="showPendingTaskForm">
+            <form (ngSubmit)="submitPendingTask()" #taskForm="ngForm">
+              <div class="mb-3">
+                <label for="taskDate" class="form-label text-light">Date</label>
+                <input type="date" id="taskDate" class="form-control dark-input" [(ngModel)]="taskData.date" name="date"
+                  required />
+              </div>
+
+              <div class="mb-3">
+                <label for="taskDetails" class="form-label text-light">Task Details</label>
+                <textarea id="taskDetails" class="form-control dark-input" [(ngModel)]="taskData.taskDetails"
+                  name="taskDetails" rows="3" required></textarea>
+              </div>
+
+              <div class="mb-3">
+                <label for="estimatedHours" class="form-label text-light">Estimated Hours</label>
+                <input type="number" id="estimatedHours" class="form-control dark-input"
+                  [(ngModel)]="taskData.estimatedHours" name="estimatedHours" min="0" step="0.5" required />
+              </div>
+
+              <div class="mb-3">
+                <label for="completedHours" class="form-label text-light">Completed Hours</label>
+                <input type="number" id="completedHours" class="form-control dark-input"
+                  [(ngModel)]="taskData.completedInHours" name="completedInHours" min="0" step="0.5" required />
+              </div>
+
+              <div class="mb-4">
+                <label for="comment" class="form-label text-light">Comment</label>
+                <textarea id="comment" class="form-control dark-input" [(ngModel)]="taskData.comment" name="comment"
+                  rows="2"></textarea>
+              </div>
+
+              <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-outline-light" [disabled]="!taskForm.valid">
+                  Submit
+                </button>
+                <button type="button" class="btn btn-outline-light" (click)="cancelPendingForm()">
+                  Cancel
+                </button>
+              </div>
+            </form>
+
+            <div *ngIf="pendingDates.length === 0 && !showPendingTaskForm" class="text-center py-3 text-light">
+              No tasks found.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Three horizontally aligned boxes, each with a table -->
+  <div *ngIf="!showTaskList && !showCalendar " class="task-flex-row">
+    <!-- Box 1: TO DO heading and button -->
+    <div class="task-box">
+      <div class="task-box-header">
+        <h3 class="task-box-title">TO DO</h3>
+      </div>
+      <!-- My To Do Tasks Card/List Style -->
+      <div class="my-all-tasks-list" *ngIf="myToDoTasks.length > 0">
+        <div class="todo-header">
+          <span class="user-name">
+            <i class="pi pi-user"></i>
+            {{
+            getSelectedEmployeeName() ||
+            userData.firstName + " " + userData.lastName
+            }}
+          </span>
+          <span class="work-item-count">({{ myToDoTasks.length }} to do point{{
+            myToDoTasks.length > 1 ? "s" : ""
+            }})</span>
+        </div>
+        <div class="my-task-card-list">
+          <div *ngFor="let task of myToDoTasks" class="my-task-card" (click)="openTaskDetailsModal(task)"
+            style="cursor: pointer">
+            <div style="flex: 1">
+              <div class="task-title">{{ task.taskDetails }}</div>
+              <div class="task-date">
+                <i class="pi pi-calendar"></i>
+                {{ task.startDate | date : "yyyy-MM-dd" }}
+              </div>
+              <div class="task-hours">
+                <i class="pi pi-clock"></i> {{ task.estimatedHours }}h
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="myToDoTasks.length === 0" class="small orange-text">
+        No tasks found for you.
+      </div>
+    </div>
+    <!-- Box 2: IN PROGRESS -->
+    <div class="task-box">
+      <div class="task-box-header">
+        <h3 class="task-box-title">IN PROGRESS</h3>
+      </div>
+      <div class="my-all-tasks-list" *ngIf="myPendingTasks.length > 0">
+        <div class="todo-header">
+          <span class="user-name">
+            <i class="pi pi-user"></i>
+            {{
+            getSelectedEmployeeName() ||
+            userData.firstName + " " + userData.lastName
+            }}
+          </span>
+          <span class="work-item-count">({{ myPendingTasks.length }} working point{{
+            myPendingTasks.length > 1 ? "s" : ""
+            }})</span>
+        </div>
+        <div class="my-task-card-list">
+          <div *ngFor="let task of myPendingTasks" class="my-task-card" (click)="openTaskDetailsModal(task)"
+            style="cursor: pointer">
+            <div style="flex: 1">
+              <div class="task-title">{{ task.taskDetails }}</div>
+              <div class="task-date">
+                <i class="pi pi-calendar"></i>
+                {{ task.startDate | date : "yyyy-MM-dd" }}
+              </div>
+              <div class="task-hours">
+                <i class="pi pi-clock"></i> {{ task.estimatedHours }}h
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="myPendingTasks.length === 0" class="small orange-text">
+        No in progress tasks found.
+      </div>
+    </div>
+    <!-- Box 3: DONE -->
+    <div class="task-box">
+      <div class="task-box-header">
+        <h3 class="task-box-title">DONE</h3>
+      </div>
+      <div class="my-all-tasks-list" *ngIf="myCompleteTasks.length > 0">
+        <div class="todo-header">
+          <span class="user-name">
+            <i class="pi pi-user"></i>
+            {{
+            getSelectedEmployeeName() ||
+            userData.firstName + " " + userData.lastName
+            }}
+          </span>
+          <span class="work-item-count">({{ myCompleteTasks.length }} complete point{{
+            myCompleteTasks.length > 1 ? "s" : ""
+            }})</span>
+        </div>
+        <div class="my-task-card-list">
+          <div *ngFor="let task of myCompleteTasks" class="my-task-card" (click)="openTaskDetailsModal(task)"
+            style="cursor: pointer">
+            <div style="flex: 1">
+              <div class="task-title">{{ task.taskDetails }}</div>
+              <div class="task-date">
+                <i class="pi pi-calendar"></i>
+                {{ task.startDate | date : "yyyy-MM-dd" }}
+              </div>
+              <div class="task-hours">
+                <i class="pi pi-clock"></i> {{ task.estimatedHours }}h
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="myCompleteTasks.length === 0" class="small orange-text">
+        No completed tasks found.
+      </div>
+    </div>
+
+    <div *ngIf="!showTaskList && showCalendar" class="table-structure calendar-view">
+      <full-calendar [options]="calendarOptions"></full-calendar>
+    </div>
+
+    <!-- Read-only Task List Table -->
+    <div *ngIf="showTaskList" class="table-structure">
+      <table class="task-table">
+        <thead>
+          <tr>
+            <th>Task Details</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Estimated Hours</th>
+            <th>Completed In Hours</th>
+            <th>Comment</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let task of taskList">
+            <td>{{ task.taskDetails }}</td>
+            <td>{{ task.startDate | date : "yyyy-MM-dd" }}</td>
+            <td>{{ task.endDate | date : "yyyy-MM-dd" }}</td>
+            <td>{{ task.estimatedHours }}</td>
+            <td>{{ task.completedInHours }}</td>
+            <td>{{ task.comment }}</td>
+            <!-- <td>{{ task.status }}</td> -->
+            <td>
+              <span class="status-badge" [ngClass]="{
+                  pending: task.status === 'Pending',
+                  approved: task.status === 'Approved',
+                  rejected: task.status === 'Rejected'
+                }">
+                {{ task.status }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+{
+    "type": "AdaptiveCard",
+    "$schema": "https://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.5",
+    "speak": "Car brands available are Maruti Suzuki, Hyundai, and Tata Motors. Each brand includes a link to its official website.",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Car Brands",
+            "weight": "Bolder",
+            "size": "Large",
+            "horizontalAlignment": "Center"
+        },
+        {
+            "type": "ColumnSet",
+            "horizontalAlignment": "Center",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "auto",
+                    "horizontalAlignment": "Center",
+                    "items": [
+                        {
+                            "type": "Image",
+                            "url": "https://img.icons8.com/color/96/suzuki.png",
+                            "size": "Small",
+                            "horizontalAlignment": "Center"
+                        },
+                        {
+                            "type": "TextBlock",
+                            "text": "Maruti Suzuki",
+                            "horizontalAlignment": "Center",
+                            "weight": "Bolder",
+                            "wrap": true
+                        },
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.OpenUrl",
+                                    "title": "Visit Website",
+                                    "url": "https://www.marutisuzuki.com"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "auto",
+                    "horizontalAlignment": "Center",
+                    "items": [
+                        {
+                            "type": "Image",
+                            "url": "https://img.icons8.com/color/96/hyundai.png",
+                            "size": "Small",
+                            "horizontalAlignment": "Center"
+                        },
+                        {
+                            "type": "TextBlock",
+                            "text": "Hyundai",
+                            "horizontalAlignment": "Center",
+                            "weight": "Bolder",
+                            "wrap": true
+                        },
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.OpenUrl",
+                                    "title": "Visit Website",
+                                    "url": "https://www.hyundai.com/in/en"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "auto",
+                    "horizontalAlignment": "Center",
+                    "items": [
+                        {
+                            "type": "Image",
+                            "url": "https://img.icons8.com/external-tal-revivo-color-tal-revivo/48/external-tata-motors-limited-an-indian-multinational-automotive-manufacturing-company-automotive-color-tal-revivo.png",
+                            "size": "Small",
+                            "horizontalAlignment": "Center"
+                        },
+                        {
+                            "type": "TextBlock",
+                            "text": "Tata Motors",
+                            "horizontalAlignment": "Center",
+                            "weight": "Bolder",
+                            "wrap": true
+                        },
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.OpenUrl",
+                                    "title": "Visit Website",
+                                    "url": "https://www.tatamotors.com"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

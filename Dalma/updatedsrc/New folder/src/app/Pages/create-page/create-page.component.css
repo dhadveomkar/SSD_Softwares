@@ -1,0 +1,507 @@
+/* Upload Modal Footer and Action Buttons */
+.upload-modal-footer {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: 20px;
+  width: 100%;
+}
+.upload-modal-action {
+  min-width: 90px;
+  font-size: 0.95rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  height: 34px;
+  padding: 6px 18px;
+  margin-right: 4px;
+}
+.proceed-btn.upload-modal-action {
+  background-color: #4B5CF6;
+  color: #fff;
+}
+.proceed-btn.upload-modal-action:hover {
+  background-color: #3448fa;
+}
+.cancel-btn.upload-modal-action {
+  background-color: #e53935;
+  color: #fff;
+}
+.cancel-btn.upload-modal-action:hover {
+  background-color: #b71c1c;
+}
+/* Upload Modal Styles */
+.upload-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.25);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+.upload-modal-content {
+  margin-top: 55px;
+}
+.upload-modal-content {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  max-width: 800px;
+  width: 95vw;
+  min-width: 500px;
+  padding: 2.2rem 2.2rem 1.5rem 2.2rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.upload-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.8rem;
+  width: 100%;
+}
+.upload-modal-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #272727;
+}
+.upload-modal-close {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #e53935;
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  z-index: 10;
+  padding: 0;
+  line-height: 1;
+}
+.upload-modal-info {
+  font-size: 0.95rem;
+  color: #444;
+  margin-bottom: 1.2rem;
+}
+.upload-modal-info a {
+  color: #4B5CF6;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.upload-drop-area {
+  border: 2px dashed #4B5CF6;
+  border-radius: 8px;
+  background: #f7f8fa;
+  padding: 2rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.upload-drop-area:hover {
+  border-color: #3448fa;
+}
+.upload-drop-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.upload-drop-icon {
+  font-size: 2.2rem;
+  color: #4B5CF6;
+}
+.upload-drop-desc {
+  font-size: 0.85rem;
+  color: #888;
+}
+/* Reduce gap for last row fields */
+.form-row-last {
+  gap: 1rem !important;
+}
+/* Reporting Manager field styles */
+.reporting-manager-label {
+  margin-left: 0;
+  font-weight: 600;
+}
+.reporting-manager-select {
+  width: 100%;
+  margin-left: 0;
+}
+.reporting-manager-error {
+  margin-left: 0;
+}
+
+/* Password field styles */
+.password-label {
+  margin-left: 0;
+  font-weight: 600;
+}
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.password-input {
+  width: 100%;
+  margin-left: 0;
+}
+.toggle-password-btn {
+  position: absolute;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.toggle-password-icon {
+  font-size: 1.2em;
+}
+
+.toggle-password-btn:hover {
+  color: #495057;
+}
+
+.toggle-password-icon .pi {
+  font-size: 1.1rem;
+}
+
+.password-error {
+  margin-left: 0;
+}
+  /* Decrease font size for select options */
+  .form-group select option {
+    font-size: 0.8rem;
+  }
+.text-danger {
+  font-size: 0.7rem;
+}
+/* Responsive styles for create page */
+@media (max-width: 1200px) {
+  .form-row {
+    gap: 1rem;
+  }
+  .child-container {
+    margin: 1.5rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .form-container {
+    height: auto;
+    padding-bottom: 2rem;
+  }
+  .child-container {
+    margin: 1rem;
+  }
+  .form-row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .form-group {
+    min-width: 180px;
+    width: 100%;
+  }
+
+}
+
+@media (max-width: 600px) {
+  .form-container {
+    height: auto;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    overflow-y: auto;
+    min-height: 100vh;
+    max-height: 100vh;
+    padding-bottom: 90px; /* Prevent overlap with fixed buttons */
+    overflow-x: hidden;
+  }
+  .child-container {
+    margin: 0.5rem 0.2rem 0.5rem 0.2rem;
+  padding-bottom: 10px; /* Prevent overlap with fixed buttons */
+  overflow-x: hidden;
+  }
+  .form-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .form-group {
+    min-width: 120px;
+    width: 100%;
+  }
+  .title-container {
+    padding: 0.2rem;
+  }
+  .buttons {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    background: #272727;
+    z-index: 999;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 0.5rem;
+    box-sizing: border-box;
+  }
+}
+  body {
+    margin: 0;
+    background-color: #ffffff;
+    color: #272727;
+  }
+ 
+  .form-container {
+    position: relative;
+    max-width: 100%;
+    height: 100vh;
+    margin: 0px auto;
+    background-color: #ffffff;
+  }
+ 
+  .title-container {
+    position: relative;
+    max-width: 100%;
+    /* height: 86vh; */
+    padding: 0.4rem;
+    background-color: rgb(8, 8, 8); 
+  }
+ 
+  .title {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: #fdfcfc;
+    font-weight: 800;
+  }
+ 
+  .horizontal-line {
+    display: block;
+    height: 0.5px;
+    background-color: #6d6c6c;
+    width: 100%;
+  }
+.child-container{
+  margin: 0.5rem 0.2rem 0.5rem 0.2rem;
+  overflow-y: auto;
+  max-height: 60vh;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(60,60,60,0.04);
+  padding: 1.2rem 1.2rem 0.8rem 1.2rem;
+}
+
+@media (max-width: 900px) {
+  .child-container {
+    margin-top: 1rem;
+  }
+}
+  .form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+ 
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.4rem;
+    padding: 6px 12px;
+  }
+ 
+  .buttons .form-actions {
+    margin: 0;
+  }
+ 
+  .vertical-line {
+    display: inline-block;
+    width: 4px;
+    /* Line thickness */
+    height: 25px;
+    /* Line height */
+    background-color: #4B5CF6;
+    /* Light blue color */
+    margin-right: 10px;
+    /* Spacing from text */
+    border-radius: 2px;
+    /* Rounded corners if needed */
+  }
+ 
+  .buttons button {
+    font-size: 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    height: 32px;
+    min-width: 70px;
+    padding: 4px 10px;
+  }
+
+   .buttons .upload-btn {
+     background-color: #4B5CF6;
+    color: white;
+  }
+ 
+  .buttons .upload-btn:hover {
+    background-color: #3448fa;
+  }
+ 
+  .buttons .submit-btn {
+    background-color: #007acc;
+    color: white;
+  }
+ 
+  .buttons .submit-btn:hover {
+    background-color: #005fa3;
+  }
+ 
+  .buttons .reset-btn {
+    background-color: rgb(248, 81, 81);
+    color: white;
+  }
+ 
+  .buttons .reset-btn:hover {
+    background-color:rgb(249, 66, 66);
+  }
+ 
+  .form-row {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+ 
+  .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 250px;
+  }
+ 
+  .form-group label {
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #000000;
+    .title-container {
+      padding: 0.2rem;
+    }
+    font-size: 0.8rem;
+  }
+ 
+ 
+  .form-group ::placeholder {
+    color: black;
+    font-size: 0.8rem;
+  }
+ 
+  .form-group input,
+  .form-group select {
+    padding: 10px 10px;
+    font-size: 0.8rem;
+    border: solid 1px #606060;
+    background-color: white;
+    color: #000000;
+    border-radius: 3px;
+    height: 40px;
+    box-sizing: border-box;
+    text-align: left;
+  }
+
+/* Responsive buttons styles for small screens */
+@media (max-width: 600px) {
+  .buttons {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    background: #272727;
+    z-index: 999;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0;
+    padding: 0.8rem 0.5rem;
+    box-sizing: border-box;
+  }
+  .buttons .form-actions {
+    width: auto;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+  }
+  .buttons button {
+    min-width: 100px;
+    font-size: 1rem;
+    padding: 8px 16px;
+  }
+}
+
+  /* Ensure datepicker text is black */
+  .form-group input[type="date"] {
+    color: #000000;
+    font-size: 0.8rem;
+  }
+ 
+  /* .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: #007acc;
+    background-color: #333;
+  } */
+ 
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    gap: 0.6rem !important;
+  }
+ 
+  .form-actions button {
+    background-color: #007acc;
+    color: white;
+    padding: 4px 10px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    height: 32px;
+    min-width: 70px;
+    transition: background-color 0.3s ease;
+  }
+ 
+  .form-actions button:hover {
+    background-color: #005fa3;
+  }
+ 
+  .custom-date-input::-webkit-calendar-picker-indicator {
+    filter: none;
+    color: #000000;
+    opacity: 1;
+    cursor: pointer;
+  }
+ 
+  /* Optional: Improve input styling */
+  .custom-date-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: white;
+  }

@@ -1,0 +1,2329 @@
+/* Mobile-First Responsive Styles */
+
+/* Base Mobile Styles */
+.weekly-timesheet-page {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: #fff;
+  /* padding: 5px; */
+}
+
+.weekly-timesheet-container {
+  padding: 10px;
+  background: #fff;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+  width: 100%;
+}
+
+/* Title Container */
+.title-container {
+  position: relative;
+  width: 100%;
+  padding: 0.6rem;
+  background-color: rgb(8, 8, 8);
+  margin-bottom: 10px;
+}
+
+.title {
+  display: flex;
+  font-weight: 800;
+  align-items: center;
+  font-size: 1rem;
+  color: #f0f0f0;
+}
+
+.vertical-line {
+  display: inline-block;
+  width: 3px;
+  height: 20px;
+  background-color: #4B5CF6;
+  margin-right: 8px;
+  border-radius: 2px;
+}
+
+/* Header Layout */
+.weekly-timesheet-header {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.company-header {
+  width: 100%;
+}
+
+.company-name {
+  font-weight: bold;
+  font-size: 14px;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  background-color: #61CBF3;
+  border: 2px solid #000000;
+  color: #000;
+}
+
+.logo-timesheet-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.logo-section {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.company-logo {
+  width: 120px;
+  height: auto;
+  object-fit: contain;
+  padding: 10px;
+  background-color: #61CBF3;
+  border: 2px solid #000000;
+  border-top: none;
+}
+
+.timesheet-title {
+  width: 100%;
+  height: 50px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #006699;
+  padding: 10px;
+  background-color: #DAF2D0;
+  border: 2px solid #000000;
+  border-top: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.header-Week-No{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Leave Table - Mobile Optimized */
+.leave-table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin-bottom: 15px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.leave-table {
+  width: 100%;
+  min-width: 350px;
+  border: 1px solid #333;
+}
+
+.leave-header-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 0.8fr 0.8fr;
+  background-color: #006699;
+  color: white;
+  font-weight: bold;
+  border-bottom: 1px solid #333;
+}
+
+.leave-header-row span {
+  padding: 6px 3px;
+  text-align: center;
+  border-right: 1px solid #555;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.leave-data-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 0.8fr 0.8fr;
+  border-bottom: 1px solid #ddd;
+}
+
+.leave-data-row:last-child {
+  border-bottom: none;
+}
+
+.leave-data-row span {
+  padding: 5px 3px;
+  font-size: 10px;
+  min-height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #ddd;
+  text-align: center;
+}
+
+.leave-data-row span:last-child {
+  border-right: none;
+}
+
+.leave-data-row span:nth-child(1) {
+  justify-content: flex-start;
+  text-align: left;
+  padding-left: 6px;
+  font-weight: bold;
+}
+
+.leave-data-row span:nth-child(2) {
+  justify-content: flex-start;
+  text-align: left;
+  padding-left: 6px;
+}
+
+.leave-data-row:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.leave-data-row:nth-child(odd) {
+  background-color: #fff;
+}
+
+/* Timesheet Table - Mobile Optimized */
+.timesheet-table-container {
+  border: 1px solid #b6b5b5;
+  width: 95%;
+ -webkit-overflow-scrolling: touch;
+  margin: 10px;
+
+
+  
+}
+
+@media (max-width: 1024px) {
+  .timesheet-table-container {
+    overflow-x: auto;
+  }
+}
+.timesheet-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px; /* Reduced from 1200px for better mobile experience */
+}
+
+.timesheet-header-row {
+  background-color: #006699;
+  color: white;
+  font-weight: bold;
+  position: sticky;
+  left: 0;
+}
+
+.timesheet-header-row th {
+  padding: 6px 3px;
+  text-align: center;
+  border-right: 1px solid #555;
+  font-size: 10px;
+  position: relative;
+  min-width: 45px;
+}
+
+/* Employee Name column slightly increased (1st column) */
+.timesheet-header-row th:nth-child(1) {
+  min-width: 80px;
+  width: 80px;
+}
+
+/* Fiscal Week column INCREASED (3rd column) */
+.timesheet-header-row th:nth-child(3) {
+  min-width: 90px;
+  width: 90px;
+}
+
+/* Project Name column slightly decreased (5th column) */
+.timesheet-header-row th:nth-child(5) {
+  min-width: 120px;
+  width: 120px;
+}
+
+.timesheet-header-row th:last-child {
+  border-right: none;
+}
+
+.timesheet-data-row {
+  border-bottom: 1px solid #ddd;
+}
+
+.timesheet-data-row:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.timesheet-data-row:nth-child(odd) {
+  background-color: #fff;
+}
+
+.timesheet-data-row td {
+  padding: 0;
+  text-align: center;
+  border-right: 1px solid #ddd;
+  font-size: 9px;
+  min-height: 2px;
+  vertical-align: middle;
+  min-width: 45px;
+}
+
+/* Employee Name column slightly increased in data rows (1st column) */
+.timesheet-data-row td:nth-child(1) {
+  min-width: 80px;
+  width: 80px;
+}
+
+/* Fiscal Week column INCREASED in data rows (3rd column) */
+.timesheet-data-row td:nth-child(3) {
+  min-width: 90px;
+  width: 90px;
+}
+
+/* Project Name column slightly decreased in data rows (5th column) */
+.timesheet-data-row td:nth-child(5) {
+  min-width: 120px;
+  width: 120px;
+}
+
+.timesheet-data-row td:last-child {
+  border-right: none;
+}
+
+/* Input Styles for Mobile */
+.timesheet-input {
+  width: 100%;
+  height: 100%;
+  border-radius: 0 !important;
+  border: none !important;
+  outline: none;
+  text-align: center;
+  font-size: 10px;
+  padding: 5px 2px;
+  background: transparent;
+  min-height: 22px;
+}
+
+.timesheet-input:focus {
+  background-color: #e6f3ff;
+  border: 1px solid #006699 !important;
+}
+
+.timesheet-input[readonly] {
+  background-color: #f5f5f5;
+  color: #666;
+  cursor: not-allowed;
+}
+
+/* Small arrow to indicate a dropdown when a select is visually disabled by app logic */
+.leave-dropdown-container {
+  position: relative;
+}
+.leave-dropdown-container .disabled-select-arrow {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 12px;
+  color: #333;
+  opacity: 0.85;
+}
+
+/* Hide native select arrow when the field is a Holiday (we show only text) */
+.leave-dropdown-container.holiday-disabled select.leave-select {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  background-image: none !important;
+  background: transparent !important;
+  padding-right: 8px !important;
+}
+
+/* For IE/Edge native arrow */
+.leave-dropdown-container.holiday-disabled select.leave-select::-ms-expand {
+  display: none;
+}
+
+/* Ensure the visual arrow (span) is hidden for Holiday as well (redundant guard) */
+.leave-dropdown-container.holiday-disabled .disabled-select-arrow {
+  display: none !important;
+}
+
+/* Total Row - Mobile Optimized */
+.total-container {
+  display: grid;
+  grid-template-columns: 1.5fr 0.8fr 0.8fr 0.8fr 1fr 1.6fr 1.0fr 0.7fr 0.6fr 0.6fr 0.6fr 0.7fr 0.6fr 0.6fr;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  border-bottom: none;
+  width: 100%;
+  min-width: 800px;
+}
+
+.total-container span {
+  padding: 6px 3px;
+  text-align: center;
+  border-right: 1px solid #555;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Employee Name column slightly increased in total container (1st column) */
+.total-container span:nth-child(1) {
+  min-width: 80px;
+  width: 80px;
+}
+
+/* Fiscal Week column INCREASED in total container (3rd column) */
+.total-container span:nth-child(3) {
+  min-width: 90px;
+  width: 90px;
+}
+
+/* Project Name column slightly decreased in total container (5th column) */
+.total-container span:nth-child(5) {
+  min-width: 120px;
+  width: 120px;
+}
+
+.total-container span:last-child {
+  border-right: none;
+}
+
+/* Add Row Container - Mobile Optimized */
+.add-row-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.add-row-corner {
+  position: relative;
+  top: 0;
+  right: 0;
+  align-self: flex-end;
+}
+
+.add-row-btn {
+  background-color: #007acc;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.add-row-btn:hover {
+  background-color: #005fa3;
+  transform: scale(1.05);
+}
+
+/* Button Container - Mobile Optimized */
+.add-button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 80px;
+  width: 100%;
+}
+
+.save-row-btn, .upload-btn {
+  background-color: #007acc;
+  color: white;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.upload-btn {
+  background-color: #4B5CF6;
+}
+
+.save-row-btn:hover {
+  background-color: #005fa3;
+}
+
+.upload-btn:hover {
+  background-color: #3448fa;
+}
+
+.save-row-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Week Dropdown - Mobile Optimized */
+.week-dropdown-container {
+  position: relative;
+  width: 100%;
+  font-size: 0.7rem;
+}
+.search-button button {
+  font-size: 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  height: 32px;
+  min-width: 70px;
+  padding: 4px 10px;
+  background-color: #007acc;
+  color: white;
+}
+
+.search-button button:hover {
+  background-color: #005fa3;
+}
+
+.search-button .apply-btn {
+  background-color: #4B5CF6;
+}
+
+.search-button .apply-btn:hover {
+  background-color: #3448fa;
+}
+
+.selected-row {
+    background: #e0f7fa !important;
+    color: #000 !important;
+}
+
+/* If you need more specific targeting for table rows */
+.timesheet-data-row.selected-row {
+    background: #e0f7fa !important;
+    color: #000 !important;
+}
+
+/* Ensure the background color applies to all cells in the selected row */
+.timesheet-data-row.selected-row td {
+    background: #e0f7fa !important;
+    color: #000 !important;
+}
+
+/* If you're using any border or other styles, make sure they work with the selected state */
+.timesheet-data-row.selected-row .timesheet-input {
+    background: #e0f7fa !important;
+    color: #000 !important;
+    border-color: #00bcd4;
+}
+
+/* Week number display styling for selected row */
+.timesheet-data-row.selected-row .week-no-display {
+    background: #e0f7fa !important;
+    color: #000 !important;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.save-edit-btns{
+  display: flex;
+  gap: 10px;
+}
+
+.edit-row-btn {
+  background: linear-gradient(82.3deg, rgb(62, 39, 231) 94.3%, rgb(59, 46, 237) 94.3%);
+  color: #fff;
+  border: 1px solid #7d7d7e;
+  padding: 6px 11px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  height: 32px;
+}
+/* Confirmation model */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.3);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 9999;
+  padding-top: 40px;
+  }     
+.modal-container {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+  min-width: 320px;
+  max-width: 420px;
+  width: 100%;
+  text-align: left;
+  overflow: hidden;
+  font-family: inherit;
+}
+.modal-content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 0;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+  min-width: 320px;
+  max-width: 420px;
+  width: 100%;
+  text-align: left;
+  overflow: hidden;
+  font-family: inherit;
+  min-height: 50px;
+}
+.modal-font {
+  font-size: 1.08rem;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  color: #222;
+}
+.modal-title.modal-font {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #222;
+  background: #fff;
+  padding: 18px 24px 8px 24px;
+  text-align: center;
+  border-radius: 10px;
+}
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding: 0 24px 5px 24px;
+}
+.modal-yes {
+  background: #3b53e5;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 25px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(59,83,229,0.08);
+  min-height: 30px;
+  display: flex;
+ 
+}
+.modal-no {
+  background: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 28px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(244,67,54,0.08);
+  min-height: 40px;
+  display: flex;
+}
+
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 80px;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #0056b3;
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #545b62;
+}
+.filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.6rem;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+.filters input {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #333;
+  padding: 4px 8px;
+  border-radius: 4px;
+  height: 30px;
+  font-size: 1rem;
+  flex: 1;
+  max-width: 200px;
+}
+.filters {
+    align-items: stretch;
+    gap: 8px;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+  .filters input {
+    max-width: 100%;
+    margin-bottom: 8px;
+  }
+  .filters > div {
+    flex-direction: row;
+    gap: 8px;
+    justify-content: flex-start;
+    margin-left: 0;
+  }
+  /* .download-btn {
+  background: #11c84e;
+  color: #fff;
+  border: 1px solid #7d7d7e;
+  padding: 6px 11px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 20px;
+  height: 32px;
+} */
+
+.download-btn {
+  background: #11c84e;
+  color: #fff;
+  border: 1px solid #7d7d7e;
+  padding: 6px 11px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 20px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  gap: 8px;
+  text-decoration: none;
+  min-width: 140px;
+}
+
+.download-btn:hover {
+  background: #60df71;
+}
+
+.download-btn:active {
+  background-color: #7d7d7e;
+}
+
+.dropdown-display {
+  padding: 6px 24px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  min-height: 30px;
+  font-size: 0.7rem;
+}
+
+.dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 102px;
+  overflow-y: auto;
+  border: 1px solid #d1d5db;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  background: white;
+  z-index: 1000;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  font-size: 0.7rem;
+}
+
+.dropdown-list ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.dropdown-list li {
+  padding: 6px 8px;
+  cursor: pointer;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 0.7rem;
+}
+
+.dropdown-list li:last-child {
+  border-bottom: none;
+}
+
+/* card style  */
+.leave-cards-row {
+  justify-content: center;
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 10px 0;
+  white-space: nowrap;
+}
+ 
+.leave-card {
+  flex: 0 0 auto;
+  min-width: 180px;
+  max-width: 180px;
+  background: #ffffff;
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border: 1px solid #e5e7eb;
+  text-align: left;
+  transition: transform .2s ease-in-out;
+}
+ 
+.leave-card:hover {
+  transform: scale(1.06);
+  border: 1px solid #8abaf7;
+}
+ 
+.leave-card h6 {
+  margin: 0 0 6px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0056b3;
+ 
+}
+ 
+.leave-card p {
+  margin: 3px 0;
+  font-size: 11px;
+  color: #1f1e1e;
+}
+ 
+.leave-card span {
+  font-weight: 600;
+  color: #222;
+}
+ 
+.total-card {
+  background: #ebf5ff;
+  border: 1px solid #8abaf7;
+}
+ 
+/* ========================= */
+/* Upload Modal Container    */
+/* ========================= */
+.upload-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 9999;
+  padding-top: 60px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Modal Box */
+.modal-content {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  max-width: 600px;
+  width: 90%;
+  padding: 1rem 2rem 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: relative;
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+/* Modal Header */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0rem;
+}
+
+.modal-header h6 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.modal-header .close {
+  font-size: 1.5rem;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.modal-header .close:hover {
+  color: #374151;
+}
+
+
+/* Upload Drop Area */
+.upload-drop-area {
+  border: 1px dashed #4b5cf6;
+  border-radius: 10px;
+  background: #f9fafb;
+  padding: 1.7rem;
+  margin-bottom: 1.5rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.upload-drop-area:hover {
+  border-color: #3448fa;
+  background: #f4f6ff;
+}
+
+/* Timesheet Type Selector */
+.timesheet-type {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.timesheet-type label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.timesheet-type select {
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.timesheet-type select:hover {
+  border-color: #4b5cf6;
+  box-shadow: 0 0 0 2px rgba(75, 92, 246, 0.2);
+}
+
+.modal-dropdown-display {
+  padding: 6px 20px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  min-height: 30px;
+  font-size: 0.7rem;
+  width: 200px;              /* consistent width */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+  transition: all 0.2s ease;
+}
+.modal-dropdown-display span {
+  font-size: 0.75rem;
+  margin-left: 8px;
+}
+.modal-dropdown-display.open {
+  border-radius: 4px 4px 0 0;
+  border-bottom: none;
+  background: #f1f5ff;     /* light blue highlight */
+}
+/* MAIN DROPDOWN PANEL */
+.modal-dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 59%;
+  max-height: 90px;
+  overflow-y: auto;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  z-index: 1000;
+  font-size: 0.7rem;           
+  scrollbar-width: thin;       
+}
+
+/* SCROLLBAR (Chrome/Edge) */
+.modal-dropdown-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.modal-dropdown-list::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+/* RESET UL */
+.modal-dropdown-list ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* EACH ROW */
+.modal-dropdown-list li {
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background 0.2s;
+  min-height: 26px;            /* clean compact height */
+  font-size: 0.7rem;
+}
+
+/* HOVER */
+.modal-dropdown-list li:hover {
+  background-color: #f8fafc;
+}
+
+/* SELECTED ITEM */
+.modal-dropdown-list li.selected {
+  background-color: #e3f2fd;
+  color: #1976d2;
+  font-weight: 500;
+}
+
+/* REMOVE LAST BORDER */
+.modal-dropdown-list li:last-child {
+  border-bottom: none;
+}
+
+/* LABEL STYLE (checkbox + text) */
+.week-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  cursor: pointer;
+  font-size: 0.7rem;
+}
+
+/* CHECKBOX SIZE */
+.week-item input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+/* TEXT CLICKABLE */
+.week-item .week-text {
+  cursor: pointer;
+  flex-grow: 1;
+  font-size: 0.7rem;
+}
+
+/* Monthly Dropdown */
+.month-dropdown {
+  margin-top: 0.8rem;
+}
+
+.month-dropdown label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.month-dropdown select {
+  width: 100%;
+  max-width: 220px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.month-dropdown select:hover {
+  border-color: #4b5cf6;
+  box-shadow: 0 0 0 2px rgba(75, 92, 246, 0.15);
+}
+.month-search {
+  width: 100%;
+  box-sizing: border-box;
+
+
+  font-size: 13px;
+  line-height: 1.4;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+
+  outline: none;
+  background-color: #fff;
+  color: #1f2937;
+}
+
+/* Focus state */
+.month-search:focus {
+  border-color: #3b82f6;      /* blue */
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.4);
+}
+
+/* Placeholder style */
+.month-search::placeholder {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+
+/* Footer Buttons */
+.footer-row {
+  display: flex;
+  justify-content:start;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.footer-row button {
+  padding: 0.55rem 1.2rem;
+  border-radius: 6px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.process-btn {
+  background: #11c84e;
+  color: #fff;
+}
+
+.process-btn:hover {
+  background: #3448fa;
+}
+
+.cancel-btn {
+  background: #df1f06;
+      color: #fff;
+    border: 1px solid #7d7d7e;
+    padding: 6px 11px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 20px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    gap: 8px;
+    text-decoration: none;
+    min-width: 100px;
+}
+
+.cancel-btn:hover {
+  background: #e5e7eb;
+}
+
+.custom-select {
+  width: 200px;          
+  padding: 8px 12px;    
+  border: 1px solid #ccc; 
+  background-color: #fff;
+  font-size: 14px;
+  appearance: none;       
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  position: relative;
+}
+/* Modal Box */
+.required-modal-content {
+  background: #ffffff;
+  border-radius: 12px;
+  width: 420px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  animation: scaleIn 0.25s ease;
+  border: 1px solid #f2e9c4;
+}
+
+/* Header */
+.required-modal-header {
+  padding: 16px 18px;
+  background:#fdfdf5;
+  border-radius: 12px 12px 0 0;
+}
+
+.required-modal-header strong {
+  font-size: 15px;
+  color: #cc911c;
+}
+
+.missing-fields-text {
+  margin-left: 17px;
+  margin-top: 1x;
+  font-size: 15px;
+  color: #444;
+  line-height: 1.4;
+}
+
+.required-modal-btn {
+  background: #2065ad;
+  color: white;
+  border: none;
+  padding: 8px 26px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+  margin: 0 auto;        
+  display: block;         
+}
+
+.required-modal-btn:hover {
+  background: #005dc1;
+}
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media screen and (max-width: 1024px) {
+  .week-dropdown-container {
+    position: relative;
+  width: 100%;
+  font-size: 0.7rem;
+  }
+
+  .dropdown-list{
+     position: absolute;
+  }
+}
+
+/* Tablet Styles */
+@media (min-width: 768px) {
+  .weekly-timesheet-container {
+    padding: 15px;
+    font-size: 13px;
+  }
+
+  .title-container{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+  
+  .title {
+    font-size: 1.1rem;
+    justify-content: flex-start;
+  }
+  
+  .weekly-timesheet-header {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  
+  .company-header {
+    width: auto;
+    min-width: 200px;
+  }
+  
+  .company-name {
+    width: fit-content;
+    text-align: left;
+    font-size: 15px;
+  }
+  
+  .logo-timesheet-header {
+    flex-direction: row;
+    align-items: center;
+    width: auto;
+  }
+  
+  .timesheet-title {
+    width: auto;
+    min-width: 250px;
+    height: 60px;
+    font-size: 20px;
+    border-left: none;
+    border-top: 2px solid #000000;
+  }
+  
+  .company-logo {
+    width: 140px;
+  }
+  
+  .leave-table {
+    min-width: 500px;
+  }
+  
+  .timesheet-table {
+    min-width: 1000px;
+  }
+
+  /* Employee Name column slightly increased for tablet */
+  .timesheet-header-row th:nth-child(1),
+  .timesheet-data-row td:nth-child(1) {
+    min-width: 100px;
+    width: 100px;
+  }
+
+  /* Fiscal Week column INCREASED for tablet */
+  .timesheet-header-row th:nth-child(3),
+  .timesheet-data-row td:nth-child(3) {
+    min-width: 110px;
+    width: 110px;
+  }
+
+  /* Project Name column slightly decreased for tablet */
+  .timesheet-header-row th:nth-child(5),
+  .timesheet-data-row td:nth-child(5) {
+    min-width: 150px;
+    width: 150px;
+  }
+  
+  .total-container {
+    min-width: 1000px;
+  }
+
+  /* Employee Name column slightly increased in total container for tablet */
+  .total-container span:nth-child(1) {
+    min-width: 100px;
+    width: 100px;
+  }
+
+  /* Fiscal Week column INCREASED in total container for tablet */
+  .total-container span:nth-child(3) {
+    min-width: 110px;
+    width: 110px;
+  }
+
+  /* Project Name column slightly decreased in total container for tablet */
+  .total-container span:nth-child(5) {
+    min-width: 150px;
+    width: 150px;
+  }
+  
+  .add-button-container {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+  
+  .save-row-btn, .upload-btn {
+    width: auto;
+    min-width: 120px;
+  }
+  
+  .add-row-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .add-row-corner {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+  }
+}
+
+ /* .table-scroll-wrapper {
+    max-height: 500px;
+    overflow-x: auto;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 6px;
+    padding-bottom: 8px;
+  } */
+  /* .timesheet-table thead {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+} */
+/* .timesheet-table thead th {
+  color: white;
+  border: 1px solid #555;
+  font-size: 10px;
+  padding: 6px 3px;
+  text-align: center;
+  vertical-align: middle;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+} */
+/* .timesheet-table tbody {
+  display: block;
+  height: 450px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.timesheet-table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+} */
+
+  /* .table-scroll-wrapper {
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 6px;
+  padding-bottom: 8px;
+} */
+/* .table-scroll-wrapper {
+    overflow-x: auto;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 6px;
+    padding-bottom: 8px;
+  } */
+/* Desktop Styles */
+@media (min-width: 992px) {
+  .weekly-timesheet-container {
+    /* padding: 20px; */
+    font-size: 14px;
+  }
+  
+  .title {
+    font-size: large;
+  }
+  
+  .vertical-line {
+    height: 25px;
+    margin-right: 10px;
+  }
+  
+  .company-name {
+    font-size: 16px;
+    padding: 12px 15px;
+  }
+  
+  .timesheet-title {
+    font-size: 24px;
+    height: 73px;
+    min-width: 300px;
+    padding: 12px 15px;
+  }
+  
+  .company-logo {
+    width: 160px;
+    padding: 12px 15px;
+  }
+  
+  .leave-table {
+    max-width: 600px;
+    min-width: 400px;
+  }
+  
+  .leave-header-row span,
+  .leave-data-row span {
+    font-size: 12px;
+    padding: 8px 4px;
+  }
+  
+  .timesheet-table {
+    min-width: 1200px;
+  }
+
+  /* Employee Name column slightly increased for desktop */
+  .timesheet-header-row th:nth-child(1),
+  .timesheet-data-row td:nth-child(1) {
+    min-width: 180px;
+    width: 180px;
+  }
+
+  /* Fiscal Week column INCREASED for desktop */
+  .timesheet-header-row th:nth-child(3),
+  .timesheet-data-row td:nth-child(3) {
+    min-width: 100px;
+    width: 150px;
+  }
+
+  /* Project Name column slightly decreased for desktop */
+  .timesheet-header-row th:nth-child(5),
+  .timesheet-data-row td:nth-child(5) {
+    min-width: 180px;
+    width: 180px;
+  }
+  
+  .timesheet-header-row th,
+  .timesheet-data-row td {
+    font-size: 12px;
+    padding: 8px 4px;
+    min-width: 60px;
+  }
+  
+  .timesheet-input {
+    font-size: 12px;
+    padding: 6px 4px;
+  }
+  
+  .total-container {
+    min-width: 1200px;
+  }
+
+  /* Employee Name column slightly increased in total container for desktop */
+  .total-container span:nth-child(1) {
+    min-width: 120px;
+    width: 120px;
+  }
+
+  /* Fiscal Week column INCREASED in total container for desktop */
+  .total-container span:nth-child(3) {
+    min-width: 130px;
+    width: 130px;
+  }
+
+  /* Project Name column slightly decreased in total container for desktop */
+  .total-container span:nth-child(5) {
+    min-width: 180px;
+    width: 180px;
+  }
+  
+  .total-container span {
+    font-size: 12px;
+    padding: 8px 4px;
+  }
+  
+  .add-row-btn {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .save-row-btn, .upload-btn {
+    height: 32px;
+    padding: 4px 10px;
+    font-size: 0.9rem;
+  }
+  
+  .add-button-container {
+    margin-bottom: 150px;
+  }
+}
+
+/* Large Desktop Styles */
+@media (min-width: 1200px) {
+  .weekly-timesheet-container {
+    /* max-width: 1400px; */
+    margin: 0 auto;
+  }
+}
+
+/* Scrollbar Styling for Better Mobile Experience */
+.timesheet-table-container::-webkit-scrollbar,
+.leave-table-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.timesheet-table-container::-webkit-scrollbar-track,
+.leave-table-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.timesheet-table-container::-webkit-scrollbar-thumb,
+.leave-table-container::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.timesheet-table-container::-webkit-scrollbar-thumb:hover,
+.leave-table-container::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+  .timesheet-input {
+    min-height: 20px; /* Larger touch target */
+    font-size: 9px; /* Prevents zoom on iOS */
+  }
+  
+  .dropdown-list li {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* Mobile view - Smaller dropdown text */
+@media (max-width: 767px) {
+  .week-dropdown-container {
+    font-size: 0.7rem; /* Make dropdown text smaller on mobile */
+  }
+
+  .dropdown-display {
+    padding: 4px 6px; /* Reduce padding for smaller text */
+    min-height: 28px; /* Reduce height */
+    font-size: 0.7rem; /* Smaller font size */
+  }
+
+  .dropdown-list {
+    font-size: 0.7rem; /* Smaller font size for dropdown items */
+  }
+
+  .dropdown-list li {
+    padding: 4px 6px; /* Reduce padding */
+    font-size: 0.7rem; /* Smaller font size */
+    min-height: 24px; /* Reduce height */
+  }
+}
+
+/* Work Details modal overrides / styles */
+/* Work Details Modal specific tweaks (keeps same look as upload modal) */
+.work-details-modal {
+  max-width: 600px;
+  min-width: 420px;
+  padding: 1.6rem 1.6rem 1.2rem 1.6rem;
+}
+
+/* textarea styling */
+.work-details-textarea {
+  width: 100%;
+  min-height: 160px;
+  max-height: 320px;
+  resize: vertical;
+  padding: 12px;
+  font-size: 0.95rem;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  box-sizing: border-box;
+  background: #fff;
+  color: #222;
+  outline: none;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+  line-height: 1.4;
+}
+.work-details-textarea:focus {
+  box-shadow: 0 6px 18px rgba(75,92,246,0.06);
+  border-color: #4B5CF6;
+}
+
+/* small footer counter */
+.work-details-foot {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+.work-details-foot small {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* Keep buttons/footers consistent with upload modal */
+.upload-modal-footer {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: 18px;
+  width: 100%;
+}
+
+/* ensure close button position matches main modal style */
+.upload-modal-close {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #e53935;
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  z-index: 10;
+  padding: 0;
+  line-height: 1;
+}
+
+/* Overlay & center behavior (reuse existing upload-modal rules) */
+.upload-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.25);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  backdrop-filter: blur(2px);        /* subtle backdrop blur */
+  -webkit-backdrop-filter: blur(2px);
+}
+
+/* Slightly stronger modal drop shadow for work details to make it pop */
+.work-details-modal {
+  box-shadow: 0 10px 36px rgba(0,0,0,0.16);
+}
+
+/* Responsive tweaks */
+@media (max-width: 700px) {
+  .work-details-modal {
+    min-width: 90vw;
+    max-width: 90vw;
+    margin-top: 40px;
+    padding: 1rem;
+  }
+  .work-details-textarea {
+    min-height: 140px;
+  }
+}
+
+/* -------- Body blur when modal opens --------
+   Wrap your page content in .page-content and toggle the 'blurred' class
+   via [ngClass]="{'blurred': showWorkDetailsModal}"
+*/
+.page-content {
+  transition: filter 0.25s ease, pointer-events 0.25s ease;
+}
+.page-content.blurred {
+  filter: blur(6px) saturate(0.95);
+  pointer-events: none; /* optional: prevent interacting with blurred content */
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+/* optionally dim the blurred area a bit more using overlay (if you want) */
+.page-content.blurred::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.06);
+  pointer-events: none;
+}
+
+/* old */
+.upload-modal-footer {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: 20px;
+  width: 100%;
+}
+.upload-modal-action {
+  min-width: 90px;
+  font-size: 0.95rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  height: 34px;
+  padding: 6px 18px;
+  margin-right: 4px;
+}
+.proceed-btn.upload-modal-action {
+  background-color: #4B5CF6;
+  color: #fff;
+}
+.proceed-btn.upload-modal-action:hover {
+  background-color: #3448fa;
+}
+.cancel-btn.upload-modal-action {
+  background-color: #e53935;
+  color: #fff;
+}
+.cancel-btn.upload-modal-action:hover {
+  background-color: #b71c1c;
+}
+/* Upload Modal Styles */
+.upload-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.25);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+.upload-modal-content {
+  margin-top: 55px;
+}
+.upload-modal-content {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  max-width: 800px;
+  width: 95vw;
+  min-width: 500px;
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.upload-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1px;
+  width: 100%;
+  padding-top: 0 !important;
+}
+.upload-modal-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #272727;
+}
+.upload-modal-close {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #e53935;
+  position: absolute;
+  top: 10px;
+  right: 22px;
+  z-index: 10;
+  padding: 0;
+  line-height: 1;
+}
+.upload-modal-info {
+  font-size: 0.95rem;
+  color: #444;
+  margin-bottom: 1.2rem;
+}
+.upload-modal-info a {
+  color: #4B5CF6;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.upload-drop-area {
+  border: 1px dashed #2d325f;
+  border-radius: 8px;
+  background: #f7f8fa;
+  padding: 2rem 1rem;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.upload-drop-area:hover {
+  border-color: #3448fa;
+}
+.upload-drop-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.upload-drop-icon {
+  font-size: 2.2rem;
+  color: #4B5CF6;
+}
+.upload-drop-desc {
+  font-size: 0.85rem;
+  color: #888;
+}
+/* Reduce gap for last row fields */
+.form-row-last {
+  gap: 1rem !important;
+}
+/* Reporting Manager field styles */
+.reporting-manager-label {
+  margin-left: 0;
+  font-weight: 600;
+}
+.reporting-manager-select {
+  width: 100%;
+  margin-left: 0;
+}
+.reporting-manager-error {
+  margin-left: 0;
+}
+
+/* Password field styles */
+.password-label {
+  margin-left: 0;
+  font-weight: 600;
+}
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.password-input {
+  width: 100%;
+  margin-left: 0;
+}
+.toggle-password-btn {
+  position: absolute;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.toggle-password-icon {
+  font-size: 1.2em;
+}
+
+.toggle-password-btn:hover {
+  color: #495057;
+}
+
+.toggle-password-icon .pi {
+  font-size: 1.1rem;
+}
+
+.password-error {
+  margin-left: 0;
+}
+  /* Decrease font size for select options */
+  .form-group select option {
+    font-size: 0.8rem;
+  }
+.text-danger {
+  font-size: 0.7rem;
+}
+/* Responsive styles for create page */
+@media (max-width: 1200px) {
+  .form-row {
+    gap: 1rem;
+  }
+  .child-container {
+    margin: 1.5rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .form-container {
+    height: auto;
+    padding-bottom: 2rem;
+  }
+  .child-container {
+    margin: 1rem;
+  }
+  .form-row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .form-group {
+    min-width: 180px;
+    width: 100%;
+  }
+
+}
+
+@media (max-width: 600px) {
+  .form-container {
+    height: auto;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    overflow-y: auto;
+    min-height: 100vh;
+    max-height: 100vh;
+    padding-bottom: 90px; /* Prevent overlap with fixed buttons */
+    overflow-x: hidden;
+  }
+  .child-container {
+    margin: 0.5rem 0.2rem 0.5rem 0.2rem;
+  padding-bottom: 10px; /* Prevent overlap with fixed buttons */
+  overflow-x: hidden;
+  }
+  .form-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .form-group {
+    min-width: 120px;
+    width: 100%;
+  }
+  .title-container {
+    padding: 0.2rem;
+  }
+  .buttons {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    background: #272727;
+    z-index: 999;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 0.5rem;
+    box-sizing: border-box;
+  }
+}
+  body {
+    margin: 0;
+    background-color: #ffffff;
+    color: #272727;
+  }
+ 
+  .form-container {
+    position: relative;
+    max-width: 100%;
+    height: 100vh;
+    margin: 0px auto;
+    background-color: #ffffff;
+  }
+ 
+  .title-container {
+    position: relative;
+    max-width: 100%;
+    /* height: 86vh; */
+    padding: 0.4rem;
+    background-color: rgb(8, 8, 8); 
+  }
+ 
+  .title {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: #fdfcfc;
+    font-weight: 800;
+  }
+ 
+  .horizontal-line {
+    display: block;
+    height: 0.5px;
+    background-color: #6d6c6c;
+    width: 100%;
+  }
+.child-container{
+  margin: 0.5rem 0.2rem 0.5rem 0.2rem;
+  overflow-y: auto;
+  max-height: 60vh;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(60,60,60,0.04);
+  padding: 1.2rem 1.2rem 0.8rem 1.2rem;
+}
+
+@media (max-width: 900px) {
+  .child-container {
+    margin-top: 1rem;
+  }
+}
+  .form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+ 
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.4rem;
+    padding: 6px 12px;
+  }
+ 
+  .buttons .form-actions {
+    margin: 0;
+  }
+ 
+  .vertical-line {
+    display: inline-block;
+    width: 4px;
+    /* Line thickness */
+    height: 25px;
+    /* Line height */
+    background-color: #4B5CF6;
+    /* Light blue color */
+    margin-right: 10px;
+    /* Spacing from text */
+    border-radius: 2px;
+    /* Rounded corners if needed */
+  }
+ 
+  .buttons button {
+    font-size: 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    height: 32px;
+    min-width: 70px;
+    padding: 4px 10px;
+  }
+
+   .buttons .upload-btn {
+     background-color: #4B5CF6;
+    color: white;
+  }
+ 
+  .buttons .upload-btn:hover {
+    background-color: #3448fa;
+  }
+ 
+  .buttons .submit-btn {
+    background-color: #007acc;
+    color: white;
+  }
+ 
+  .buttons .submit-btn:hover {
+    background-color: #005fa3;
+  }
+ 
+  .buttons .reset-btn {
+    background-color: rgb(248, 81, 81);
+    color: white;
+  }
+ 
+  .buttons .reset-btn:hover {
+    background-color:rgb(249, 66, 66);
+  }
+ 
+  .form-row {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+ 
+  .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 250px;
+  }
+ 
+  .form-group label {
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #000000;
+    .title-container {
+      padding: 0.2rem;
+    }
+    font-size: 0.8rem;
+  }
+ 
+ 
+  .form-group ::placeholder {
+    color: black;
+    font-size: 0.8rem;
+  }
+ 
+  .form-group input,
+  .form-group select {
+    padding: 10px 10px;
+    font-size: 0.8rem;
+    border: solid 1px #606060;
+    background-color: white;
+    color: #000000;
+    border-radius: 3px;
+    height: 40px;
+    box-sizing: border-box;
+    text-align: left;
+  }
+
+/* Responsive buttons styles for small screens */
+@media (max-width: 600px) {
+  .buttons {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    background: #272727;
+    z-index: 999;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0;
+    padding: 0.8rem 0.5rem;
+    box-sizing: border-box;
+  }
+  .buttons .form-actions {
+    width: auto;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+  }
+  .buttons button {
+    min-width: 100px;
+    font-size: 1rem;
+    padding: 8px 16px;
+  }
+}
+
+  /* Ensure datepicker text is black */
+  .form-group input[type="date"] {
+    color: #000000;
+    font-size: 0.8rem;
+  }
+ 
+  /* .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: #007acc;
+    background-color: #333;
+  } */
+ 
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    gap: 0.6rem !important;
+  }
+ 
+  .form-actions button {
+    background-color: #007acc;
+    color: white;
+    padding: 4px 10px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    height: 32px;
+    min-width: 70px;
+    transition: background-color 0.3s ease;
+  }
+ 
+  .form-actions button:hover {
+    background-color: #005fa3;
+  }
+ 
+  .custom-date-input::-webkit-calendar-picker-indicator {
+    filter: none;
+    color: #000000;
+    opacity: 1;
+    cursor: pointer;
+  }
+ 
+  /* Optional: Improve input styling */
+  .custom-date-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: white;
+  }
+
+  /* TextBox Div */
+ /* Ensure correct selector: upload-modal-body (not upload-model-body) */
+.upload-modal-body {
+  width: 100%;
+  padding: 0.6rem 0 0.2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: stretch;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  color: #272727;
+}
+
+/* Make sure textarea fills available width inside modal body */
+.upload-modal-body .work-details-textarea {
+  width: 100%;
+  min-height: 160px;
+  max-height: 360px;
+  resize: vertical;
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  border: 1.5px solid #d9d9d9;
+  border-radius: 6px;
+  background: #fff;
+  color: #272727;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+/* Hover / focus states */
+.upload-modal-body .work-details-textarea:hover {
+  border-color: #4B5CF6;
+}
+.upload-modal-body .work-details-textarea:focus {
+  border-color: #4B5CF6;
+  box-shadow: 0 6px 18px rgba(75,92,246,0.06);
+}
+
+/* Character counter aligned right */
+.upload-modal-body .work-details-foot {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+.upload-modal-body .work-details-foot small {
+  font-size: 0.82rem;
+  color: #555;
+}
+
+/* Small-screen tweak */
+@media (max-width: 640px) {
+  .upload-modal-body .work-details-textarea {
+    min-height: 140px;
+    font-size: 0.92rem;
+  }
+}
+
+/* 3 Dots CSS */
+.hours-cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* 3 dots always right */
+.three-dots {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #666;
+  cursor: pointer;
+  user-select: none;
+}

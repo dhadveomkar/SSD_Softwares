@@ -1,0 +1,19 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": false,
+    "nodeVersion": "22.16.0",
+    "sdksVersions": {},
+    "version": "1.21.1",
+    "libraryName": "dalma-3",
+    "libraryId": "5edc919b-6e29-44c6-8af6-5ef2eeaafaa6",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "dalma3",
+    "solutionShortDescription": "dalma3 description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "useGulp": false,
+    "componentType": "webpart"
+  }
+}

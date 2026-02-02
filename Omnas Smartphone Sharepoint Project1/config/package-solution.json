@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "omnas-store-client-side-solution",
+    "id": "49107a59-7e85-489c-85b7-788271e0fcca",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.22.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "omnas-store description"
+      },
+      "longDescription": {
+        "default": "omnas-store description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "omnas-store Feature",
+        "description": "The feature that activates elements of the omnas-store solution.",
+        "id": "f5d36179-3049-488f-8bbc-abf9df179808",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/omnas-store.sppkg"
+  }
+}

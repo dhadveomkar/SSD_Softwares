@@ -1,0 +1,97 @@
+/* DynamicHeader.module.scss */
+
+.dynamicHeaderRoot {
+  background: var(--themePrimary, #0078d4);
+  color: white;
+  padding: 6px 12px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.headerInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Brand container for logo/text */
+.brand {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
+
+/* Brand text */
+.brandText {
+  font-size: 18px;
+  margin-left: 8px;
+  font-weight: 600;
+}
+
+/* Desktop menu */
+.navList {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.navNode {
+  position: relative;
+}
+
+/* Menu item */
+.navItem {
+  text-decoration: none;
+  color: inherit;
+  padding: 6px 8px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.navItem:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Submenu */
+.submenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--ms-color-neutralLighter);
+  color: var(--ms-color-neutralPrimary);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  padding: 8px;
+  min-width: 180px;
+  display: none;
+  z-index: 9999;
+  color: #222;
+}
+
+.navNode:hover > .submenu {
+  display: block;
+}
+
+.submenuItem {
+  display: block;
+  padding: 6px 8px;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Desktop/mobile toggles */
+.desktopOnly {
+  display: block;
+}
+
+.mobileOnly {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .desktopOnly {
+    display: none;
+  }
+  .mobileOnly {
+    display: block;
+  }
+}

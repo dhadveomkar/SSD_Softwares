@@ -1,0 +1,35 @@
+.omnas-header {
+display: flex;
+align-items: center;
+padding: 12px 24px;
+background: #2874F0;
+color: white;
+}
+
+
+.logo {
+font-size: 22px;
+font-weight: bold;
+margin-right: 20px;
+}
+
+
+.search-box {
+flex: 1;
+padding: 8px 12px;
+border-radius: 4px;
+border: none;
+}
+
+
+.header-actions button {
+margin-left: 10px;
+padding: 8px 14px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+}
+
+
+.login-btn { background: white; color: #2874F0; }
+.cart-btn { background: #FFE500; }

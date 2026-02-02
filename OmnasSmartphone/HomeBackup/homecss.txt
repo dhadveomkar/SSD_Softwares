@@ -1,0 +1,90 @@
+@import 'animate.css';
+
+:host {
+  --primary-blue: #2563eb;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  display: block;
+}
+
+/* 1. Animated Gradient Text */
+.gradient-text {
+  background: linear-gradient(90deg, #2563eb, #06b6d4, #2563eb);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+  to { background-position: 200% center; }
+}
+
+/* 2. Glassmorphism Search Bar */
+.search-container {
+  backdrop-filter: blur(12px);
+  background: var(--glass-bg);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.search-container:focus-within {
+  transform: scale(1.05);
+  box-shadow: 0 20px 50px rgba(37, 99, 235, 0.2);
+}
+
+/* 3. Modern Card Hover Effect */
+.phone-card {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  perspective: 1000px;
+}
+
+.phone-card:hover {
+  transform: translateY(-15px) rotateX(5deg);
+  box-shadow: 0 40px 80px -20px rgba(0,0,0,0.15);
+}
+
+/* 4. Image "Pop-Out" Effect */
+.card-image-box img {
+  transition: transform 0.6s ease;
+}
+
+.phone-card:hover .card-image-box img {
+  transform: scale(1.15) translateY(-10px);
+  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.2));
+}
+
+/* 5. Glowing Button */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+  transform: scale(0);
+  transition: transform 0.6s ease;
+}
+
+.btn-primary:hover::after {
+  transform: scale(1);
+}
+
+/* 6. Smooth Section Transitions */
+section {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+}
+
+section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}

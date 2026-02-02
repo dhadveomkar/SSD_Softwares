@@ -1,0 +1,112 @@
+<div class="leave-approve-page">
+  <div class="title-container">
+    <span class="title">
+      <span class="vertical-line"></span>
+      Leave Approvals
+    </span>
+  </div>
+  <span class="horizontal-line"></span>
+
+  <div class="filters">
+    <input
+      type="text"
+      [(ngModel)]="searchText"
+      (ngModelChange)="onSearchChange()"
+      placeholder="--Search by Name or ID--"
+      class="search-input"
+      style="font-size: 12px"
+    />
+    <div style="display: flex; gap: 12px; margin-left: auto">
+      <button class="view-btn" (click)="toggleView()">
+        {{ showTableView ? "View Calendar" : "View Table" }}
+      </button>
+      <button class="download-btn" (click)="downloadTableAsExcel()">
+        <i class="fas fa-download"></i> Download Excel
+      </button>
+    </div>
+  </div>
+
+  <!-- Calendar View (shown when showTableView is false) -->
+  <div *ngIf="!showTableView" class="calendar-view">
+    <full-calendar [options]="calendarOptions"></full-calendar>
+  </div>
+
+  <div class="child-container" *ngIf="showTableView">
+    <div class="approval-table-responsive">
+      <table class="approval-table" #employeeTable>
+        <thead>
+          <tr>
+            <th>Emp ID</th>
+            <th>Name</th>
+            <th>Leave Type</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Leave Count</th>
+            <th>Requested Date</th>
+            <th>Description</th>
+            <th>Manager Remarks</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="filteredRequests.length === 0">
+            <td colspan="14" class="no-approval-details">
+              No Approvals Details Found
+            </td>
+          </tr>
+          <tr *ngFor="let request of filteredRequests">
+            <td>{{ request.empId }}</td>
+            <td>{{ request.name }}</td>
+            <td>{{ request.leaveType }}</td>
+            <td>{{ request.startDate | date : "yyyy-MM-dd" }}</td>
+            <td>{{ request.endDate | date : "yyyy-MM-dd" }}</td>
+             <td>{{ request.leaveCount }}</td>
+             <td>{{ request.createdOn | date : 'yyyy-MM-dd' }}</td>
+            <td>{{ request.description }}</td>
+            <td>
+              <textarea
+                [(ngModel)]="request.managerRemark"
+                rows="1"
+                placeholder="Add remarks..."
+              ></textarea>
+            </td>
+            <td>
+              <ng-container [ngSwitch]="request.status">
+                <ng-container *ngSwitchCase="'Pending'">
+                  <button
+                    class="approve-btn"
+                    (click)="openApproveModal(request)"
+                    [disabled]="request.status !== 'Pending'"
+                  >
+                    Approve
+                  </button>
+                  <button
+                    class="reject-btn"
+                    (click)="rejectLeave(request)"
+                    [disabled]="request.status !== 'Pending'"
+                  >
+                    Reject
+                  </button>
+                </ng-container>
+                <span *ngSwitchCase="'Approved'" class="approved-text">Approved</span>
+                <span *ngSwitchCase="'Rejected'" class="rejected-text">Rejected</span>
+              </ng-container>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Approve Modal -->
+    <div *ngIf="showApproveModal" class="modal-overlay">
+      <div class="modal-content modal-font">
+        <div class="modal-title modal-font">
+          Are you sure you want to {{ modalAction }} {{ approveRequest?.name }} leave?
+        </div>
+        <div class="modal-actions">
+          <button class="modal-yes modal-btn" (click)="confirmModalAction()">Yes</button>
+          <button class="modal-no modal-btn" (click)="closeApproveModal()">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

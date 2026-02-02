@@ -1,0 +1,1 @@
+show when we select sunday hours to any hours like 4 hours and when we click on another cell like mon , tues, wed like that and this process contionues for every cell when we select any cell and set to hours like 4 and again when we click on next cell like mon then this pop up opens

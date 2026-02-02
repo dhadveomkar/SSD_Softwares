@@ -1,0 +1,203 @@
+/*!
+ * jQuery QueryBuilder 2.4.4
+ * Copyright 2014-2017 Damien "Mistic" Sorel (http://www.strangeplanet.fr)
+ * Licensed under MIT (http://opensource.org/licenses/MIT)
+ */
+.query-builder .rule-container, .query-builder .rule-placeholder, .query-builder .rules-group-container {
+    position: relative;
+    margin: 4px 0;
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px solid #EEE;
+    background: rgba(245, 245, 245, 0.9);
+}
+.query-builder .drag-handle, .query-builder .error-container, .query-builder .rule-container .rule-filter-container, .query-builder .rule-container .rule-operator-container, .query-builder .rule-container .rule-value-container {
+	display: inline-block;
+	margin: 0 5px 0 0;
+	vertical-align: middle
+}
+.query-builder .rules-group-container {
+	padding: 10px 10px 6px;
+    border: 1px solid #bfbfbf;
+    background: rgba(226, 225, 225, 0.5);
+}
+.query-builder .rules-group-header {
+	margin-bottom: 10px
+}
+.query-builder .rules-group-header .group-conditions .btn.readonly:not(.active), .query-builder .rules-group-header .group-conditions input[name$=_cond] {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	white-space: nowrap
+}
+.query-builder .rules-group-header .group-conditions .btn.readonly {
+	border-radius: 3px
+}
+.query-builder .rules-list {
+	list-style: none;
+	padding: 0 0 0 15px;
+	margin: 0
+}
+.query-builder .rule-value-container {
+	border-left: 1px solid #DDD;
+	padding-left: 5px
+}
+.query-builder .rule-value-container label {
+	margin-bottom: 0;
+	font-weight: 400
+}
+.query-builder .rule-value-container label.block {
+	display: block
+}
+.query-builder .rule-value-container input[type=number], .query-builder .rule-value-container input[type=text], .query-builder .rule-value-container select {
+	padding: 1px
+}
+.query-builder .error-container {
+	display: none;
+	cursor: help;
+	color: red
+}
+.query-builder .has-error {
+	background-color: #FDD;
+	border-color: #F99
+}
+.query-builder .has-error .error-container {
+	display: inline-block!important
+}
+.query-builder .dragging::after, .query-builder .dragging::before, .query-builder .rules-list>:last-child::after {
+	display: none
+}
+.query-builder .rules-list>::after, .query-builder .rules-list>::before {
+	content: '';
+	position: absolute;
+	left: -10px;
+	width: 10px;
+	height: calc(50% + 4px);
+	border-color: #CCC;
+	border-style: solid
+}
+.query-builder .rules-list>::before {
+	top: -4px;
+	border-width: 0 0 2px 2px
+}
+.query-builder .rules-list>::after {
+	top: 50%;
+	border-width: 0 0 0 2px
+}
+.query-builder .rules-list>:first-child::before {
+	top: -12px;
+	height: calc(50% + 14px)
+}
+.query-builder .rules-list>:last-child::before {
+	border-radius: 0 0 0 4px
+}
+.query-builder.bt-checkbox-glyphicons .checkbox input[type=checkbox]:checked+label::after {
+	font-family: 'Glyphicons Halflings';
+	content: '\e013'
+}
+.query-builder.bt-checkbox-glyphicons .checkbox label::after {
+	padding-left: 4px;
+	padding-top: 2px;
+	font-size: 9px
+}
+.query-builder .error-container+.tooltip .tooltip-inner {
+	color: #F99!important
+}
+.query-builder p.filter-description {
+	margin: 5px 0 0;
+	background: #D9EDF7;
+	border: 1px solid #BCE8F1;
+	color: #31708F;
+	border-radius: 5px;
+	padding: 2.5px 5px;
+	font-size: .8em
+}
+.query-builder .rules-group-header [data-invert] {
+	margin-left: 5px
+}
+.query-builder .drag-handle {
+	cursor: move;
+	vertical-align: middle;
+	margin-left: 5px
+}
+.query-builder .dragging {
+	position: fixed;
+	opacity: .5;
+	z-index: 100
+}
+.query-builder .rule-placeholder {
+	border: 1px dashed #BBB;
+	opacity: .7
+}
+
+/*Custom Bootstrap*/
+.rules-group-container .btn-success, .rules-group-container .btn-success:link {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+.rules-group-container .btn-success:active, .rules-group-container .btn-success:visited, .rules-group-container .btn-success:focus{
+color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
+}
+.rules-group-container .btn-danger, .rules-group-container .btn-danger:link {
+    color: #333;
+    background-color: #eee;
+    border-color: #CCC;
+}
+.rules-group-container .btn-danger:active, .rules-group-container .btn-danger:visited, .rules-group-container .btn-danger:focus{
+color: #333;
+    background-color: #bfbfbf;
+    border-color: #CCC;
+}
+.query-builder.form-inline select.form-control{width:100%; margin:5px;}
+.queryBuilderSelectize-input.selectize-control.single .selectize-input:after{    border-width: 0px 0px 0 0px}
+.queryBuilderSelectize-input.selectize-control.single .selectize-input.dropdown-active:after {
+  border-width: 0px 0px 0 0px
+}
+
+.selectizeLoading > .selectize-input, .selectizeLoading > .selectize-input > input::after
+{
+	content:'';
+	background:
+     url('https://agreeyasolutions.sharepoint.com/sites/agreeya-qa-dev-cdn/libs/bootstrap/inputLoader.gif')  no-repeat
+     right top;
+     background-size: 25px 25px;
+}
+
+.suggestedUserContainer{
+	border-radius: 2px;
+	-webkit-box-shadow: 0px 0px 8px 2px rgba(51,51,51,0.3);
+	-moz-box-shadow: 0px 0px 8px 2px rgba(51,51,51,0.3);
+	box-shadow: 0px 0px 8px 2px rgba(51,51,51,0.3);
+	width:250px;
+	background:#fff;
+}
+.suggestedPeopleRepeat{padding:4px 8px!important;}
+.suggestedPeopleRepeat:nth-child(odd){ background:#eaeaea;}
+.userPic{float:left; width:50px;}
+.userData{float:left; width: 165px;}
+.userPic img{width:40px; height:40px; border-radius: 50%; border:1px solid #ccc;}
+.clear{clear: both;}
+.userName{display: block; font-size:12px; color:#333;}
+.userRole{display: block; font-size:10px; color:#6e6e6e;}
+.queryBuilderSelectize-input .selectize-input .item{font-size:12px;}
+.queryBuilderSelectize-input .selectize-input{padding:4px; margin-left:4px;}
+
+.qSelectorMenuContainer *{
+    -webkit-box-sizing: initial!important;
+    -moz-box-sizing: initial!important;
+    box-sizing: initial!important;
+}
+.qMultiSelectorMenuContainer *{
+    -webkit-box-sizing: initial!important;
+    -moz-box-sizing: initial!important;
+    box-sizing: initial!important;
+}
+

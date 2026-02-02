@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "dalma-4-application-customizer": {
+      "components": [
+        {
+          "entrypoint": "./lib/extensions/dalma4/Dalma4ApplicationCustomizer.js",
+          "manifest": "./src/extensions/dalma4/Dalma4ApplicationCustomizer.manifest.json"
+        }
+      ]
+    },
+    "drop-down-menu-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/dropDownMenu/DropDownMenuWebPart.js",
+          "manifest": "./src/webparts/dropDownMenu/DropDownMenuWebPart.manifest.json"
+        }
+      ]
+    },
+    "omnas-home-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/omnasHome/OmnasHomeWebPart.js",
+          "manifest": "./src/webparts/omnasHome/OmnasHomeWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "Dalma4ApplicationCustomizerStrings": "lib/extensions/dalma4/loc/{locale}.js",
+    "DropDownMenuWebPartStrings": "lib/webparts/dropDownMenu/loc/{locale}.js",
+    "OmnasHomeWebPartStrings": "lib/webparts/omnasHome/loc/{locale}.js"
+  }
+}

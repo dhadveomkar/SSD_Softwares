@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "hero-banner-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/heroBanner/HeroBannerWebPart.js",
+          "manifest": "./src/webparts/heroBanner/HeroBannerWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "HeroBannerWebPartStrings": "lib/webparts/heroBanner/loc/{locale}.js"
+  }
+}

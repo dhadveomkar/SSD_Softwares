@@ -1,0 +1,184 @@
+
+<header class="top-header" *ngIf="!isLoginPage">
+  <div class="logo">
+    <div class="menu-container" *ngIf="!isLoginPage">
+      <button class="menu-label hamburger-btn" type="button" (click)="toggleMenu()">
+        <span class="hamburger-icon">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+      <div class="menu-dropdown" [class.open]="menuOpen">
+        <ul>
+          <li *ngIf="isAdmin" class="has-submenu">
+            <a (click)="toggleSubMenu('employee')">
+              <span class="submenu-arrow" [class.open]="openSubMenu === 'employee'"
+                [class.closed]="openSubMenu !== 'employee'">&#8250;</span>
+              Employee Details
+            </a>
+            <ul class="submenu" [class.open]="openSubMenu === 'employee'">
+              <li>
+                <a routerLink="/create-page" (click)="dashboard($event); onMenuItemClick($event)">Create Employee</a>
+              </li>
+              <li><a (click)="EmployeeList($event)">View Employee</a></li>
+            </ul>
+          </li>
+          <li class="has-submenu">
+            <a (click)="toggleSubMenu('leave')">
+              <span class="submenu-arrow" [class.open]="openSubMenu === 'leave'"
+                [class.closed]="openSubMenu !== 'leave'">&#8250;</span>
+              Leave
+            </a>
+            <ul class="submenu" [class.open]="openSubMenu === 'leave'">
+              <li>
+                <a routerLink="/leave-page" (click)="userLeave($event)">Leave Request</a>
+              </li>
+              <li *ngIf="!isRegularUser">
+                <a (click)="managerLeave($event)">Approve Leave</a>
+              </li>
+            </ul>
+          </li>
+          <li *ngIf="timesheetType === 'daily'">
+            <a routerLink="/task-page" (click)="userTask($event)">Daily Task</a>
+          </li>
+          <li *ngIf="timesheetType === 'weekly'">
+            <a routerLink="/weekly-timesheet" (click)="weeklyTimesheet($event)">Weekly Timesheet</a>
+          </li>
+          <li>
+            <a routerLink="/holiday-calendar" (click)="holidayCalendar($event)">Holiday Calendar</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <img src="../../../assets/Images/Black Icon.png" alt="EMS Logo" class="logo-img" />
+    <span class="page-title">Employee Management System</span>
+    <!---  <span class="separator" *ngIf="pagePath"></span>
+    <span class="page-path" *ngIf="pagePath">{{ pagePath }}</span> -->
+  </div>
+ <div class="profile-menu-container" *ngIf="!isLoginPage" #menuContainer [ngStyle]="{ cursor: 'default' }">
+    <span class="header-date">{{ currentDate }}</span>
+
+    <!-- Notification Icon always visible, dropdown only for non-employees -->
+    <span class="notification-icon" title="Notifications"  *ngIf="showNotificationIcon" (click)="toggleNotificationDropdown()">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 0 0 2 2zm6-6V11c0-3.07-1.63-5.64-5-6.32V4a1 1 0 1 0-2 0v.68C7.63 5.36 6 7.92 6 11v5l-1.29 1.29A1 1 0 0 0 6 19h12a1 1 0 0 0 .71-1.71L18 16zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"
+          fill="#222" />
+      </svg>
+      <span class="notification-badge" *ngIf="pendingLeaveCount > 0">{{ pendingLeaveCount }}</span>
+      <div class="notification-dropdown" *ngIf="showNotificationDropdown && !isRegularUser">
+        <div class="notification-section">
+          <div class="notification-section-title">Notification</div>
+          <div class="notification-item notification-item-clickable" tabindex="0" (click)="goToLeaveApprovalPage()">
+            <span>Leave Requests</span>
+            <span class="notification-count" *ngIf="pendingLeaveCount > 0">{{ pendingLeaveCount }}</span>
+          </div>
+        </div>
+      </div>
+    </span>
+
+    <span class="avatar avatar-initial" (click)="toggleProfileMenu()">{{
+      userInitial
+      }}</span>
+
+    <div class="profile-dropdown" *ngIf="showProfileMenu">
+      <a (click)="profile($event); closeProfileMenu()">View Profile</a>
+      <a (click)="openResetPassword(); closeProfileMenu()">Reset Password</a>
+      <a (click)="logout($event); closeProfileMenu()">Log Out</a>
+    </div>
+  </div>
+</header>
+
+<!-- Reset Password Modal -->
+<!-- Reset Password Modal -->
+<div class="forgot-password-modal" *ngIf="showResetPasswordModal">
+  <div class="modal-content">
+    <button type="button" class="close-modal" (click)="closeResetPasswordModal()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+    <div class="modal-header">
+      <div class="modal-icon">
+        <i class="pi pi-lock"></i>
+      </div>
+      <h2 class="forgot-heading">Reset Password</h2>
+    </div>
+
+    <div class="forgot-box">
+      <div class="forgot-info">
+        Enter your current password and new password below.
+      </div>
+
+      <form (ngSubmit)="resetPassword()" class="forgot-form">
+   <div class="password-container">
+    <input [type]="showCurrentPassword ? 'text' : 'password'" [(ngModel)]="currentPassword"name="currentPassword"required  placeholder="Current Password"/>
+    <button type="button" (click)="showCurrentPassword = !showCurrentPassword" class="toggle-password">
+      <!--  Hide & show password  button -->
+      <svg *ngIf="!showCurrentPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+      </svg>
+      <svg *ngIf="showCurrentPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.956 9.956 0 012.442-4.362m3.31-2.478A9.956 9.956 0 0112 5c4.477 0 8.268 2.943 9.542 7a9.973 9.973 0 01-4.422 5.255M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18" />
+      </svg>
+    </button>
+  </div>
+    <div class="password-container">
+     <input [type]="showNewPassword ? 'text' : 'password'" [(ngModel)]="newPassword" name="newPassword" placeholder="New Password" />
+        <button type="button" (click)="showNewPassword = !showNewPassword" class="toggle-password">
+      <!--  Hide & show password  button -->
+      <svg *ngIf="!showNewPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+      </svg>
+      <svg *ngIf="showNewPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.956 9.956 0 012.442-4.362m3.31-2.478A9.956 9.956 0 0112 5c4.477 0 8.268 2.943 9.542 7a9.973 9.973 0 01-4.422 5.255M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18" />
+      </svg>
+    </button>
+    </div>
+      <div class="password-container">
+  <input [type]="showConfirmPassword ? 'text' : 'password'" [(ngModel)]="confirmPassword" name="confirmPassword" placeholder="Confirm Password" />
+         <button type="button" (click)="showConfirmPassword = !showConfirmPassword" class="toggle-password">
+      <!--  Hide & show password  button -->
+      <svg *ngIf="!showConfirmPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+      </svg>
+      <svg *ngIf="showConfirmPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.956 9.956 0 012.442-4.362m3.31-2.478A9.956 9.956 0 0112 5c4.477 0 8.268 2.943 9.542 7a9.973 9.973 0 01-4.422 5.255M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18" />
+      </svg>
+    </button>
+    </div>
+        <!-- <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required
+          placeholder="Confirm New Password" class="forgot-input" /> -->
+
+        <div class="password-match" *ngIf="
+            newPassword && confirmPassword && newPassword !== confirmPassword
+          ">
+          Passwords do not match
+        </div>
+        <button type="submit" class="btn forgot-btn">Reset Password</button>
+      </form>
+    </div>
+  </div>
+</div>
+<p-toast position="top-right"></p-toast>

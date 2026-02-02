@@ -1,0 +1,46 @@
+<!-- Empty table -->
+<!-- Added-->
+             <div class="leave-summary-wrapper">
+    <div class="leave-summary-box animate-card">
+
+        <!-- Header -->
+        <div class="leave-row header animate-row">
+            <div class="taken">Leave Type</div>
+            <div class="taken">Taken</div>
+            <div class="remain">Remain</div>
+        </div>
+
+        <!-- Rows -->
+        <div class="leave-row animate-row">
+            <div class="label">Paid Leave (PL) <small>17 days/year</small></div>
+            <div class="value">0</div>
+            <div class="value">17</div>
+        </div>
+
+        <div class="leave-row animate-row">
+            <div class="label">Sick / Casual Leave <small>8 days/year</small></div>
+            <div class="value">0</div>
+            <div class="value">8</div>
+        </div>
+
+        <div class="leave-row animate-row">
+            <div class="label">Flexi Holiday <small>2 days/year</small></div>
+            <div class="value">0</div>
+            <div class="value">2</div>
+        </div>
+
+        <div class="leave-row animate-row">
+            <div class="label">Holiday <small>8 days/year</small></div>
+            <div class="value">0</div>
+            <div class="value">8</div>
+        </div>
+
+        <!-- Footer -->
+        <div class="leave-footer animate-row">
+            <div></div>
+            <div class="total">0</div>
+            <div class="total">35</div>
+        </div>
+
+    </div>
+</div>

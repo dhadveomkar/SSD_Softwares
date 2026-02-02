@@ -1,0 +1,27 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "dalma-header-application-customizer": {
+      "components": [
+        {
+          "entrypoint": "./lib/extensions/dalmaHeader/DalmaHeaderApplicationCustomizer.js",
+          "manifest": "./src/extensions/dalmaHeader/DalmaHeaderApplicationCustomizer.manifest.json"
+        }
+      ]
+    },
+    "dalma-2-application-customizer": {
+      "components": [
+        {
+          "entrypoint": "./lib/extensions/dalma2/Dalma2ApplicationCustomizer.js",
+          "manifest": "./src/extensions/dalma2/Dalma2ApplicationCustomizer.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "DalmaHeaderApplicationCustomizerStrings": "lib/extensions/dalmaHeader/loc/{locale}.js",
+    "Dalma2ApplicationCustomizerStrings": "lib/extensions/dalma2/loc/{locale}.js"
+  }
+}

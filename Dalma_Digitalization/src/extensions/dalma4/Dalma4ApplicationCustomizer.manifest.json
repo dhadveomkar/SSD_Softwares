@@ -1,0 +1,15 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-extension-manifest.schema.json",
+  "id": "3f141272-17b9-42b0-b4a0-60f41200f84e",
+  "alias": "Dalma4ApplicationCustomizer",
+  "componentType": "Extension",
+  "extensionType": "ApplicationCustomizer",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "properties": {
+    "logoUrl": "",
+    "heroImageUrl": "",
+    "menuItems": ""
+  }
+}

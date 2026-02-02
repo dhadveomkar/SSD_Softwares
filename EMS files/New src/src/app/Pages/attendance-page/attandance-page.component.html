@@ -1,0 +1,212 @@
+<p-toast></p-toast>
+<div class="user-attendance-page">
+  <div class="title-container">
+    <span class="title">
+      <span class="vertical-line"></span>
+      My Attendance
+    </span>
+  </div>
+  <span class="horizontal-line"></span>
+
+  <div class="form-container">
+    <div class="user-info">
+      <!-- <span><strong>ID:</strong> {{ user.empId || 'EMP001' }}</span>
+      <span><strong>Name:</strong> {{ user.name || 'ABC' }}</span> -->
+      <span><strong>ID:</strong> {{ userData.empId }}</span>
+      <span><strong>Name:</strong> {{ userData.firstName }} {{userData.middleName}} {{userData.lastName}}</span>
+      <span><strong>Date:</strong> {{ todayAttendance.date | date:'yyyy-MM-dd' }}</span>
+    </div>
+
+    <div class="attendance-form">
+      <div class="form-group shift-select">
+        <label class="label">Shift:</label>
+        <select [(ngModel)]="todayAttendance.shift" class="custom-select">
+          <option value="">Select Shift</option>
+          <option value="Morning">Morning</option>
+          <option value="Afternoon">Afternoon</option>
+          <option value="Night">Night</option>
+        </select>
+      </div>
+
+      <label>Check In:</label>
+      <input type="time" [(ngModel)]="todayAttendance.checkIn" />
+
+      <label>Check Out:</label>
+      <input type="time" [(ngModel)]="todayAttendance.checkOut" />
+
+      <label>Description:</label>
+      <textarea rows="2" placeholder="Enter Description" [(ngModel)]="todayAttendance.description"></textarea>
+
+
+
+      <button (click)="submitTodayAttendance()">Submit Attendance</button>
+    </div>
+  </div>
+
+  <div class="child-container">
+    <div class="filter">
+      <span class="title">
+        Attendance History
+      </span>
+      <div style="gap: 10px; display: flex; align-items: center;">
+        <!-- <select [(ngModel)]="selectedEmployeeId" class="download-btn" (change)="onEmployeeSelect()">
+        <option value="">-- Select Employee --</option>
+        <option *ngFor="let emp of employeesUnderManager" [value]="emp.empId">
+          {{ emp.empId }} - {{ emp.firstName }} {{emp.middleName}} {{emp.lastName}}
+        </option>
+      </select> -->
+       <div class="filters">
+        <select [(ngModel)]="searchText" class="custom-select">
+          <option value="">Search by Shift</option>
+          <option value="Morning">Morning</option>
+          <option value="Afternoon">Afternoon</option>
+          <option value="Night">Night</option>
+        </select>
+        <input type="date" [(ngModel)]="filterDate" />
+      </div>
+        <button class="view-btn" (click)="toggleView()">
+          {{ showTableView ? 'View Calendar' : 'View Table' }}
+        </button>
+        <!-- <button class="download-btn" (click)="showCard = true">
+          Pending Attendance
+        </button> -->
+        <button class="download-btn" (click)="downloadTableAsExcel()">
+          <i class="fas fa-download"></i> Download Excel
+        </button>
+      </div>
+    </div>
+
+    <!-- Calendar View (shown when showTableView is false) -->
+    <div *ngIf="!showTableView" class="calendar-view">
+      <full-calendar [options]="calendarOptions"></full-calendar>
+    </div>
+
+    <div class="pending-module" *ngIf="showCard">
+      <div class="card toast-center bg-dark text-light shadow-lg">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="pending-search">
+              <input type="date" [(ngModel)]="pendingSearchDate" class="form-control dark-input"
+                placeholder="Filter by date" (change)="filterPendingDates()">
+            </div>
+            <h5 class="card-title mb-0">Pending Attendance</h5>
+            <button type="button" class="btn-close btn-close-white" (click)="showCard = false"
+              aria-label="Close"></button>
+          </div>
+
+          <!-- Pending Dates List (centered) -->
+          <div class="pending-dates-container" *ngIf="!showPendingForm">
+            <div class="pending-dates-list mb-3" *ngIf="filteredPendingDates.length > 0">
+              <div class="pending-date-item" *ngFor="let date of filteredPendingDates">
+                <span>{{ date | date:'yyyy-MM-dd' }}</span>
+                <button class="btn btn-sm btn-outline-light" (click)="loadPendingForm(date)">
+                  <i class="fas fa-plus"></i> Attend
+                </button>
+              </div>
+            </div>
+            <div *ngIf="filteredPendingDates.length === 0" class="text-center py-3">
+              No pending attendance dates found.
+            </div>
+          </div>
+
+          <!-- Pending Attendance Form -->
+          <div class="pending-form-container" *ngIf="showPendingForm">
+            <form (ngSubmit)="submitPendingAttendance()" #attendanceForm="ngForm">
+              <div class="mb-3">
+                <label for="date" class="form-label text-light">Date</label>
+                <input type="date" id="date" class="form-control dark-input" [(ngModel)]="pendingAttendance.date"
+                  name="date" required readonly />
+              </div>
+
+              <div class="mb-3">
+                <label for="shift" class="form-label text-light">Shift</label>
+                <select id="shift" class="form-select dark-input" [(ngModel)]="pendingAttendance.shift" name="shift"
+                  required>
+                  <option value="">Select Shift</option>
+                  <option value="Morning">Morning</option>
+                  <option value="Afternoon">Afternoon</option>
+                  <option value="Night">Night</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="checkIn" class="form-label text-light">Check-In</label>
+                <input type="time" id="checkIn" class="form-control dark-input" [(ngModel)]="pendingAttendance.checkIn"
+                  name="checkIn" required />
+              </div>
+
+              <div class="mb-3">
+                <label for="checkOut" class="form-label text-light">Check-Out</label>
+                <input type="time" id="checkOut" class="form-control dark-input"
+                  [(ngModel)]="pendingAttendance.checkOut" name="checkOut" required />
+              </div>
+
+              <div class="mb-4">
+                <label for="description" class="form-label text-light">Description</label>
+                <input type="text" id="description" class="form-control dark-input"
+                  [(ngModel)]="pendingAttendance.description" name="description" />
+              </div>
+
+              <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-outline-light">Submit</button>
+                <button type="button" class="btn btn-outline-light" (click)="cancelPendingForm()">Cancel</button>
+              </div>
+            </form>
+
+            <div *ngIf="pendingDates.length === 0 && !showPendingForm" class="text-center py-3">
+              No pending attendance dates found.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table *ngIf="showTableView" class="attendance-table" #employeeTable>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Shift</th>
+          <th>Check-In</th>
+          <th>Check-Out</th>
+          <th>Desciption</th>
+          <th>Working Hours</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of filteredRecords">
+          <td>{{ record.date | date:'yyyy-MM-dd' }}</td>
+          <td>{{ record.shift || '--' }}</td>
+          <td>
+            <ng-container *ngIf="!record.isAggregated">
+              {{ record.checkIns[0] || '--' }}
+            </ng-container>
+            <ng-container *ngIf="record.isAggregated">
+              <div *ngFor="let checkIn of record.checkIns">
+                {{ checkIn || '--' }}
+              </div>
+            </ng-container>
+          </td>
+          <td>
+            <ng-container *ngIf="!record.isAggregated">
+              {{ record.checkOuts[0] || '--' }}
+            </ng-container>
+            <ng-container *ngIf="record.isAggregated">
+              <div *ngFor="let checkOut of record.checkOuts">
+                {{ checkOut || '--' }}
+              </div>
+            </ng-container>
+          </td>
+          <td>{{ record.description || '--' }}</td>
+          <td>{{record.workingHours || '--' }}</td>
+
+          <td>
+            <span class="status" [ngClass]="record.status.toLowerCase()">
+              {{ record.status }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

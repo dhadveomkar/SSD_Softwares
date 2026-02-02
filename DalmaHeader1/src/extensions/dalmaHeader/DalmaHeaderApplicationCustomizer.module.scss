@@ -1,0 +1,63 @@
+.dalmaHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: linear-gradient(90deg, #2f93d6, #2aa0e6);
+  color: white;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* left area: home link, logo and email */
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.homeLink {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.08);
+}
+
+.logoWrap {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
+}
+
+.logo {
+  height: 36px;
+  width: auto;
+  border-radius: 3px;
+  display: block;
+}
+
+/* email */
+.email {
+  font-size: 13px;
+  opacity: 0.95;
+}
+
+/* title box on the right */
+.titleBox {
+  background: white;
+  color: #0b5d8e; /* dark blue text inside box */
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* responsive */
+@media (max-width: 720px) {
+  .dalmaHeader { flex-direction: column; align-items: stretch; gap: 8px; padding: 10px; }
+  .leftSection { justify-content: space-between; }
+  .titleBox { align-self: flex-start; }
+}

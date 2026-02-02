@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <ClientSideComponentInstance
+        Title="DynamicNav"
+        Location="ClientSideExtension.ApplicationCustomizer"
+        ComponentId="9d3f68cd-0548-41c4-a050-5a7429016d80"
+        Properties="{&quot;testMessage&quot;:&quot;Test message&quot;}">
+    </ClientSideComponentInstance>
+</Elements>

@@ -1,0 +1,623 @@
+/* Responsive styles for attendance page */
+@media (max-width: 1200px) {
+  .user-attendance-page {
+    height: auto;
+  }
+  .form-container {
+    margin: 1rem 0.5rem;
+  }
+  .child-container {
+    width: 100%;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 900px) {
+  .user-attendance-page {
+    height: auto;
+    margin: 0;
+    padding: 0;
+  }
+  .form-container {
+    margin: 0.5rem 0.2rem;
+  }
+  .child-container {
+    width: 100%;
+    margin: 0.2rem 0;
+    padding: 0.3rem;
+    box-sizing: border-box;
+  }
+  .user-info {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .attendance-form {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+  .filters {
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+  }
+  .calendar-view {
+    height: 45vh;
+    min-width: 0;
+    padding: 4px;
+    margin-top: 10px;
+  }
+  .attendance-table th,
+  .attendance-table td {
+    padding: 6px 4px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 600px) {
+  .user-attendance-page {
+    height: auto;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+  }
+  .title-container {
+    padding: 0.2rem;
+  }
+  .form-container {
+    margin: 0.2rem 0.1rem;
+  }
+  .child-container {
+    width: 100%;
+    margin: 0.1rem 0;
+    padding: 0.2rem;
+    box-sizing: border-box;
+  }
+  .user-info {
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+  }
+  .attendance-form {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+  .attendance-form > * {
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box;
+  }
+  .attendance-form input[type="time"],
+  .attendance-form input,
+  .attendance-form select,
+  .attendance-form textarea,
+  .attendance-form button {
+    width: 100% !important;
+    font-size: 16px;
+    padding: 10px 8px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    min-height: 40px;
+  }
+  .attendance-form label {
+    font-size: 15px;
+  }
+  .filters {
+    flex-direction: column;
+    gap: 0.3rem;
+    width: 100%;
+  }
+  .calendar-view {
+    height: 32vh;
+    min-width: 0;
+    padding: 2px;
+    margin-top: 6px;
+  }
+  .attendance-table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-top: 1rem;
+  }
+  .attendance-table {
+    min-width: 600px;
+    font-size: 11px;
+  }
+  .attendance-table th,
+  .attendance-table td {
+    padding: 3px 2px;
+    font-size: 11px;
+  }
+  .title {
+    font-size: 1rem;
+  }
+}
+ 
+.user-attendance-page {
+  position: relative;
+    max-width: 100%;
+    height: 89vh;
+    margin: 3px auto;
+    background-color: #272727;
+}
+.title-container {
+    position: relative;
+    max-width: 100%;
+    /* height: 86vh; */
+    padding: 0.4rem;
+    background-color: #272727;
+ 
+  }
+  .title {
+    display: flex;
+    align-items: center;
+    font-size: large;
+    color: #f0f0f0;
+  }
+  .horizontal-line {
+    display: block;
+    height: 0.5px;
+    background-color: #6d6c6c;
+    width: 100%;
+  }
+   .vertical-line {
+    display: inline-block;
+    width: 4px;
+    height: 30px;
+    background-color: #87CEFA;
+    margin-right: 10px;
+    border-radius: 2px;
+  }
+ 
+.form-container{
+ margin: 2rem 1rem;
+   color: #f0f0f0;
+}
+.user-info {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.child-container {
+  width: 100%;
+  margin: 1rem 0;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+.attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+ 
+ .filter{
+  display: flex;
+  justify-content: space-between;
+ }
+.attendance-form {
+  padding-top: 1rem;
+  display: flex;
+  gap: 12px;
+  .attendance-form {
+    padding-top: 1rem;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+.attendance-form textarea {
+  background-color: #1e1e1e;
+  color: #fff;
+  border: 1px solid #333;
+  /* padding: 8px; */
+  border-radius: 4px;
+  /* flex: 1 1 200px; */
+  
+}
+ 
+.attendance-form input {
+  background-color: #1e1e1e;
+  color: white;
+  border: 1px solid #333;
+  padding: 6px 10px;
+  border-radius: 4px;
+  width: 180px;
+}
+
+.attendance-form input[type="time"] {
+  width: 180px;
+  min-width: 100px;
+  font-size: 15px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+ 
+.attendance-form button {
+  background-color: #007acc;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+
+
+
+ 
+.attendance-table th,
+.attendance-table td {
+  padding: 10px;
+  border-bottom: 1px solid #444;
+}
+ 
+.attendance-table thead {
+  background-color: #1e1e1e;
+}
+ 
+.status {
+  padding: 4px 8px;
+  border-radius: 8px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+ 
+.status.present {
+  background-color: #4caf50;
+  color: white;
+}
+ 
+.status.absent {
+  background-color: #f44336;
+  color: white;
+}
+ 
+.status.incomplete {
+  background-color: #ffc107;
+  color: black;
+}
+.shift-select {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-container .label {
+  color: #f0f0f0;
+  font-weight: medium;
+  font-size: 14px;
+}
+
+/* Dropdown Styling */
+.custom-select {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  border: 1px solid #374151;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="%23f0f0f0" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px 16px;
+  width: 150px;
+  cursor: pointer;
+}
+ .download-btn {
+   background: #3d3a4e;      /* Dark Gray background */
+  color: #f0f0f0;                  /* Light text */
+  border: 1px solid #7d7d7e;      /* Subtle border */
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.download-btn:hover {
+  background: #373544;
+}
+
+ .view-btn {
+    background: linear-gradient(82.3deg,
+      rgba(99, 88, 238, 1) 94.3%,
+      rgba(99, 88, 238, 1) 94.3%);     /* Dark Gray background */
+  color: #f0f0f0;                  /* Light text */
+  border: 1px solid #7d7d7e;      /* Subtle border */
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.view-btn:hover {
+  background: rgb(87, 76, 243) 94.3%;
+}
+
+.download-btn:active {
+  background-color: #7d7d7e; 
+}
+.pending-module {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Dark backdrop */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toast-center {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 10px;
+}
+
+.dark-input {
+  background-color: #343a40;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+.dark-input::placeholder {
+  color: #ccc;
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+ 
+.filters input {
+  background-color: #1e1e1e;
+  color: white;
+  border: 1px solid #333;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+
+
+
+.status {
+  padding: 4px 8px;
+  border-radius: 8px;
+  text-transform: capitalize;
+}
+
+.status.present {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.status.pending {
+  background-color: #ff9800;
+  color: #fff;
+}
+
+.status.absent {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.table-title {
+  margin-bottom: 10px;
+}
+
+/* Center both the list and form containers */
+.pending-dates-container, 
+.pending-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.pending-dates-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 10px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.pending-date-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.pending-date-item:last-child {
+  margin-bottom: 0;
+}
+
+.pending-date-item button {
+  white-space: nowrap;
+  margin-left: 10px;
+}
+
+/* Dark input styles */
+.dark-input {
+  background-color: #343a40;
+  color: white;
+  border: 1px solid #495057;
+}
+
+.dark-input:focus {
+  background-color: #343a40;
+  color: white;
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Style for the form */
+.pending-form-container form {
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+
+
+.pending-search {
+  margin-right: 15px;
+  width: 200px;
+}
+
+.dark-input {
+  background-color: #343a40;
+  color: white;
+  border: 1px solid #495057;
+}
+
+.dark-input:focus {
+  background-color: #343a40;
+  color: white;
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Adjust the header layout */
+.card-body > .d-flex {
+  display: flex;
+  align-items: center;
+}
+
+.card-title {
+  margin-left: 15px;
+  flex-grow: 1;
+  text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Container styling (fixed 500px height) */
+
+.calendar-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #212122ff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+  padding: 16px;
+  width: 100%;
+  height: 520px;
+  margin: 20px 0;
+}
+
+
+/* FullCalendar main container */
+:host ::ng-deep .fc {
+  width: 100% !important;
+  max-width: none !important;
+  height: 100% !important;
+  font-size: 10px !important;
+}
+
+/* Header toolbar styling */
+:host ::ng-deep .fc-header-toolbar {
+  background: #333;
+  padding: 5px !important;
+  margin-bottom: 5px !important;
+  border-radius: 5px;
+  font-size: 10px !important;
+  color: #f0f0f0; /* Header text color */
+}
+
+
+/* Day names (Mon, Tue, etc.) */
+:host ::ng-deep .fc-col-header-cell {
+  color: #f0f0f0 !important; /* Force day names color */
+}
+
+:host ::ng-deep .fc-col-header-cell a {
+  color: inherit !important; /* Ensure link color matches */
+}
+
+/* Date numbers (1, 2, 3, etc.) */
+:host ::ng-deep .fc-daygrid-day-number {
+  color: #f0f0f0 !important; /* Force date numbers color */
+  font-size: 8px !important;
+  padding: 2px !important;
+}
+
+/* Day cell styling */
+:host ::ng-deep .fc-daygrid-day {
+  background: #2a2a2a;
+  border: 1px solid #444;
+  height: 20px !important;
+}
+
+/* Event styling */
+:host ::ng-deep .fc-event {
+  background: #056aadff;
+  border: none;
+  padding: 0 2px !important;
+  font-size: 8px !important;
+  margin: 1px 0 !important;
+  color: white !important; /* Event text color */
+}
+
+/* Today's highlight */
+:host ::ng-deep .fc-day-today {
+  background: #007acc !important;
+}
+
+/* Today's date number (override for today) */
+:host ::ng-deep .fc-day-today .fc-daygrid-day-number {
+  color: #f0f0f0 !important; /* Ensure today's date is visible */
+}
+
+/* Button styling */
+:host ::ng-deep .fc-button {
+  background: #007acc !important;
+  border: none !important;
+  color: white !important;
+   padding: 6px 12px !important;    /* Matches day cell padding */
+  height: 30px !important;    
+  font-size: 8px !important;
+}
+
+/* Target ONLY the Today button */
+:host ::ng-deep .fc-today-button {
+  padding: 6px 12px !important;    /* Matches day cell padding */
+  height: 30px !important;         /* Matches day cell height */
+  font-size: 12px !important;      /* Matches day cell font */
+  line-height: 1.2 !important;     /* Better text alignment */
+  min-width: 80px !important;      /* Wider than other buttons */
+  background: #007acc !important;
+}
+

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <CustomAction
+        Title="DalmaHeader"
+        Location="ClientSideExtension.ApplicationCustomizer"
+        ClientSideComponentId="8619dddc-f0d0-4ce3-a92d-074313c97e6b"
+        ClientSideComponentProperties='{
+      "logoUrl":"/sites/DALMADIGITALIZATION/SiteAssets/dalma_logo.png",
+      "contactEmail":"contact@dalma.com",
+      "homeUrl":"/sites/DALMADIGITALIZATION"
+    }'>
+    </CustomAction>
+</Elements>

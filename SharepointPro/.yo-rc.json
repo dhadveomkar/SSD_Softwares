@@ -1,0 +1,19 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "useGulp": false,
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "22.16.0",
+    "sdksVersions": {},
+    "version": "1.22.1",
+    "libraryName": "sharepoint-pro",
+    "libraryId": "9f65e98f-1bac-4eb5-a59c-40d8977072ac",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "sharepoint-pro",
+    "solutionShortDescription": "sharepoint-pro description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

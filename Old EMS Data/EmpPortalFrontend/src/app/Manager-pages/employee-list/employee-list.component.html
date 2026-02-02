@@ -1,0 +1,217 @@
+<p-toast></p-toast>
+<div class="main-emp-section">
+  <div *ngIf="isLoading" class="loader-overlay">
+    <div class="loader-spinner"></div>
+    <div>Loading...</div>
+  </div>
+  <div class="top-section">
+    <span class="title">
+      <span class="vertical-line"></span>
+      Employee Details
+    </span>
+  </div>
+  <span class="horizontal-line"></span>
+
+  <div class="button-row">
+    <div>
+      <div class="filters">
+        <input
+          type="text"
+          [(ngModel)]="searchText"
+          placeholder="--Search by Name or ID--"
+          class="search-input"
+        />
+      </div>
+    </div>
+    <div class="action-buttons">
+      <button
+        class="btn create"
+        (click)="CreatePage()"
+      >
+       <b>+</b> Create
+      </button>
+      <button
+        class="btn view"
+        (click)="ViewPage()"
+      >
+          <span class="btn-content-inline">
+            <i class="fas fa-eye btn-icon"></i>
+            <span>View</span>
+          </span>
+      </button>
+      <button
+        class="btn edit"
+        (click)="EditPage()"
+      >
+          <span class="btn-content-inline">
+            <i class="fas fa-edit btn-icon"></i>
+            <span>Edit</span>
+          </span>
+      </button>
+      <button
+        class="download-btn"
+        (click)="downloadTableAsExcel(employeeTable)"
+      >
+        <i class="fas fa-download"></i> Download Excel
+      </button>
+    </div>
+  </div>
+  <div class="table-structure" #employeeTable>
+    <table class="dark-table">
+      <thead>
+        <tr>
+            <th>
+              <span class="th-flex">
+                <span>Employee ID</span>
+                <span class="filter-icon" (click)="toggleFilter('empId')"><i class="fas fa-filter"></i></span>
+              </span>
+              <input *ngIf="showFilter['empId']" [(ngModel)]="columnFilters['empId']" class="header-filter-input" placeholder="Filter..." />
+            </th>
+            <th>
+              <span class="th-flex">
+                <span>Joining Date</span>
+                <span class="filter-icon" (click)="toggleFilter('joiningDate')"><i class="fas fa-filter"></i></span>
+              </span>
+              <input *ngIf="showFilter['joiningDate']" [(ngModel)]="columnFilters['joiningDate']" class="header-filter-input" type="date" />
+            </th>
+            <th>
+              <span class="th-flex">
+                <span>First Name</span>
+                <span class="filter-icon" (click)="toggleFilter('firstName')"><i class="fas fa-filter"></i></span>
+              </span>
+              <input *ngIf="showFilter['firstName']" [(ngModel)]="columnFilters['firstName']" class="header-filter-input" placeholder="Filter..." />
+            </th>
+            <th>
+              <span class="th-flex">
+                <span>Middle Name</span>
+                <span class="filter-icon" (click)="toggleFilter('middleName')"><i class="fas fa-filter"></i></span>
+              </span>
+              <input *ngIf="showFilter['middleName']" [(ngModel)]="columnFilters['middleName']" class="header-filter-input" placeholder="Filter..." />
+            </th>
+            <th>
+              <span class="th-flex">
+                <span>Last Name</span>
+                <span class="filter-icon" (click)="toggleFilter('lastName')"><i class="fas fa-filter"></i></span>
+              </span>
+              <input *ngIf="showFilter['lastName']" [(ngModel)]="columnFilters['lastName']" class="header-filter-input" placeholder="Filter..." />
+            </th>
+            <th>
+              <span class="th-flex">
+                <span>User Name</span>
+                <span class="filter-icon" (click)="toggleFilter('userName')"><i class="fas fa-filter"></i></span>
+              </span>
+              <input *ngIf="showFilter['userName']" [(ngModel)]="columnFilters['userName']" class="header-filter-input" placeholder="Filter..." />
+            </th>
+            <th>
+              <span class="th-flex">
+                <span>Date of Birth</span>
+                <span class="filter-icon" (click)="toggleFilter('dateOfBirth')"><i class="fas fa-filter"></i></span>
+              </span>
+              <input *ngIf="showFilter['dateOfBirth']" [(ngModel)]="columnFilters['dateOfBirth']" class="header-filter-input" type="date" />
+            </th>
+            <th>
+              <span class="th-flex">
+                <span>Mobile Number</span>
+                <span class="filter-icon" (click)="toggleFilter('mobileNumber')"><i class="fas fa-filter"></i></span>
+              </span>
+              <input *ngIf="showFilter['mobileNumber']" [(ngModel)]="columnFilters['mobileNumber']" class="header-filter-input" placeholder="Filter..." />
+            </th>
+            <th>
+              <span class="th-flex">
+                <span>Gender</span>
+                <span class="filter-icon" (click)="toggleFilter('gender')"><i class="fas fa-filter"></i></span>
+              </span>
+              <input *ngIf="showFilter['gender']" [(ngModel)]="columnFilters['gender']" class="header-filter-input" placeholder="Filter..." />
+            </th>
+            <th>
+              <span class="th-flex">
+                <span>Email</span>
+                <span class="filter-icon" (click)="toggleFilter('email')"><i class="fas fa-filter"></i></span>
+              </span>
+              <input *ngIf="showFilter['email']" [(ngModel)]="columnFilters['email']" class="header-filter-input" placeholder="Filter..." />
+            </th>
+            <th>
+              <span class="th-flex">
+                <span>Department</span>
+                <span class="filter-icon" (click)="toggleFilter('department')"><i class="fas fa-filter"></i></span>
+              </span>
+              <input *ngIf="showFilter['department']" [(ngModel)]="columnFilters['department']" class="header-filter-input" placeholder="Filter..." />
+            </th>
+            <th>
+              <span class="th-flex">
+                <span>Designation</span>
+                <span class="filter-icon" (click)="toggleFilter('designation')"><i class="fas fa-filter"></i></span>
+              </span>
+              <input *ngIf="showFilter['designation']" [(ngModel)]="columnFilters['designation']" class="header-filter-input" placeholder="Filter..." />
+            </th>
+            <th>
+              <span class="th-flex">
+                <span>Company Name</span>
+                <span class="filter-icon" (click)="toggleFilter('companyName')"><i class="fas fa-filter"></i></span>
+              </span>
+              <input *ngIf="showFilter['companyName']" [(ngModel)]="columnFilters['companyName']" class="header-filter-input" placeholder="Filter..." />
+            </th>
+            <th>
+              <span class="th-flex">
+                <span>Address</span>
+                <span class="filter-icon" (click)="toggleFilter('address')"><i class="fas fa-filter"></i></span>
+              </span>
+              <input *ngIf="showFilter['address']" [(ngModel)]="columnFilters['address']" class="header-filter-input" placeholder="Filter..." />
+            </th>
+            <th>
+              <span class="th-flex">
+                <span>Holiday</span>
+                <span class="filter-icon" (click)="toggleFilter('holiday')"><i class="fas fa-filter"></i></span>
+              </span>
+              <input *ngIf="showFilter['holiday']" [(ngModel)]="columnFilters['holiday']" class="header-filter-input" placeholder="Filter..." />
+            </th>
+            <th>
+              <span class="th-flex">
+                <span>Reporting Manager</span>
+                <span class="filter-icon" (click)="toggleFilter('reportingManager')"><i class="fas fa-filter"></i></span>
+              </span>
+              <input *ngIf="showFilter['reportingManager']" [(ngModel)]="columnFilters['reportingManager']" class="header-filter-input" placeholder="Filter..." />
+            </th>
+            <th>
+              <span class="th-flex">
+                <span>Role</span>
+                <span class="filter-icon" (click)="toggleFilter('role')"><i class="fas fa-filter"></i></span>
+              </span>
+              <input *ngIf="showFilter['role']" [(ngModel)]="columnFilters['role']" class="header-filter-input" placeholder="Filter..." />
+            </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="filteredRecords.length === 0">
+          <td colspan="17" class="no-employee-details">
+            No Employee Details Found
+          </td>
+        </tr>
+        <tr
+          *ngFor="let emp of filteredRecords"
+          (click)="selectEmployee(emp)"
+          [class.selected]="emp === selectedEmployee"
+        >
+          <td>{{ emp.empId }}</td>
+          <td>{{ emp.joiningDate | date : "MM/dd/yyyy" }}</td>
+          <td>{{ emp.firstName }}</td>
+          <td>{{ emp.middleName }}</td>
+          <td>{{ emp.lastName }}</td>
+          <td>{{ emp.userName }}</td>
+          <td>{{ emp.dateOfBirth | date : "MM/dd/yyyy" }}</td>
+          <td>{{ emp.mobileNumber }}</td>
+          <td>{{ emp.gender }}</td>
+          <td>{{ emp.email }}</td>
+          <td>{{ emp.department || '-' }}</td>
+          <td>{{ emp.designation || '-' }}</td>
+          <td>{{ emp.companyName || "-" }}</td>
+          <td>{{ emp.address || "-" }}</td>
+          <td>{{ emp.holiday || "-" }}</td>
+
+          <td>{{ emp.reportingManager }}</td>
+          <td>{{ emp.role || '-' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

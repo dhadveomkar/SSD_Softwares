@@ -1,0 +1,2659 @@
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MessageService } from 'primeng/api';
+import { DropdownModule } from 'primeng/dropdown';
+import { ToastModule } from 'primeng/toast';
+import * as XLSX from 'xlsx';
+import { ApiService } from '../../../services/services';
+
+
+// interface WeekData {
+//   weekNo: number;
+//   startDate: Date;
+//   endDate: Date;
+//   fiscalWeek: string;
+//   month: string;
+//   year: number;
+// }
+interface fiscalWeeks {
+  weekNo: number;
+  startDate: Date;
+  endDate: Date;
+  fiscalWeek: string;
+  month: string;
+  year: number;
+}
+
+interface LeaveEntitlement {
+  type: string;
+  annual: number;
+  proRataEntitlement: number;
+  remaining: number;
+  taken: number;
+}
+interface ProjectManegers {
+  EmpId:number;
+  FirstName : string;
+  LastName : string;
+}
+interface User {
+  empId: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+}
+@Component({
+  selector: 'app-weekly-timesheet',
+  standalone: true,
+  imports: [CommonModule, FormsModule, ToastModule, DropdownModule],
+  providers: [MessageService],
+  templateUrl: './weekly-timesheet.component.html',
+  styleUrls: ['./weekly-timesheet.component.css']
+})
+export class WeeklyTimesheetComponent implements OnInit {
+timesheetRows: any[] = [];
+ originalTimesheetRows: any[] = [];
+ fiscalWeeks: fiscalWeeks[] = [];
+  weekOptions: number[] = [];
+  currentYear: number = new Date().getFullYear();
+  currentUserName: string = '';
+  currentUserEmail: string = '';
+  managers: any[] = [];
+  projectManagers: any[] = [];
+  formData: any = {};
+  showAllData: boolean = false;
+  isAdmin: boolean = false;
+  isManager: boolean = false;
+  searchText: string = '';
+  selectedHeaderWeeks: string[] = [];
+  showHeaderDropdown = false;
+  totalHalfDays = 0;
+  showHalfDayModal=false;
+  pendingsave=false;
+   // Add these properties
+  officialHolidayDates: string[] = [];
+  optionalHolidayDates: string[] = [];
+  weeklyOffDays: number[] = [0, 7]; // Sunday = 0, Saturday = 6
+  selectedHeaderWeekNo: string  | null = null;
+
+  // ===== EDIT FUNCTIONALITY PROPERTIES =====
+  isEditMode: boolean = false;
+  selectedRowIndex: number | null = null;
+  halfDayNames: string[] = [];
+  showDropdownOpen: boolean = false;
+  selectedWeek: string | null = null;
+  showModalDropdown = false;
+  showDropdown: boolean = false;
+
+  
+
+openDownloadModal() {
+  this.showModal = true;
+}
+
+
+  // ===== LEAVE TRACKING PROPERTIES =====
+  private leaveTracking: Map<string, number> = new Map(); // Tracks leaves taken by type
+  private initialLeaveEntitlements: LeaveEntitlement[] = [];
+
+  filters: any = {
+    employeeName: '',
+    weekNo: '',
+    fiscalWeek: '',
+    month: '',
+    leaveType: '',
+    projectManager:'',
+    projectName: '',
+    totalWeek: '',
+    sunHours: '',
+    monHours: '',
+    tuesHours: '',
+    wedHours: '',
+    thursHours: '',
+    friHours: '',
+    satHours: ''
+  };
+
+  showColumnFilter: any = {
+    employeeName: false,
+    weekNo: false,
+    fiscalWeek: false,
+    month: false,
+    leaveType: false,
+    projectManager:false,
+    projectName: false,
+    totalWeek: false,
+    sunHours: false,
+    monHours: false,
+    tuesHours: false,
+    wedHours: false,
+    thursHours: false,
+    friHours: false,
+    satHours: false
+  };
+
+  totalWeekSum: number = 0;
+  totalSunHours: number = 0;
+  totalMonHours: number = 0;
+  totalTuesHours: number = 0;
+  totalWedHours: number = 0;
+  totalThursHours: number = 0;
+  totalFriHours: number = 0;
+  totalSatHours: number = 0;
+
+  leaveTypeCounts ={
+    PaidLeave: {
+    allocated: 0,
+    taken: 0,
+    remaining: 0
+  },
+    CasualLeaveCount:{
+     allocated:0,
+     taken:0,
+     remaining:0
+   },
+     FlexiHoliday: {
+    allocated: 0,
+    taken: 0,
+    remaining: 0
+  },
+   Total: {
+    taken: 0,
+    remaining: 0
+  }
+  };
+  showModal = false;
+
+ downloadTimesheet() {
+  const link = document.createElement('a');
+  link.href = 'assets/Files/SampleTimesheet.xlsx';
+  link.download = 'SampleTimesheet.xlsx';
+  link.click();
+}
+onProceedUpload(){
+
+}
+//  showModal = false;
+  selectedTimesheet: string = 'weekly';
+  selectedMonth: string = '';
+  allTimesheetRows: any[] = [];    
+ months: string[] = [
+  'January','February','March','April','May','June',
+  'July','August','September','October','November','December'
+];
+monthOptions: any[] = []; // {label, value} objects
+filteredMonths: any[] = [];
+
+  // Add this method
+ 
+ 
+
+  // ===== PRO RATA PROPERTIES =====
+  leaveCountData: any[] = [];
+  leaveEntitlements: any[] = [];
+  employeeJoinDate: Date | null = null;
+  proRataFactor: number = 1;
+
+  // ===== LEAVE DROPDOWN PROPERTIES =====
+  leaveTypes: string[] = [
+    'paid Leave ',
+    'Casual Leave',
+    'Optional Holiday',
+    'Holiday'
+  ];
+
+  private apiService = inject(ApiService);
+  private messageService = inject(MessageService);
+  // ===== CLICK OUTSIDE HANDLER =====
+@HostListener('document:click', ['$event'])
+onDocumentClick(event: MouseEvent) {
+  const target = event.target as HTMLElement;
+  if (!target.closest('.week-dropdown-container') &&
+      !target.closest('.header-Week-No')) {
+    this.showHeaderDropdown = false;
+  }
+  if (!target.closest('.timesheet-table')) {
+    this.showDropdownIndex = null;
+  }
+    if (!target.closest('tbody')) {
+    this.showDropdownIndex = null;
+  }
+    if (this.showModalDropdown && 
+      !target.closest('.modal-dropdown-display') &&
+      !target.closest('.modal-dropdown-list') &&
+      !target.closest('.modal-dropdown-container')) {
+    this.showModalDropdown = false;
+  }
+}
+
+
+  ngOnInit() {
+    const firstName = sessionStorage.getItem('userName') || '';
+    const lastName = sessionStorage.getItem('userLastName') || '';
+    const userEmail = sessionStorage.getItem('userEmail') || '';
+    const userRole = sessionStorage.getItem('userRole') || '';
+    const CompanyId= sessionStorage.getItem('CompanyId') || '';
+
+    console.log('Session Storage - userName:', firstName);
+    console.log('Session Storage - userLastName:', lastName);
+    console.log('Session Storage - companyId:',CompanyId)
+
+    this.currentUserName = `${firstName} ${lastName}`.trim();
+    this.currentUserEmail = userEmail;
+
+    this.isAdmin = userRole.toLowerCase() === 'admin';
+    this.isManager = userRole.toLowerCase() === 'manager';
+
+    console.log('Current User Name:', this.currentUserName);
+    console.log('Role - Admin:', this.isAdmin, 'Manager:', this.isManager);
+
+    this.generateWeekDataForYear(this.currentYear);
+    this.loadLeaveCountData(); // Load pro rata data
+    this.loadManagers();
+    this.loadWeeklyTimesheets();
+    this.applyProRataToEntitlements();
+    this.fetchHolidayData();
+    
+    this.monthOptions = this.months.map(m => ({ label: m, value: m }));
+  this.setInitial3Months();
+  }
+setInitial3Months() {
+  const currentIndex = new Date().getMonth(); 
+  const last3: any[] = [];
+
+  for (let i = 0; i < 3; i++) {
+    const index = (currentIndex - i + 12) % 12;
+    last3.push(this.monthOptions[index]);
+  }
+
+  this.filteredMonths = last3.reverse();
+}
+
+onMonthFilter(event: any) {
+  const query = event.filter?.toLowerCase() || '';
+
+  if (!query) {
+    this.setInitial3Months();
+    return;
+  }
+
+  this.filteredMonths = this.monthOptions.filter(month =>
+    month.label.toLowerCase().includes(query)
+  );
+
+}
+onMonthSelect(event: any) {
+  const selectedMonth = event.value;
+  console.log('Selected month:', selectedMonth);
+
+  if (!selectedMonth) {
+    this.timesheetRows = [...this.allTimesheetRows]; // reset
+    return;
+  }
+
+  const monthIndex = this.months.indexOf(selectedMonth); // 0-based
+
+  this.timesheetRows = this.allTimesheetRows.filter(row => {
+    if (!row.date) return false;
+
+    let rowDate: Date;
+
+    try {
+      // Attempt to parse any string as a Date
+      rowDate = new Date(row.date);
+
+      // Check if the date is valid
+      if (isNaN(rowDate.getTime())) {
+        console.warn('Invalid date:', row.date);
+        return false;
+      }
+
+      return rowDate.getMonth() === monthIndex;
+    } catch (error) {
+      console.error('Error parsing date:', row.date, error);
+      return false;
+    }
+  });
+
+  console.log('Filtered rows:', this.timesheetRows);
+}
+
+
+  //  <!--seelct project Maneger-->
+  private loadManagers(): void {
+    this.apiService.getAllUsers().subscribe({
+      next: (users: User[]) => {
+        // Filter users with role 'Manager' or 'Admin'
+        this.managers = users.filter(u => 
+          u.role && (u.role.toLowerCase() === 'manager' || u.role.toLowerCase() === 'admin')
+        );
+
+        // If editing and reporting manager exists, ensure it is in the list
+        if (this.formData.reportingManager) {
+          const exists = this.managers.some(m => m.empId === this.formData.reportingManager);
+          if (!exists) {
+            const missingManager = users.find(u => u.empId === this.formData.reportingManager);
+            if (missingManager) this.managers.push(missingManager);
+          }
+        }
+
+        // Use the same list for Project Manager dropdown
+        this.projectManagers = [...this.managers];
+      },
+      error: (err) => {
+        console.error('Failed to load managers:', err);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to load managers list',
+          life: 3000
+        });
+      }
+    });
+    
+  }
+
+  onProjectManagerChange(index: number) {
+    console.log('Selected Project Manager for row', index, this.timesheetRows[index].projectManagers);
+  }
+  
+  // ===== EDIT FUNCTIONALITY METHODS =====
+
+  /**
+   * Select a row for editing
+   */
+  selectRow(rowIndex: number, event: Event): void {
+    // Prevent event bubbling to avoid triggering dropdown
+    event.stopPropagation();
+
+    console.log('selectRow called:', {
+      rowIndex,
+      isEditMode: this.isEditMode,
+      selectedRowIndex: this.selectedRowIndex,
+      showDropdownIndex: this.showDropdownIndex
+      
+    });
+      this.selectedRowIndex =rowIndex;
+      this.showDropdownIndex = null;
+
+    // If we're already in edit mode and clicking the same row, do nothing
+    if (this.isEditMode && this.selectedRowIndex === rowIndex) {
+      console.log('Same row clicked in edit mode - doing nothing');
+      return;
+    }
+
+    // If we're already in edit mode and clicking a different row, switch selection
+    if (this.isEditMode && this.selectedRowIndex !== rowIndex) {
+      console.log('Different row clicked in edit mode - switching selection');
+      this.selectedRowIndex = rowIndex;
+      return;
+    }
+
+    // If not in edit mode, just select the row but don't enable edit mode
+    console.log('New row selected - setting selection only');
+    this.selectedRowIndex = rowIndex;
+  }
+  selectedCard: string = ''; 
+  selectCard(cardName: string) {
+  this.selectedCard = this.selectedCard === cardName ? '' : cardName;
+  console.log('Selected card:', this.selectedCard);
+}
+isCardSelected(cardName: string): boolean {
+  return this.selectedCard === cardName;
+}
+  /**
+   * Check if a row is selected
+   */
+  isRowSelected(rowIndex: number): boolean {
+    return this.selectedRowIndex === rowIndex;
+  }
+
+  /**
+   * Enable edit mode - only if a row is selected
+   */
+  enableEditMode(): void {
+    if (this.selectedRowIndex === null) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'No Row Selected',
+        detail: 'Please select a row to edit first.',
+        life: 3000
+      });
+      return;
+    }
+
+    this.isEditMode = true;
+    console.log('Edit mode enabled for row:', this.selectedRowIndex);
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Edit Mode Enabled',
+      detail: 'You can now edit the selected row.',
+      life: 3000
+    });
+  }
+  exitEditMode(): void {
+    this.isEditMode = false;
+    this.selectedRowIndex = null;
+    console.log('Edit mode disabled and row deselected');
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Edit Mode Disabled',
+      detail: 'All rows are now read-only.',
+      life: 2000
+    });
+  }
+
+  autoDeselectAfterSave(): void {
+    this.isEditMode = false;
+    this.selectedRowIndex = null;
+    console.log('Auto deselected after save');
+  }
+  isFieldDisabled(rowIndex: number): boolean {
+    const disabled = !this.isEditMode || this.selectedRowIndex !== rowIndex;
+    return disabled;
+  }
+
+  isWeekDropdownDisabled(rowIndex: number): boolean {
+    return !this.isEditMode || this.selectedRowIndex !== rowIndex;
+  }
+
+ mapLeaveDataToCard() {
+  // Determine Flexi Holiday allocation based on joining month
+  let flexiAllocation = 1; // Default: Jul-Dec = 1
+  if (this.employeeJoinDate) {
+    const joinMonth = new Date(this.employeeJoinDate).getMonth(); // 0 = Jan, 11 = Dec
+    if (joinMonth >= 0 && joinMonth <= 5) { // Jan-Jun (months 0-5)
+      flexiAllocation = 2;
+    } else { // Jul-Dec (months 6-11)
+      flexiAllocation = 1;
+    }
+  }
+
+  this.leaveEntitlements.forEach(leave => {
+    if (leave.leaveType === 'Paid Leave' || leave.leaveType === 'Paid Leave') {
+      this.leaveTypeCounts.PaidLeave = {
+        allocated: leave.proRataEntitlement,
+        taken: leave.taken,
+        remaining: leave.remaining
+      };
+    } else if (leave.leaveType === 'Casual Leave') {
+      this.leaveTypeCounts.CasualLeaveCount = {
+        allocated: leave.proRataEntitlement,
+        taken: leave.taken,
+        remaining: leave.remaining
+      };
+    } else if (leave.leaveType === 'Optional Holiday') {
+      // Override allocated with join-date-based value
+      this.leaveTypeCounts.FlexiHoliday = {
+        allocated: flexiAllocation,
+        taken: leave.taken,
+        remaining: flexiAllocation - (leave.taken || 0)
+      };
+    }
+  });
+  
+  // Calculate totals
+  this.leaveTypeCounts.Total.taken = 
+    this.leaveTypeCounts.PaidLeave.taken + 
+    this.leaveTypeCounts.CasualLeaveCount.taken + 
+    this.leaveTypeCounts.FlexiHoliday.taken;
+  
+  this.leaveTypeCounts.Total.remaining = 
+    this.leaveTypeCounts.PaidLeave.remaining + 
+    this.leaveTypeCounts.CasualLeaveCount.remaining + 
+    this.leaveTypeCounts.FlexiHoliday.remaining;
+  
+  console.log('Final card counts:', this.leaveTypeCounts);
+}
+ // ===== PRO RATA CALCULATION METHODS =====
+  loadLeaveCountData() {
+    this.apiService.getAllLeaveCounts().subscribe({
+      next: (res: any) => {
+        this.leaveCountData = Array.isArray(res) ? res : [];
+        this.calculateProRataLeaveAllocation();
+      },
+      error: (err) => {
+        console.error('Error loading leave count data:', err);
+        this.setDefaultEntitlements();
+      }
+    });
+  }
+
+  calculateProRataLeaveAllocation() {
+    this.getEmployeeJoinDate();
+    this.calculateProRataFactor();
+    this.applyProRataToEntitlements();
+  }
+
+  getEmployeeJoinDate() {
+    const joinDateStr = sessionStorage.getItem('joiningDate');
+    if (joinDateStr) {
+      this.employeeJoinDate = new Date(joinDateStr);
+    } else {
+      this.employeeJoinDate = new Date();
+    }
+    
+  }
+
+  calculateProRataFactor(): void {
+    if (!this.employeeJoinDate) {
+      this.proRataFactor = 1;
+      return;
+    }
+
+    const today = new Date();
+    const joinDate = new Date(this.employeeJoinDate);
+    const currentYear = today.getFullYear();
+    const joinYear = joinDate.getFullYear();
+    
+
+    if (joinYear < currentYear) {
+      this.proRataFactor = 1;
+    } else if (joinYear === currentYear) {
+      const monthsWorked = this.calculateMonthsWithRounding(joinDate, today);
+      this.proRataFactor = monthsWorked / 12;
+    } else {
+      this.proRataFactor = 0;
+    }
+  }
+
+  calculateMonthsWithRounding(joinDate: Date, currentDate: Date): number {
+    const join = new Date(joinDate);
+    const current = new Date(currentDate);
+
+    const joinMonth = join.getMonth();
+    const currentMonth = current.getMonth();
+    const joinYear = join.getFullYear();
+    const currentYear = current.getFullYear();
+
+    let monthsWorked = 0;
+
+    if (joinYear === currentYear) {
+      monthsWorked = 12 - joinMonth;
+    } else {
+      monthsWorked = (currentYear - joinYear) * 12 + (currentMonth - joinMonth) + 1;
+    }
+
+    const joinDay = join.getDate();
+    const isJoinedBefore15th = joinDay <= 15;
+
+    if (!isJoinedBefore15th) {
+      monthsWorked = Math.max(0, monthsWorked - 1);
+    }
+
+    return monthsWorked;
+  }
+
+  //   const entitlements: LeaveEntitlement[] = [];
+  //   const companyName = sessionStorage.getItem('companyName') || '';
+
+  //   const companyLeaveCounts = this.leaveCountData.filter(leave => {
+  //     const leaveCompany = (leave.companyName || leave.CompanyName || '').toString().trim();
+  //     return leaveCompany.toLowerCase() === companyName.toLowerCase();
+  //   });
+
+  //   const leaveTypeMap = new Map();
+
+  //   companyLeaveCounts.forEach((leave: any) => {
+  //     const leaveType = leave.typeOfLeaveRequest || leave.TypeOfleaveRequest;
+  //     const count = leave.count || 0;
+
+  //     if (leaveType && !leaveTypeMap.has(leaveType)) {
+  //       leaveTypeMap.set(leaveType, {
+  //         type: leaveType,
+  //         annual: count
+  //       });
+  //     }
+  //   });
+
+  //   return Array.from(leaveTypeMap.values());
+  // }
+// add Ankita panchal
+  // applyProRataToEntitlements() {
+  //   const entitlements = this.extractEntitlementsFromApiData();
+  //   const joinDay = this.employeeJoinDate ? this.employeeJoinDate.getDate() : 1;
+  //   const isJoinedBefore15th = joinDay <= 15;
+
+  //   this.leaveEntitlements = entitlements.map((entitlement: LeaveEntitlement) => {
+  //     const rawProRataEntitlement = entitlement.annual * this.proRataFactor;
+
+  //     let finalEntitlement: number;
+
+  //     if (isJoinedBefore15th) {
+  //       finalEntitlement = Math.ceil(rawProRataEntitlement);
+  //     } else {
+  //       finalEntitlement = Math.floor(rawProRataEntitlement);
+  //     }
+
+  //     finalEntitlement = Math.max(0, finalEntitlement);
+  //     finalEntitlement = this.roundToHalf(finalEntitlement);
+
+  //     return {
+  //       leaveType: entitlement.type,
+  //       annualEntitlement: entitlement.annual,
+  //       proRataEntitlement: finalEntitlement,
+  //       remaining: finalEntitlement, // Initialize remaining with full entitlement
+  //       taken: 0, // Initialize taken leaves as 0
+  //       proRataFactor: this.proRataFactor,
+  //       monthsWorked: Math.round(this.proRataFactor * 12),
+  //       roundingRule: isJoinedBefore15th ? 'Round Up' : 'Round Down'
+  //     };
+  //   });
+
+  //   // Store initial entitlements for reference
+  //   this.initialLeaveEntitlements = [...this.leaveEntitlements];
+
+  //   // Load existing leave counts to calculate current remaining
+  //   this.loadExistingLeaveCounts();
+
+  //   console.log('Pro Rata Leave Entitlements calculated');
+  // }
+
+// ======================= LEAVE ENTITLEMENTS =======================
+applyProRataToEntitlements() {
+  const entitlements = this.extractEntitlementsFromApiData();
+  if (!this.employeeJoinDate || !entitlements || entitlements.length === 0) return;
+
+  const joinDate = new Date(this.employeeJoinDate);
+  const joinDay = joinDate.getDate();
+  const joinMonth = joinDate.getMonth(); // 0-11
+  const joinYear = joinDate.getFullYear();
+  
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const isJoinedBefore15th = joinDay <= 15;
+
+  console.log("=== PRO RATA CALCULATION DEBUG ===");
+  console.log("Company:", sessionStorage.getItem('CompanyId'));
+  console.log("Joining Date:", joinDate.toLocaleDateString());
+  console.log("Join Month:", joinMonth, `(${this.getMonthName(joinMonth)})`);
+  console.log("Join Day:", joinDay);
+  console.log("Current Year:", currentYear);
+  console.log("Joined Before 15th:", isJoinedBefore15th);
+
+  this.leaveEntitlements = entitlements.map((entitlement: LeaveEntitlement) => {
+    const annualEntitlement = entitlement.annual || 0;
+    let proRataValue = 0;
+
+    // Case 1: Joined in previous year - FULL entitlement
+    if (joinYear < currentYear) {
+      proRataValue = annualEntitlement;
+      console.log(`${entitlement.type}: Full entitlement (${annualEntitlement}) - Joined in previous year`);
+    }
+    // Case 2: Joined in current year - Calculate pro-rata
+    else if (joinYear === currentYear) {
+      // Calculate months from join month to December (inclusive)
+      const monthsFromJoinToDec = 12 - joinMonth;
+      
+      // If joined after 15th, subtract 0.5 months
+      let effectiveMonths = isJoinedBefore15th 
+        ? monthsFromJoinToDec 
+        : monthsFromJoinToDec - 0.5;
+      effectiveMonths = Math.max(0, effectiveMonths);
+      
+      // Pro-rata formula: (Annual × Effective Months) ÷ 12
+      proRataValue = (annualEntitlement * effectiveMonths) / 12;
+      
+      proRataValue = this.applyProRataRounding(proRataValue, isJoinedBefore15th);
+      
+      console.log(`${entitlement.type}: Annual=${annualEntitlement}, EffectiveMonths=${effectiveMonths}, ProRata=${proRataValue}`);
+    }
+
+    else {
+      proRataValue = 0;
+      console.log(`${entitlement.type}: Zero entitlement - Future join date`);
+    }
+    const takenCount = this.leaveTracking.get(entitlement.type) || 0;
+    const remainingCount = Math.max(0, proRataValue - takenCount);
+    return {
+      leaveType: entitlement.type,
+      employeeJoinDate: joinDate,
+      annualEntitlement: annualEntitlement,
+      proRataEntitlement: proRataValue,
+      remaining: remainingCount,  
+      taken: takenCount          
+    };
+  });
+
+  console.log("Final Leave Entitlements:", this.leaveEntitlements);
+  this.loadExistingLeaveCounts();
+  this.loadExistingLeaveCounts();
+  this.mapLeaveDataToCard();
+}
+
+
+private applyProRataRounding(value: number, roundUp: boolean): number {
+  let roundedValue;
+  if (roundUp) {
+    roundedValue = Math.ceil(value * 2) / 2;
+  } else {
+    roundedValue = Math.floor(value * 2) / 2;
+  }
+  return Math.ceil(roundedValue);
+}
+private getMonthName(monthIndex: number): string {
+  const months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+  return months[monthIndex];
+}
+
+extractEntitlementsFromApiData(): LeaveEntitlement[] {
+  const entitlements: LeaveEntitlement[] = [];
+  const companyId = sessionStorage.getItem('companyId') || '';
+
+  console.log("Looking for company:", companyId);
+  console.log("All leave data:", this.leaveCountData);
+
+  // Find leave counts for this company
+  const companyLeaveCounts = this.leaveCountData.filter(leave => {
+   const leaveCompanyId = (leave.companyId || leave.CompanyId || leave.companyID || leave.CompanyID  || '').toString().trim();
+    return leaveCompanyId.toLowerCase() === companyId.toLowerCase();
+  });
+
+  console.log("Company leave counts found:", companyLeaveCounts);
+
+  const leaveTypeMap = new Map<string, number>();
+
+  companyLeaveCounts.forEach((leave: any) => {
+    const leaveType = (leave.typeOfLeaveRequest || leave.TypeOfleaveRequest || '').toString().trim();
+    const count = Number(leave.count || leave.LeaveCount || 0);
+
+    if (leaveType && count > 0) {
+  
+      if (!leaveTypeMap.has(leaveType) || count > leaveTypeMap.get(leaveType)!) {
+        leaveTypeMap.set(leaveType, count);
+      }
+    }
+  });
+
+  console.log("Leave types found:", Array.from(leaveTypeMap.entries()));
+
+  // Convert to LeaveEntitlement array
+  return Array.from(leaveTypeMap.entries()).map(([type, annual]) => ({
+    type: type,
+    annual: annual,
+    proRataEntitlement: 0, 
+    remaining: 0,
+    taken: 0
+  }));
+}
+
+private loadExistingLeaveCounts() {
+  this.apiService.GetAllTimesheetLeave().subscribe({
+    next: (leaveData: any) => {
+      if (!Array.isArray(leaveData) || leaveData.length === 0) return;
+      const userLeaveData = leaveData.filter((leave: any) => {
+        const leaveEmployeeName = (leave.employeeName || leave.EmployeeName || '').toString().toLowerCase();
+        return leaveEmployeeName.includes(this.currentUserName.toLowerCase());
+      });
+      this.calculateLeavesTaken(userLeaveData);
+
+      this.updateRemainingLeaves();
+    },
+    error: (err) => {
+      console.error('Error loading existing leave data:', err);
+    }
+  });
+}
+private calculateLeavesTaken(leaveData: any[]) {
+  this.leaveTracking.clear();
+  const uniqueLeaves = new Map<string, string>();
+
+  leaveData.forEach((leave: any) => {
+    const leaveType = leave.leaveType || leave.LeaveType;
+    const fiscalWeek = leave.fiscalWeek || leave.FiscalWeek;
+    const day = leave.day || leave.Day;
+    const employeeName = leave.employeeName || leave.EmployeeName;
+
+    if (leaveType && leaveType !== 'SWITCH_TO_HOURS') {
+      const leaveKey = `${employeeName}-${fiscalWeek}-${day}-${leaveType}`;
+      if (!uniqueLeaves.has(leaveKey)) {
+        uniqueLeaves.set(leaveKey, leaveType);
+        const currentCount = this.leaveTracking.get(leaveType) || 0;
+        this.leaveTracking.set(leaveType, currentCount + 1);
+      }
+    }
+  });
+
+  console.log('Leaves taken by type:', Object.fromEntries(this.leaveTracking));
+  
+}
+
+private updateRemainingLeaves() {
+  this.leaveEntitlements.forEach(entitlement => {
+    const taken = this.leaveTracking.get(entitlement.leaveType) || 0;
+    entitlement.taken = taken;
+    entitlement.remaining = Math.max(0, entitlement.proRataEntitlement - taken);
+  });
+  this.mapLeaveDataToCard();
+}
+roundToHalf(value: number): number {
+  return Math.round(value * 2) / 2;
+}
+
+setDefaultEntitlements() {
+  if (this.leaveCountData.length > 0) {
+    const entitlements = this.extractEntitlementsFromApiData();
+    if (entitlements.length > 0) {
+      this.applyProRataToEntitlements();
+      return;
+    }
+  }
+  this.leaveEntitlements = [];
+}
+  generateWeekDataForYear(year: number) {
+  this.fiscalWeeks = [];
+  this.weekOptions = [];
+
+  const today = new Date();
+  const minDate = new Date();
+  minDate.setDate(today.getDate() - 28);
+
+  const startOfYear = new Date(year, 0, 1);
+  const endOfYear = new Date(year, 11, 31);
+  let weekNo = 1;
+
+  let startDate = new Date(startOfYear);
+  while (startDate.getDay() !== 0) {
+    startDate.setDate(startDate.getDate() - 1);
+  }
+
+  while (startDate <= endOfYear) {
+    let endDate = new Date(startDate);
+    endDate.setDate(startDate.getDate() + 6);
+
+    if (endDate > endOfYear) {
+      endDate = new Date(endOfYear);
+    }
+
+    this.addWeekIfValid(weekNo++, startDate, endDate, year, minDate);
+
+    startDate = new Date(endDate);
+    startDate.setDate(startDate.getDate() + 1);
+  }
+}
+private addWeekIfValid(
+  weekNo: number,
+  startDate: Date,
+  endDate: Date,
+  year: number,
+  minDate: Date
+) {
+  if (endDate >= minDate) {
+    this.fiscalWeeks.push({
+      weekNo: weekNo,
+      startDate: new Date(startDate),
+      endDate: new Date(endDate),
+      fiscalWeek: `${this.formatDateShort(startDate)} - ${this.formatDateShort(endDate)}`,
+      month: `${year}-${endDate.toLocaleDateString('en-US', { month: 'short' })}`,
+      year: year
+    });
+
+    this.weekOptions.push(weekNo);
+  }
+}
+
+
+  private formatDateShort(date: Date): string {
+      const day = date.getDate().toString().padStart(2, '0');
+  const month = date.toLocaleDateString('en-US', { month: 'short' });
+  const year = date.getFullYear().toString().slice(-2);
+  
+  return `${day} ${month} ${year}`;
+    // return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+  }
+
+  toggleFilter(column: string) {
+    this.showColumnFilter[column] = !this.showColumnFilter[column];
+  }
+
+  applyFilter() {
+    this.timesheetRows = this.originalTimesheetRows.filter(row => {
+      return (!this.filters.employeeName || row.employeeName?.toLowerCase().includes(this.filters.employeeName.toLowerCase()))
+        && (!this.filters.fiscalWeek || row.fiscalWeek?.toLowerCase().includes(this.filters.fiscalWeek.toLowerCase()))
+        && (!this.filters.weekNo || row.weekNo == this.filters.weekNo)
+        && (!this.filters.month || row.month?.toLowerCase().includes(this.filters.month.toLowerCase()))
+        && (!this.filters.leaveType || row.leaveType?.toLowerCase().includes(this.filters.leaveType.toLowerCase()))
+        && (!this.filters.projectManager || row.projectManager?.toLowerCase().includes(this.filters.projectManager.toLowerCase()))
+        && (!this.filters.projectName || row.projectName?.toLowerCase().includes(this.filters.projectName.toLowerCase()))
+        && (!this.filters.totalWeek || row.totalWeek == Number(this.filters.totalWeek))
+        && (!this.filters.sunHours || row.sunHours == Number(this.filters.sunHours))
+        && (!this.filters.monHours || row.monHours == Number(this.filters.monHours))
+        && (!this.filters.tuesHours || row.tuesHours == Number(this.filters.tuesHours))
+        && (!this.filters.wedHours || row.wedHours == Number(this.filters.wedHours))
+        && (!this.filters.thursHours || row.thursHours == Number(this.filters.thursHours))
+        && (!this.filters.friHours || row.friHours == Number(this.filters.friHours))
+        && (!this.filters.satHours || row.satHours == Number(this.filters.satHours));
+    });
+
+    this.calculateColumnTotals();
+  }
+
+ onWeekNoChange(rowIndex: number) {
+  const selectedWeekNo = this.timesheetRows[rowIndex].weekNo;
+  const weekNoNumber = Number(selectedWeekNo);
+
+  if (weekNoNumber) {
+    const week = this.fiscalWeeks.find(w => w.weekNo === weekNoNumber);
+    if (week) {
+      this.timesheetRows[rowIndex].fiscalWeek = week.fiscalWeek;
+      this.timesheetRows[rowIndex].month = week.month;
+    }
+  } else {
+    this.timesheetRows[rowIndex].fiscalWeek = '';
+    this.timesheetRows[rowIndex].month ='';
+  }
+}
+
+
+  addEmptyRows(count: number) {
+    for (let i = 0; i < count; i++) {
+      this.timesheetRows.unshift({
+        employeeName: this.currentUserName,
+        weekNo: null,
+        fiscalWeek: '',
+        month: '',
+        leaveType: '',
+        projectManager:'',
+        projectName:'',
+        totalWeek: 0,
+        sunHours: 0,
+        monHours: 0,
+        tuesHours: 0,
+        wedHours: 0,
+        thursHours: 0,
+        friHours: 0,
+        satHours: 0,
+        // Add show dropdown properties for each day
+        sunLeaveType: '',
+        monLeaveType: '',
+        tuesLeaveType: '',
+        wedLeaveType: '',
+        thursLeaveType: '',
+        friLeaveType: '',
+        satLeaveType: '',
+        // showProjectManegerDropdown:false,
+        showSunLeaveDropdown: false,
+        showMonLeaveDropdown: false,
+        showTuesLeaveDropdown: false,
+        showWedLeaveDropdown: false,
+        showThursLeaveDropdown: false,
+        showFriLeaveDropdown: false,
+        showSatLeaveDropdown: false,
+        // Per-day disabled flags (used for official holidays / forced readonly days)
+        sunFieldDisabled: false,
+        monFieldDisabled: false,
+        tuesFieldDisabled: false,
+        wedFieldDisabled: false,
+        thursFieldDisabled: false,
+        friFieldDisabled: false,
+        satFieldDisabled: false
+      });
+    }
+    this.calculateColumnTotals();
+  }
+
+  loadWeeklyTimesheets() {
+    this.apiService.getWeeklyTimesheet().subscribe({
+      next: (res: any) => {
+        console.log(res);
+        if (Array.isArray(res) && res.length > 0) {
+          if (this.isManager) {
+            // For manager, we need to get team data asynchronously
+            this.loadManagerTimesheets(res);
+          } else {
+            // For admin and regular users, use existing logic
+            this.processTimesheets(res, this.filterTimesheetsByRole(res));
+          }
+        } else {
+          this.addEmptyRows(0);
+          this.loadLeaveDataForTimesheets();
+          this.calculateColumnTotals();
+        }
+      },
+      error: (err) => {
+        this.addEmptyRows(0);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: err.error?.message || 'Failed to load timesheets.'
+        });
+      }
+    });
+  }
+
+  // private loadManagerTimesheets(allTimesheets: any[]) {
+  //   const managerEmpId = sessionStorage.getItem('empId');
+  //   if (!managerEmpId) {
+  //     console.log('No manager empId found, showing user data only');
+  //     this.processTimesheets(allTimesheets, this.filterTimesheetsByRole(allTimesheets));
+  //     return;
+  //   }
+
+  //   this.apiService.getAllUsers().subscribe({
+  //     next: (users: any[]) => {
+  //       // Get team member empIds including manager
+  //       const teamEmpIds = users
+  //         .filter(user => user.managerId === managerEmpId)
+  //         .map(user => user.userName);
+
+  //       // Add manager's own empId
+  //       teamEmpIds.push(managerEmpId);
+
+  //       console.log('Manager team empIds:', teamEmpIds);
+
+  //       // Filter timesheets for team members
+  //       const teamTimesheets = allTimesheets.filter(item =>
+  //         teamEmpIds.includes(item.empId)
+  //       );
+
+  //       console.log('Manager team timesheets:', teamTimesheets.length);
+  //       this.processTimesheets(allTimesheets, teamTimesheets);
+  //     },
+  //     error: (err) => {
+  //       console.error('Error loading team data, showing user data only:', err);
+  //       // Fallback to user's own data if team loading fails
+  //       const userTimesheets = allTimesheets.filter((item: any) => {
+  //         const itemEmployeeName = item.employeeName || '';
+  //         return itemEmployeeName.toLowerCase().includes(this.currentUserName.toLowerCase()) ||
+  //           (this.currentUserEmail && item.email === this.currentUserEmail);
+  //       });
+  //       this.processTimesheets(allTimesheets, userTimesheets);
+  //     }
+  //   });
+  // }
+
+  private loadManagerTimesheets(allTimesheets: any[]) {
+    const managerEmpId = sessionStorage.getItem('empId');
+    const managerName = this.currentUserName; // Get manager's name
+
+    console.log(' MANAGER DETAILS:', {
+      empId: managerEmpId,
+      name: managerName
+    });
+
+    if (!managerEmpId) {
+      console.log(' No manager empId found, showing user data only');
+      this.processTimesheets(allTimesheets, this.filterTimesheetsByRole(allTimesheets));
+      return;
+    }
+
+    this.apiService.getAllUsers().subscribe({
+      next: (users: any[]) => {
+        console.log(' ALL USERS FOR MANAGER FILTERING:', users);
+
+        // Get team member names including manager
+        const teamMemberNames = users.filter(user => {
+          // Check all possible manager reference fields
+          const isTeamMember =
+            user.managerId === managerEmpId ||
+            user.reportingManager === managerEmpId ||
+            user.manager === managerEmpId ||
+            (user.reportingManager && user.reportingManager.empId === managerEmpId);
+
+          console.log(`🔍 User ${user.empId} - ${user.firstName} ${user.lastName}:`, {
+            managerId: user.managerId,
+            reportingManager: user.reportingManager,
+            manager: user.manager,
+            isTeamMember: isTeamMember
+          });
+
+          return isTeamMember;
+        }).map(user => {
+          // Create full name for matching
+          const fullName = `${user.firstName} ${user.lastName}`.trim().toLowerCase();
+          return {
+            empId: user.empId,
+            fullName: fullName,
+            firstName: user.firstName,
+            lastName: user.lastName
+          };
+        });
+
+        // Add manager themselves
+        teamMemberNames.push({
+          empId: managerEmpId,
+          fullName: managerName.toLowerCase(),
+          firstName: this.currentUserName.split(' ')[0],
+          lastName: this.currentUserName.split(' ')[1] || ''
+        });
+
+        console.log(' MANAGER TEAM MEMBER NAMES:', teamMemberNames);
+
+        // Filter timesheets for team members using NAME matching
+        const teamTimesheets = allTimesheets.filter(item => {
+          const itemEmployeeName = (item.employeeName || '').toLowerCase().trim();
+
+          // Check if this timesheet belongs to any team member
+          const isTeamTimesheet = teamMemberNames.some(member =>
+            itemEmployeeName.includes(member.fullName) ||
+            member.fullName.includes(itemEmployeeName)
+          );
+
+          console.log(` Timesheet "${item.employeeName}":`, {
+            itemEmployeeName: itemEmployeeName,
+            isTeamTimesheet: isTeamTimesheet,
+            teamMembers: teamMemberNames.map(m => m.fullName)
+          });
+
+          return isTeamTimesheet;
+        });
+
+        console.log(' MANAGER TEAM TIMESHEETS FOUND:', teamTimesheets.length);
+        console.log(' TEAM TIMESHEETS DETAILS:', teamTimesheets.map(ts => ({
+          employeeName: ts.employeeName,
+          weekNo: ts.weekNo
+        })));
+
+        this.processTimesheets(allTimesheets, teamTimesheets);
+      },
+      error: (err) => {
+        console.error(' Error loading team data:', err);
+        const userTimesheets = allTimesheets.filter((item: any) => {
+          const itemEmployeeName = item.employeeName || '';
+          return itemEmployeeName.toLowerCase().includes(this.currentUserName.toLowerCase());
+        });
+        this.processTimesheets(allTimesheets, userTimesheets);
+      }
+    });
+  }
+
+ private processTimesheets(allTimesheets: any[], filteredTimesheets: any[]) {
+  this.timesheetRows = filteredTimesheets.map((item: any) => ({
+    timesheetId :item .timesheetId||'',
+    employeeName: item.employeeName || '',
+    weekNo: item.weekNo || null,
+    fiscalWeek: item.fiscalWeek || '',
+    month: item.month || '',
+    // leaveType: item.leaveType || '',
+    projectManager: item.projectManager || item.projectManager || '', // Map both possible property names
+    projectName: item.projectName || '',
+    totalWeek: item.totalWeekHours || item.totalWeek || 0,
+    sunHours: item.sunHours || 0,
+    monHours: item.monHours || 0,
+    tuesHours: item.tuesHours || 0,
+    wedHours: item.wedHours || 0,
+    thursHours: item.thursHours || 0,
+    friHours: item.friHours || 0,
+    satHours: item.satHours || 0,
+    // Initialize leave type properties
+    sunLeaveType: '',
+    monLeaveType: '',
+    tuesLeaveType: '',
+    wedLeaveType: '',
+    thursLeaveType: '',
+    friLeaveType: '',
+    satLeaveType: '',
+    // Initialize show dropdown properties
+    showSunLeaveDropdown: false,
+    showMonLeaveDropdown: false,
+    showTuesLeaveDropdown: false,
+    showWedLeaveDropdown: false,
+    showThursLeaveDropdown: false,
+    showFriLeaveDropdown: false,
+    showSatLeaveDropdown: false,
+    // Per-day disabled flags for holidays / readonly days
+    sunFieldDisabled: false,
+    monFieldDisabled: false,
+    tuesFieldDisabled: false,
+    wedFieldDisabled: false,
+    thursFieldDisabled: false,
+    friFieldDisabled: false,
+    satFieldDisabled: false,
+    
+  }));
+  this.timesheetRows.sort((a, b) => (b.weekNo || 0) - (a.weekNo || 0));
+  this.originalTimesheetRows = [...this.timesheetRows];
+  setTimeout(() => {
+    this.loadLeaveDataForTimesheets();
+  }, 100);
+
+  // Apply holiday markings to loaded rows (if holiday calendar contains dates in those weeks)
+  this.timesheetRows.forEach(row => {
+    try {
+      this.applyHolidayMarkingsToRow(row);
+    } catch (e) {
+      console.error('Error applying holiday marks to loaded row', e);
+    }
+  });
+
+  this.addEmptyRows(Math.max(0 - filteredTimesheets.length, 0));
+  this.calculateColumnTotals();
+}
+  private filterTimesheetsByRole(timesheets: any[]): any[] {
+    if (this.isAdmin) {
+      // Admin sees all data
+      console.log('Admin view - all timesheets:', timesheets.length);
+      return timesheets;
+    } else {
+      // Regular user sees only their data
+      const userTimesheets = timesheets.filter((item: any) => {
+        const itemEmployeeName = item.employeeName || '';
+        return itemEmployeeName.toLowerCase().includes(this.currentUserName.toLowerCase()) ||
+          (this.currentUserEmail && item.email === this.currentUserEmail);
+      });
+      console.log('User view - my timesheets:', userTimesheets.length);
+      return userTimesheets;
+    }
+  }
+
+
+  private filterManagerTimesheets(timesheets: any[]): any[] {
+    const managerEmpId = sessionStorage.getItem('empId');
+    if (!managerEmpId) return timesheets;
+
+    this.apiService.getAllUsers().subscribe({
+      next: (users: any[]) => {
+        const teamEmpIds = users
+          .filter(user => user.managerId === managerEmpId)
+          .map(user => user.empId);
+
+        teamEmpIds.push(managerEmpId);
+
+        const filteredTimesheets = timesheets.filter(item => teamEmpIds.includes(item.empId));
+
+        console.log('Manager filtered data:', filteredTimesheets);
+      }
+    });
+
+    // This returns before the API call completes
+    return timesheets;
+  }
+  onSearchChange() {
+    if (!this.searchText || this.searchText.trim() === '') {
+      this.timesheetRows = [...this.originalTimesheetRows];
+    } else {
+      const searchTerm = this.searchText.toLowerCase().trim();
+      this.timesheetRows = this.originalTimesheetRows.filter(row => {
+        const employeeName = row.employeeName ? row.employeeName.toLowerCase() : '';
+        const projectName = row.projectName ? row.projectName.toLowerCase() : '';
+        return employeeName.includes(searchTerm) || projectName.includes(searchTerm);
+      });
+    }
+    this.calculateColumnTotals();
+  }
+  addRow() {
+    // Check if there's already an empty row (row without weekNo)
+    const hasEmptyRow = this.timesheetRows.some(row =>
+      !row.weekNo || row.weekNo === null || row.weekNo === ''
+    );
+
+    if (hasEmptyRow) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Already Have Empty Row',
+        detail: 'Please fill the existing empty row before adding a new one.',
+        life: 3000
+      });
+      return;
+    }
+
+    this.addEmptyRows(1);
+    // Automatically select the newly added row (first row) and enable edit mode
+    this.selectedRowIndex = 0;
+    this.isEditMode = true;
+
+    console.log('New row added at index 0, edit mode enabled');
+  }
+
+  calculateTotalWeek(rowIndex: number) {
+    const row = this.timesheetRows[rowIndex];
+    const total = (Number(row.sunHours) ||0) +
+      (Number(row.monHours) || 0) +
+      (Number( row.tuesHours) || 0) +
+      (Number(row.wedHours) || 0) +
+      (Number(row.thursHours) || 0) +
+      (Number(row.friHours) || 0) +
+      (Number(row.satHours) || 0);
+
+    row.totalWeek = Math.round(total * 2) / 2;
+    this.calculateColumnTotals();
+  }
+saveTimesheets() {
+  console.log('=== DEBUG: Checking all rows before saving ===');
+  // Only save rows that are either:
+  // 1. New rows (no weekNo or empty weekNo) OR 
+  const timesheetsToSave = this.timesheetRows.filter(row => {
+    const isNewRow = !row.fiscalWeek || row.fiscalWeek.toString().trim() === '';
+    const isSelectedRow = this.selectedRowIndex !== null &&
+      this.timesheetRows[this.selectedRowIndex] === row;
+
+    const isValidForSave = !!row.employeeName &&
+    row.weekNo != null && row.weekNo.toString().trim() !== '' &&
+     !!row.fiscalWeek && row.fiscalWeek.toString().trim() !== '' &&
+     !!row.projectManager && row.projectManager.toString().trim() !== '';
+
+    return isValidForSave && (isNewRow || isSelectedRow);
+  });
+  console.log('Final rows to save:', timesheetsToSave);
+
+  if (timesheetsToSave.length === 0) {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Cannot Save',
+      detail: 'Please fill required fields to save.'
+    });
+    return;
+  }
+  
+ for (let ts of timesheetsToSave) {
+    // Call backend save, get flag if it existed
+    const existed : boolean= false;
+   if (existed) {
+
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Warning',
+      detail: `Timesheet already exists for Week ${ts.fiscalWeek}, 
+      Manager ${ts.projectManager}, Project ${ts.projectName}. Existing hours will be updated.`,
+      life: 4000
+    });
+    }
+  }
+
+  this.checkHalfDays()
+  // this.closeOAPModal()
+}
+
+checkHalfDays() {
+  if (this.selectedRowIndex == null) {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'No Row Selected',
+      detail: 'Please select a row before submitting.'
+    });
+    return;
+  }
+
+  const selectedRow = this.timesheetRows[this.selectedRowIndex];
+  const weekNo = selectedRow.weekNo;
+  const days = ['sun', 'mon', 'tues', 'wed', 'thurs', 'fri', 'sat'];
+
+  this.totalHalfDays = 0;
+ 
+
+  days.forEach((day )=> {
+    let totalHoursForDay = 0;
+    this.timesheetRows.forEach(row => {
+      if (row.weekNo === weekNo) {
+        totalHoursForDay += Number(row[`${day}Hours`] || 0);
+      }
+    });
+
+    if (totalHoursForDay > 0 && totalHoursForDay < 6.5) {
+      this.totalHalfDays++;
+   
+    }
+  });
+
+  if (this.totalHalfDays > 0) {
+    this.showHalfDayModal = true;
+  } else {
+    this.proceedWithSaving();
+  }
+}
+ 
+
+confirmHalfDay(confirmed: boolean) {
+  this.showHalfDayModal = false;
+
+  if (confirmed) {
+    this.proceedWithSaving();
+  } else {
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Cancelled',
+      detail: 'Please review your timesheet before submitting.',
+      life: 3000
+    });
+  }
+}
+
+private proceedWithSaving()
+ {
+  const timesheetsToSave = this.timesheetRows.filter(row => {
+    const isNewRow = !row.fiscalWeek || row.fiscalWeek.toString().trim() === '';
+    const isSelectedRow = this.selectedRowIndex !== null &&
+      this.timesheetRows[this.selectedRowIndex] === row;
+
+    const isValidForSave = !!row.employeeName &&
+    row.weekNo != null && row.weekNo.toString().trim() !== '' &&
+     !!row.fiscalWeek && row.fiscalWeek.toString().trim() !== '' &&
+     !!row.projectManager && row.projectManager.toString().trim() !== '';
+
+    return isValidForSave && (isNewRow || isSelectedRow);
+  });
+
+  if (timesheetsToSave.length === 0) {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Cannot Save',
+      detail: 'Please fill required fields to save.'
+    });
+    return;
+  }
+  //Sem Week + Sem Project + Sem Manager 
+   const hasExistingTimesheets = timesheetsToSave.some(rowToSave => {
+   return this.originalTimesheetRows.some(originalRow => 
+      originalRow.employeeName === rowToSave.employeeName &&
+      originalRow.weekNo === rowToSave.weekNo &&
+      originalRow.projectManager === rowToSave.projectManager &&
+      originalRow.projectName === rowToSave.projectName
+    );
+  });
+
+  if (hasExistingTimesheets) {
+     const existingRow = timesheetsToSave.find(rowToSave => 
+    this.originalTimesheetRows.some(originalRow => 
+      originalRow.weekNo === rowToSave.weekNo &&
+      originalRow.projectManager === rowToSave.projectManager &&
+      originalRow.projectName === rowToSave.projectName
+    )
+  );
+    // Show warning message for existing timesheets
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Updating Existing Timesheet',
+       detail: `WeekNo ${existingRow.weekNo}, Manager ${existingRow.projectManager}, Project ${existingRow.projectName}
+                 . The existing hours will be replaced with the new updated hours`,
+      life: 4000
+    });
+  }
+ // NEW: Validate holiday consistency before saving
+    const holidayValidationResults = this.validateAllLeaveTypes(timesheetsToSave);
+    if (!holidayValidationResults.isValid) {
+      // Show all validation errors
+      holidayValidationResults.errors.forEach(error => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Holiday Validation Error',
+          detail: error,
+          life: 5000
+        });
+      });
+      return;
+    }
+    // Validate that all zero hours have leave reasons ONLY for the rows being saved
+    if (!this.validateTimesheetBeforeSave(timesheetsToSave)) {
+      console.log("payload saved",timesheetsToSave);
+      return;
+    }
+
+      const payload = timesheetsToSave.map(row => ({
+      employeeName: this.currentUserName,
+      weekNo: row.weekNo,
+      fiscalWeek: row.fiscalWeek,
+      month: row.month,
+      leaveType: row.leaveType || '',
+      projectManager: row.projectManager || '',
+      projectName: row.projectName || '',
+      totalWeekHours: row.totalWeek,
+      sunHours:row.sunHours,
+      monHours: row.monHours,
+      tuesHours: row.tuesHours,
+      wedHours: row.wedHours,
+      thursHours: row.thursHours,
+      friHours: row.friHours,
+      satHours: row.satHours
+    }));
+ 
+
+ 
+  this.apiService.saveWeeklyTimesheet(payload).subscribe({
+    next: (res: any) => {
+      this.saveAllLeaveRecords(timesheetsToSave);
+      this.autoDeselectAfterSave();
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Timesheet saved successfully!'
+      });
+      this.loadWeeklyTimesheets();
+      this.loadLeaveDataForTimesheets();
+    },
+    error: (err: any) => {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: err.error?.message || 'Error saving timesheets.'
+      });
+    }
+  });
+}
+  // Add this method to validate all leave types
+  private validateAllLeaveTypes(timesheets: any[]): { isValid: boolean; errors: string[] } {
+    const allErrors: string[] = [];
+ 
+    timesheets.forEach((row, index) => {
+      const validation = this.validateLeaveTypeAgainstHolidays(row);
+      if (!validation.isValid) {
+        validation.errors.forEach(error => {
+          allErrors.push(`Row ${index + 1}: ${error}`);
+        });
+      }
+    });
+ 
+    return {
+      isValid: allErrors.length === 0,
+      errors: allErrors
+    };
+  }
+  
+  // Add this helper method to check if hours are filled
+  private hasHoursFilled(row: any): boolean {
+    const hours = [
+      row.sunHours, row.monHours, row.tuesHours, row.wedHours,
+      row.thursHours, row.friHours, row.satHours, row.totalWeek
+    ];
+
+    // Check if at least one hour field has a value > 0
+    return hours.some(hour => hour > 0);
+  }
+
+  // private saveAllLeaveRecords(timesheetRows: any[]) {
+  //   const leaveRecords: any[] = [];
+  //   const newLeavesByType = new Map<string, number>();
+  //   timesheetRows.forEach(row => {
+  //     if (row.weekNo && row.fiscalWeek) {
+  //       const days = ['sun','mon', 'tues', 'wed', 'thurs', 'fri','sat']; // Only weekdays
+
+  //       days.forEach(day => {
+  //         const leaveTypeProperty = `${day}LeaveType`;
+  //         const leaveType = row[leaveTypeProperty];
+  //         if (leaveType && leaveType !== 'SWITCH_TO_HOURS') {
+            
+  //           const currentCount = newLeavesByType.get(leaveType) || 0;
+  //           newLeavesByType.set(leaveType, currentCount + 1);
+
+  //           const remainingLeave = this.calculateRemainingLeave(leaveType, newLeavesByType);
+
+  //          const entitlement = this.leaveEntitlements.find(e => e.leaveType === leaveType);
+  //         leaveRecords.push({
+  //           EmployeeName: this.currentUserName,
+  //           LeaveType: leaveType,
+  //           FiscalWeek: row.fiscalWeek,
+  //           Day: this.getFullDayName(day),
+  //           RemainingLeave: remainingLeave,
+  //           TimesheetId: row.timesheetId || 0,
+  //           ProjectName: row.projectName,
+  //           ProjectManager: row.projectManager,
+  //           Allocate: entitlement ? entitlement.proRataEntitlement : 0,
+  //           Taken: entitlement ? entitlement.taken : 0
+  //         });
+
+  //         }
+  //       });
+  //     }
+  //   });
+
+ 
+  //   newLeavesByType.forEach((count, leaveType) => {
+  //     const currentCount = this.leaveTracking.get(leaveType) || 0;
+  //     this.leaveTracking.set(leaveType, currentCount + count);
+  //   });
+
+
+  //   this.updateRemainingLeaves();
+
+  //   if (leaveRecords.length > 0) {
+  //     let savedCount = 0;
+
+  //     leaveRecords.forEach(record => {
+  //       this.apiService.saveTimesheetLeave(record).subscribe({
+  //         next: (res: any) => {
+  //           savedCount++;
+
+  //           console.log('Sending payload:', leaveRecords);
+  //           console.log(`Leave record saved with remaining leave: ${record.RemainingLeave} (${savedCount}/${leaveRecords.length})`);
+
+  //           if (savedCount === leaveRecords.length) {
+  //             console.log('All leave records saved successfully with remaining leave tracking');
+  //             this.logCurrentLeaveStatus();
+  //           }
+  //         },
+  //         error: (err: any) => {
+  //           console.error('Error saving leave record:', err);
+  //           savedCount++;
+  //         }
+  //       });
+  //     });
+  //   } else {
+  //     console.log('No leave records to save');
+  //   }
+  // }
+  //Date 9-12-2025-- update 
+private saveAllLeaveRecords(timesheetRows: any[]) {
+  const leaveRecords: any[] = [];
+  const newLeavesByType = new Map<string, number>();
+
+  timesheetRows.forEach(row => {
+    if (!row.weekNo || !row.fiscalWeek) return;
+
+    const days = ['sun','mon','tues','wed','thurs','fri','sat'];
+
+    days.forEach(day => {
+
+      const leaveTypeProp = `${day}LeaveType`;
+      const hoursProp = `${day}Hours`;
+      const showDropdownProp = `show${this.capitalizeFirstLetter(day)}LeaveDropdown`;
+
+      const leaveType = row[leaveTypeProp];
+     
+      // CASE 1: LEAVE SELECTED (Paid, Sick, Casual, Optional)
+      if (leaveType && leaveType !== 'SWITCH_TO_HOURS') {
+
+        const current = newLeavesByType.get(leaveType) || 0;
+        newLeavesByType.set(leaveType, current + 1);
+
+        const remaining = this.calculateRemainingLeave(leaveType, newLeavesByType);
+        const entitlement = this.leaveEntitlements.find(e => e.leaveType === leaveType);
+
+        leaveRecords.push({
+          EmployeeName: this.currentUserName,
+          LeaveType: leaveType,
+          FiscalWeek: row.fiscalWeek,
+          Day: this.getFullDayName(day),
+          RemainingLeave: remaining,
+          TimesheetId: row.timesheetId || 0,
+          ProjectName: row.projectName,
+          ProjectManager: row.projectManager,
+          Allocate: entitlement?.proRataEntitlement || 0,
+          Taken: entitlement?.taken || 1,
+          Hours: 0
+        });
+
+        return;
+      }
+      // CASE 2: SWITCHED TO HOURS
+      if (leaveType === 'SWITCH_TO_HOURS') {
+
+        const previousLeave = row[`${day}PreviousLeaveType`];
+        // Deduct previously taken leave
+        if (previousLeave) {
+          const taken = this.leaveTracking.get(previousLeave) || 0;
+          this.leaveTracking.set(previousLeave, Math.max(0, taken - 1));
+
+          const ent = this.leaveEntitlements.find(e => e.leaveType === previousLeave);
+          if (ent) {
+            ent.taken = Math.max(0, ent.taken - 1);
+            ent.remaining = Math.max(0, ent.proRataEntitlement - ent.taken);
+          }
+        }
+
+        // Reset UI
+        row[leaveTypeProp] = '';        
+        row[hoursProp] = row[hoursProp] || 0;
+        row[showDropdownProp] = false;
+
+        leaveRecords.push({
+          EmployeeName: this.currentUserName,
+          LeaveType: '',                 
+          FiscalWeek: row.fiscalWeek,
+          Day: this.getFullDayName(day),
+          RemainingLeave: null,
+          TimesheetId: row.timesheetId || 0,
+          ProjectName: row.projectName,
+          ProjectManager: row.projectManager,
+          Allocate: 0,
+          Taken: 1,
+          Hours: row[hoursProp]
+        });
+        return;
+      }
+      if (!leaveType || leaveType === '') {
+        leaveRecords.push({
+          EmployeeName: this.currentUserName,
+          LeaveType: '',
+          FiscalWeek: row.fiscalWeek,
+          Day: this.getFullDayName(day),
+          RemainingLeave: null,
+          TimesheetId: row.timesheetId || 0,
+          ProjectName: row.projectName,
+          ProjectManager: row.projectManager,
+          Allocate: 0,
+          Taken: 1,
+          Hours: row[hoursProp] || 0
+        });
+
+        return;
+      }
+
+    });
+  });
+  // UPDATE leaveTracking COUNTS
+  newLeavesByType.forEach((count, type) => {
+    const current = this.leaveTracking.get(type) || 0;
+    this.leaveTracking.set(type, current + count);
+  });
+
+  this.updateRemainingLeaves();
+ 
+  // SAVE RECORDS
+  leaveRecords.forEach(record => {
+    this.apiService.saveTimesheetLeave(record).subscribe({
+      next: () => console.log("Saved:", record),
+      error: err => console.error("Error:", err)
+     
+    });
+     this.logCurrentLeaveStatus();
+  });
+}
+
+
+  private calculateRemainingLeave(leaveType: string, newLeavesByType: Map<string, number>): number {
+    const entitlement = this.leaveEntitlements.find(le => le.leaveType === leaveType);
+    if (entitlement) {
+     
+      const alreadyTaken = this.leaveTracking.get(leaveType) || 0;
+      const newlyBeingTaken = newLeavesByType.get(leaveType) || 0;
+      const totalTaken = alreadyTaken + newlyBeingTaken;
+
+      return Math.max(0, entitlement.proRataEntitlement - totalTaken);
+    }
+    return 0;
+  }
+
+  private logCurrentLeaveStatus() {
+    console.log("Loaded Leave Counts for Company:", sessionStorage.getItem('CompanyId'));
+console.log("Employee Join Date:", this.employeeJoinDate?.toLocaleDateString());
+console.log('Leave type,${leave.leaveType}');
+
+    console.log('=== CURRENT LEAVE STATUS (Database) ===');
+    this.leaveEntitlements.forEach(leave => {
+      
+      console.log(`${leave.leaveType}: Allotted: ${leave.proRataEntitlement}, Taken: ${leave.taken}, Remaining: ${leave.remaining}`);
+    });
+    console.log('=======================================');
+  }
+
+  // Helper method to convert day abbreviation to full day name
+  private getFullDayName(dayAbbr: string): string {
+    const dayMap: any = {
+      'sun':'Sunday',
+      'mon': 'Monday',
+      'tues': 'Tuesday',
+      'wed': 'Wednesday',
+      'thurs': 'Thursday',
+      'fri': 'Friday',
+      'sat':'Saturday',
+    };
+    return dayMap[dayAbbr] || dayAbbr;
+  }
+
+  calculateColumnTotals() {
+    this.totalWeekSum = 0;
+    this.totalSunHours = 0;
+    this.totalMonHours = 0;
+    this.totalTuesHours = 0;
+    this.totalWedHours = 0;
+    this.totalThursHours = 0;
+    this.totalFriHours = 0;
+    this.totalSatHours = 0;
+
+    this.timesheetRows.forEach(row => {
+      this.totalWeekSum += Number(row.totalWeek) || 0;
+      this.totalSunHours += Number(row.sunHours) || 0;
+      this.totalMonHours += Number(row.monHours) || 0;
+      this.totalTuesHours += Number(row.tuesHours) || 0;
+      this.totalWedHours += Number(row.wedHours) || 0;
+      this.totalThursHours += Number(row.thursHours) || 0;
+      this.totalFriHours += Number(row.friHours) || 0;
+      this.totalSatHours += Number(row.satHours) || 0;
+    });
+
+    this.totalWeekSum = Math.round(this.totalWeekSum * 10) / 10;
+    this.totalSunHours = Math.round(this.totalSunHours * 10) / 10;
+    this.totalMonHours = Math.round(this.totalMonHours * 10) / 10;
+    this.totalTuesHours = Math.round(this.totalTuesHours * 10) / 10;
+    this.totalWedHours = Math.round(this.totalWedHours * 10) / 10;
+    this.totalThursHours = Math.round(this.totalThursHours * 10) / 10;
+    this.totalFriHours = Math.round(this.totalFriHours * 10) / 10;
+    this.totalSatHours = Math.round(this.totalSatHours * 10) / 10;
+  }
+
+  onHourChange(rowIndex: number) {
+    this.calculateTotalWeek(rowIndex);
+  }
+
+  showDropdownIndex: number | null = null
+
+toggleModalDropdown() {
+  this.showModalDropdown = !this.showModalDropdown;
+}
+
+selectModalFiscalWeek(fiscalWeek: string, event: Event) {
+  event.stopPropagation();
+  this.selectedWeek = fiscalWeek;
+  this.showModalDropdown = false;
+}
+
+ toggleDropdown(index: number, event: Event) {
+    event.stopPropagation();
+    if (this.isEditMode && this.selectedRowIndex === index) {
+      this.showDropdownIndex = this.showDropdownIndex === index ? null : index;
+    }
+  }
+
+selectFiscalWeek(rowIndex: number, selectedWeek: any, event: Event) {
+  event.stopPropagation();
+  this.timesheetRows[rowIndex].fiscalWeek = selectedWeek.fiscalWeek;
+  this.timesheetRows[rowIndex].weekNo = selectedWeek.weekNo; // Now works
+  this.showDropdownIndex = null;
+  // After selecting a week, apply holiday markings (if any official holidays fall in the week)
+  try {
+    this.applyHolidaysToRow(rowIndex);
+  } catch (e) {
+    console.error('Error applying holidays to row:', e);
+  }
+}
+
+  // Apply official holiday markings to a specific row (by index)
+  private applyHolidaysToRow(rowIndex: number): void {
+    const row = this.timesheetRows[rowIndex];
+    if (!row) return;
+    this.applyHolidayMarkingsToRow(row);
+    // Recalculate totals after adjusting hours/leave types
+    this.calculateColumnTotals();
+  }
+
+  // Helper: mark individual days of a row as Holiday if they match officialHolidayDates
+  private applyHolidayMarkingsToRow(row: any): void {
+    if (!row.weekNo && !row.fiscalWeek) return;
+
+    // Find the fiscal week object
+    const week = this.fiscalWeeks.find((w: any) => w.weekNo === row.weekNo || w.fiscalWeek === row.fiscalWeek);
+    if (!week || !week.startDate) return;
+
+    const days = [
+      { key: 'sun', offset: 0 },
+      { key: 'mon', offset: 1 },
+      { key: 'tues', offset: 2 },
+      { key: 'wed', offset: 3 },
+      { key: 'thurs', offset: 4 },
+      { key: 'fri', offset: 5 },
+      { key: 'sat', offset: 6 }
+    ];
+
+    days.forEach(d => {
+      const date = new Date(week.startDate.getTime() + d.offset * 24 * 60 * 60 * 1000);
+      const dateStr = this.formatDateToYYYYMMDD(date);
+
+      const leaveTypeProp = `${d.key}LeaveType`;
+      const hoursProp = `${d.key}Hours`;
+      const showDropdownProp = `show${this.capitalizeFirstLetter(d.key)}LeaveDropdown`;
+      const disabledProp = `${d.key}FieldDisabled`;
+
+      if (this.officialHolidayDates && this.officialHolidayDates.includes(dateStr)) {
+        // Mark as official holiday
+        row[leaveTypeProp] = 'Holiday';
+        row[hoursProp] = 0;
+        row[showDropdownProp] = true; // show the leave dropdown (but it will be disabled)
+        row[disabledProp] = true; // mark field as disabled for editing
+      } else {
+        // Clear holiday marking if present
+        if (row[leaveTypeProp] === 'Holiday') {
+          row[leaveTypeProp] = '';
+        }
+        row[disabledProp] = false;
+      }
+    });
+  }
+
+  // Check whether a specific day in a row corresponds to an optional holiday
+  isDayOptionalHoliday(row: any, dayKey: string): boolean {
+    if (!row || (!row.weekNo && !row.fiscalWeek)) return false;
+
+    const week = this.fiscalWeeks.find((w: any) => w.weekNo === row.weekNo || w.fiscalWeek === row.fiscalWeek);
+    if (!week || !week.startDate) return false;
+
+    const dayOffsets: any = {
+      sun: 0,
+      mon: 1,
+      tues: 2,
+      wed: 3,
+      thurs: 4,
+      fri: 5,
+      sat: 6
+    };
+
+    const offset = dayOffsets[dayKey];
+    if (offset === undefined) return false;
+
+    const date = new Date(week.startDate.getTime() + offset * 24 * 60 * 60 * 1000);
+    const dateStr = this.formatDateToYYYYMMDD(date);
+    return this.optionalHolidayDates && this.optionalHolidayDates.includes(dateStr);
+  }
+
+  // Check whether a specific day in a row corresponds to an official/public holiday
+  isDayOfficialHoliday(row: any, dayKey: string): boolean {
+    if (!row || (!row.weekNo && !row.fiscalWeek)) return false;
+
+    const week = this.fiscalWeeks.find((w: any) => w.weekNo === row.weekNo || w.fiscalWeek === row.fiscalWeek);
+    if (!week || !week.startDate) return false;
+
+    const dayOffsets: any = {
+      sun: 0,
+      mon: 1,
+      tues: 2,
+      wed: 3,
+      thurs: 4,
+      fri: 5,
+      sat: 6
+    };
+
+    const offset = dayOffsets[dayKey];
+    if (offset === undefined) return false;
+
+    const date = new Date(week.startDate.getTime() + offset * 24 * 60 * 60 * 1000);
+    const dateStr = this.formatDateToYYYYMMDD(date);
+    return this.officialHolidayDates && this.officialHolidayDates.includes(dateStr);
+  }
+
+getWeekLabel(FiscalWeek: string) {
+  const week = this.fiscalWeeks.find(w => w.fiscalWeek === FiscalWeek);
+  return week ? `${week.fiscalWeek} - Week ${week.weekNo}` : null;
+}
+
+
+
+toggleHeaderDropdown() {
+    this.showHeaderDropdown = !this.showHeaderDropdown;
+  }
+
+  toggleHeaderWeek(event: any, fiscalWeek:string) {
+  if (event.target.checked) {
+    if (!this.selectedHeaderWeeks.includes(fiscalWeek)) {
+      this.selectedHeaderWeeks.push(fiscalWeek);
+    }
+  } else {
+    this.selectedHeaderWeeks = this.selectedHeaderWeeks.filter(w => w !== fiscalWeek);
+  }
+
+  this.filterBySelectedWeeks(); 
+}
+filterBySelectedWeeks() {
+  if (this.selectedHeaderWeeks.length === 0) {
+    this.timesheetRows = [...this.originalTimesheetRows];
+  } else {
+    this.timesheetRows = this.originalTimesheetRows.filter(row =>
+      this.selectedHeaderWeeks.includes(row.fiscalWeek)
+    );
+  }
+
+  this.calculateColumnTotals();
+}
+
+  // ===== LEAVE DROPDOWN METHODS =====
+checkAndShowLeaveDropdown(rowIndex: number, day: string) {
+  const row = this.timesheetRows[rowIndex];
+  const hoursProperty = `${day}Hours`;
+  const showDropdownProperty = `show${this.capitalizeFirstLetter(day)}LeaveDropdown`;
+  const leaveTypeProperty = `${day}LeaveType`;
+  const switchedProperty = `${day}SwitchedToHours`;
+
+
+  if (row[switchedProperty]) {
+    row[showDropdownProperty] = false;
+    return;
+  }
+
+  if (row[hoursProperty] === 0 && row.weekNo && !row[leaveTypeProperty]) {
+    row[showDropdownProperty] = true;
+    return;
+  }
+
+  if (row.weekNo && (row[hoursProperty] === 0 || row[leaveTypeProperty])) {
+    row[showDropdownProperty] = true;
+  } else {
+    row[showDropdownProperty] = false;
+  }
+}
+
+
+ onLeaveTypeChange(rowIndex: number, day: string, leaveType: string) {
+  const row = this.timesheetRows[rowIndex];
+  const hoursProperty = `${day}Hours`;
+  const showDropdownProperty = `show${this.capitalizeFirstLetter(day)}LeaveDropdown`;
+  const leaveTypeProperty = `${day}LeaveType`;
+
+  
+  if (leaveType === 'SWITCH_TO_HOURS') {
+    row[leaveTypeProperty] ='';
+    row[showDropdownProperty] = false;
+    row[hoursProperty] = 0;
+    this.calculateTotalWeek(rowIndex);
+    return;
+}
+ 
+  if (leaveType && row.weekNo) {
+    row[hoursProperty] = 0;
+    row[showDropdownProperty] = true;
+    this.calculateTotalWeek(rowIndex);
+    return;
+  }
+
+  if (!leaveType && row.weekNo) {
+    row[showDropdownProperty] = false;
+    return;
+  }
+}
+
+  loadLeaveDataForTimesheets() {
+    this.apiService.GetAllTimesheetLeave().subscribe({
+      next: (leaveData: any) => {
+        console.log('Raw leave data from API:', leaveData);
+
+        if (Array.isArray(leaveData) && leaveData.length > 0) {
+         
+          let filteredLeaveData = leaveData;
+
+          if (!this.isAdmin && !this.isManager) {
+            
+            filteredLeaveData = leaveData.filter((leave: any) => {
+              const leaveEmployeeName = (leave.employeeName || leave.EmployeeName || '').toString().toLowerCase();
+              const currentUserName = this.currentUserName.toLowerCase();
+              return leaveEmployeeName.includes(currentUserName) ||
+                currentUserName.includes(leaveEmployeeName);
+            });
+            console.log('Regular user filtered leave data:', filteredLeaveData);
+          } else {
+           
+            console.log('Admin/Manager - using ALL leave data:', filteredLeaveData.length, 'records');
+          }
+          
+            const dayMapping: any = {
+            'Monday': 'mon',
+            'Tuesday': 'tues',
+            'Wednesday': 'wed',
+            'Thursday': 'thurs',
+            'Friday': 'fri',
+            'Saturday': 'sat',
+            'Sunday': 'sun'
+          };
+
+          
+          this.timesheetRows.forEach(row => {
+            if (row.weekNo && row.fiscalWeek) {
+              
+              const weekLeaves = filteredLeaveData.filter((leave: any) => {
+                const leaveFiscalWeek = leave.fiscalWeek || leave.FiscalWeek;
+                const rowFiscalWeek = row.fiscalWeek;
+
+               
+                if (this.isAdmin || this.isManager) {
+                  return leaveFiscalWeek === rowFiscalWeek;
+                } else {
+                  
+                  const leaveEmployeeName = (leave.employeeName || leave.EmployeeName || '').toString().toLowerCase();
+                  const rowEmployeeName = row.employeeName.toLowerCase();
+                  return leaveFiscalWeek === rowFiscalWeek &&
+                    (leaveEmployeeName.includes(rowEmployeeName) ||
+                      rowEmployeeName.includes(leaveEmployeeName));
+                }
+              })
+
+              // Apply the found leave types
+              weekLeaves.forEach((leave: any) => {
+                const day = leave.day || leave.Day;
+                const dayKey = dayMapping[day];
+
+                if (dayKey) {
+                  const leaveTypeProperty = `${dayKey}LeaveType`;
+                  const showDropdownProperty = `show${this.capitalizeFirstLetter(dayKey)}LeaveDropdown`;
+                  const leaveType = leave.leaveType || leave.LeaveType;
+                    if (!leaveType || leaveType === '') {
+                       row[leaveTypeProperty] = '';
+                       row[showDropdownProperty] = false;   
+                       return; 
+                      }
+                  // For admin/manager, only apply leave if employee name matches
+                  if (this.isAdmin || this.isManager) {
+                    const leaveEmployeeName = (leave.employeeName || leave.EmployeeName || '').toString().toLowerCase();
+                    const rowEmployeeName = row.employeeName.toLowerCase();
+
+                    if (leaveEmployeeName.includes(rowEmployeeName) ||
+                      rowEmployeeName.includes(leaveEmployeeName)) {
+                      // Set leave type and show dropdown
+                      row[leaveTypeProperty] = leaveType;
+                      row[showDropdownProperty] = true;
+                        
+                    }
+                  } else {
+                    row[leaveTypeProperty] = leaveType;
+                    row[showDropdownProperty] = true;
+                    
+                  }
+                }
+              });
+            }
+          });
+        
+          this.originalTimesheetRows = [...this.timesheetRows];
+
+          
+          this.calculateColumnTotals();
+          
+          this.debugLeaveDataState();
+        } else {
+          console.log('No leave data found or empty array');
+        }
+      },
+      error: (err) => {
+        console.error('Error loading leave data:', err);
+      }
+    });
+  }
+
+  private debugLeaveDataState() {
+    this.timesheetRows.forEach((row, index) => {
+      const hasLeaves = ['sunLeaveType','monLeaveType', 'tuesLeaveType', 'wedLeaveType', 'thursLeaveType', 'friLeaveType']
+        .some(prop => row[prop]);
+
+      if (hasLeaves) {
+        console.log(`Row ${index}: ${row.employeeName} - Week ${row.weekNo} (${row.fiscalWeek}) HAS LEAVES:`, {
+          sun :{hours:row.sunHours,leave:row.sunLeaveType},
+          mon: { hours: row.monHours, leave: row.monLeaveType },
+          tues: { hours: row.tuesHours, leave: row.tuesLeaveType },
+          wed: { hours: row.wedHours, leave: row.wedLeaveType },
+          thurs: { hours: row.thursHours, leave: row.thursLeaveType },
+          fri: { hours: row.friHours, leave: row.friLeaveType }
+        });
+      } else {
+        console.log(`Row ${index}: ${row.employeeName} - Week ${row.weekNo} (${row.fiscalWeek}) NO LEAVES`);
+      }
+    });
+    console.log('=== END FINAL STATE ===');
+  }
+  /**
+   * Helper method to capitalize first letter
+   */
+  private capitalizeFirstLetter(string: string): string {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  validateTimesheetBeforeSave(timesheetRows: any[]): boolean {
+  let hasValidationErrors = false;
+
+  timesheetRows.forEach(row => {
+    if (row.weekNo && row.fiscalWeek) {
+      const days = ['sun', 'mon', 'tues', 'wed', 'thurs', 'fri', 'sat'];
+
+      days.forEach(day => {
+        const hoursProperty = `${day}Hours`;
+        const leaveTypeProperty = `${day}LeaveType`;
+
+      const hours = row[hoursProperty];
+       const leaveType = row[leaveTypeProperty];
+
+       if ((hours === 0 || hours === null) && !leaveType) {
+
+           hasValidationErrors = true;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Leave Reason Required',
+            detail: `${this.getFullDayName(day)} (Week ${row.weekNo} Please provide a leave reason for Zero and null value not except ).`,
+            life: 4000
+          });
+        }
+        if (leaveType === 'Worked on another project') {
+    
+          if (row[hoursProperty] === 0 || row[hoursProperty] === null) {
+            row[hoursProperty] = 0;
+          }
+          const hasOtherProjectRow = this.timesheetRows.some(otherRow =>
+            otherRow !== row && 
+            otherRow.weekNo === row.weekNo && 
+            otherRow.employeeName === row.employeeName && 
+            (otherRow.projectManager !== row.projectManager || 
+             otherRow.projectName !== row.projectName) 
+          );
+    
+          if (!hasOtherProjectRow) {
+           
+            this.messageService.add({
+              severity: 'warn', 
+              summary: 'Work On Another Project',
+              detail: `${this.getFullDayName(day)} (Week ${row.weekNo}): You selected 'Worked on another project'. Please add a new row for other project hours.`,
+              life: 4000
+            });
+          }
+        }
+
+      }); 
+    }
+  }); 
+
+  return !hasValidationErrors;
+}
+
+  exportToExcel() {
+    try {
+      // Get the data to export (filtered data if search/filters are applied, otherwise all data)
+      const dataToExport = this.timesheetRows.length > 0 ? this.timesheetRows : this.originalTimesheetRows;
+
+      if (!dataToExport || dataToExport.length === 0) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'No Data',
+          detail: 'No data available to export.',
+          life: 3000
+        });
+        return;
+      }
+
+      // Prepare the data for Excel
+      const excelData = this.prepareExcelData(dataToExport);
+
+      // Create worksheet
+      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(excelData);
+
+      // Set column widths for better formatting
+      const colWidths = this.getColumnWidths();
+      ws['!cols'] = colWidths;
+
+      // Create workbook
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Timesheet Data');
+
+      // Generate filename with timestamp
+      const fileName = this.generateFileName();
+
+      // Export to Excel using xlsx's built-in method
+      XLSX.writeFile(wb, fileName);
+
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Export Successful',
+        detail: `Data exported to ${fileName}`,
+        life: 3000
+      });
+
+    } catch (error) {
+      console.error('Error exporting to Excel:', error);
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Export Failed',
+        detail: 'Failed to export data to Excel.',
+        life: 3000
+      });
+    }
+  }
+
+  private prepareExcelData(data: any[]): any[] {
+    return data.map((row, index) => {
+      const excelRow: any = {};
+
+      // Add serial number
+      excelRow['S.No'] = index + 1;
+
+
+      excelRow['Employee Name'] = row.employeeName || '';
+      excelRow['Fiscal Week'] = row.fiscalWeek || '';
+      excelRow['Week No'] = row.weekNo ? `Week ${row.weekNo}` : '';
+      excelRow['Month'] = row.month || '';
+      excelRow['projectManager'] =row .projectManager ||'';
+      excelRow['Project Name'] = row.projectName || '';
+      excelRow['Total Week (hrs)'] = row.totalWeek || 0;
+      excelRow['Sun (hrs)'] = row.sunHours || 0;
+      excelRow['Mon (hrs)'] = row.monHours || 0;
+      excelRow['Tues (hrs)'] = row.tuesHours || 0;
+      excelRow['Wed (hrs)'] = row.wedHours || 0;
+      excelRow['Thurs (hrs)'] = row.thursHours || 0;
+      excelRow['Fri (hrs)'] = row.friHours || 0;
+      excelRow['Sat (hrs)'] = row.satHours || 0;
+
+      // Add leave types if they exist
+      if (row.sunLeaveType) excelRow['Sun Leave Type'] = row.sunLeaveType;
+      if (row.monLeaveType) excelRow['Mon Leave Type'] = row.monLeaveType;
+      if (row.tuesLeaveType) excelRow['Tues Leave Type'] = row.tuesLeaveType;
+      if (row.wedLeaveType) excelRow['Wed Leave Type'] = row.wedLeaveType;
+      if (row.thursLeaveType) excelRow['Thurs Leave Type'] = row.thursLeaveType;
+      if (row.friLeaveType) excelRow['Fri Leave Type'] = row.friLeaveType;
+      if (row.satLeaveType) excelRow['Sat Leave Type'] = row.satLeaveType;
+
+      return excelRow;
+    });
+  }
+
+  private getColumnWidths(): any[] {
+    const baseWidths = [
+      { wch: 6 },  // S.No
+      { wch: 20 }, // Employee Name (if visible)
+      { wch: 10 }, // Week No
+      { wch: 15 }, // Fiscal Week
+      { wch: 10 }, // Month
+      { wch: 25 }, // Project Name
+      { wch: 15 }, // Total Week
+      { wch: 10 }, // Sun
+      { wch: 10 }, // Mon
+      { wch: 10 }, // Tues
+      { wch: 10 }, // Wed
+      { wch: 10 }, // Thurs
+      { wch: 10 }, // Fri
+      { wch: 10 }, // Sat
+      { wch: 15 }, // Sun Leave Type
+      { wch: 15 }, // Mon Leave Type
+      { wch: 15 }, // Tues Leave Type
+      { wch: 15 }, // Wed Leave Type
+      { wch: 15 }, // Thurs Leave Type
+      { wch: 15 }, // Fri Leave Type
+      { wch: 15 }  // Sat Leave Type
+    ];
+
+    return baseWidths;
+  }
+
+  private generateFileName(): string {
+    const now = new Date();
+    const dateStr = now.toISOString().split('T')[0];
+    const timeStr = now.toTimeString().split(' ')[0].replace(/:/g, '-');
+
+    let fileName = `Timesheet_Export_${dateStr}_${timeStr}`;
+
+    // Add filter info to filename if filters are applied
+    if (this.searchText) {
+      const searchSnippet = this.searchText.substring(0, 15).replace(/[^a-zA-Z0-9]/g, '_');
+      fileName += `_search_${searchSnippet}`;
+    }
+
+    if (this.selectedHeaderWeekNo) {
+      fileName += `_week_${this.selectedHeaderWeekNo}`;
+    }
+
+    // Check if any column filters are active
+    const activeFilters = Object.keys(this.filters).filter(key =>
+      this.filters[key] && this.filters[key] !== ''
+    );
+
+    if (activeFilters.length > 0) {
+      fileName += `_${activeFilters.length}_filters`;
+    }
+
+    // Add role info
+    if (this.isAdmin) {
+      fileName += '_admin';
+    } else if (this.isManager) {
+      fileName += '_manager';
+    } else {
+      fileName += '_user';
+    }
+
+    return `${fileName}.xlsx`;
+  }
+
+  // Method to check if any filters are active
+  isAnyFilterActive(): boolean {
+    const hasSearchFilter = !!this.searchText && this.searchText.trim() !== '';
+    const hasHeaderWeekFilter = this.selectedHeaderWeekNo !== null;
+    const hasColumnFilters = Object.keys(this.filters).some(key =>
+      this.filters[key] && this.filters[key] !== ''
+    );
+
+    return hasSearchFilter || hasHeaderWeekFilter || hasColumnFilters;
+  }
+
+  // Method to export with confirmation when filters are active
+  exportWithFilterInfo() {
+    const dataToExport = this.timesheetRows.length > 0 ? this.timesheetRows : this.originalTimesheetRows;
+
+    if (dataToExport.length === 0) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'No Data',
+        detail: 'No data available to export.',
+        life: 3000
+      });
+      return;
+    }
+
+    if (this.isAnyFilterActive()) {
+      this.messageService.add({
+        severity: 'info',
+        summary: 'Exporting Filtered Data',
+        detail: `Exporting ${dataToExport.length} record(s) based on current filters.`,
+        life: 3000
+      });
+    } else {
+      this.messageService.add({
+        severity: 'info',
+        summary: 'Exporting All Data',
+        detail: `Exporting all ${dataToExport.length} record(s).`,
+        life: 3000
+      });
+    }
+
+    // Small delay to show the message before export starts
+    setTimeout(() => {
+      this.exportToExcel();
+    }, 500);
+  }
+
+  // Method to get export data count for UI display
+  getExportDataCount(): number {
+    const dataToExport = this.timesheetRows.length > 0 ? this.timesheetRows : this.originalTimesheetRows;
+    return dataToExport.length;
+  }
+  private fetchHolidayData() {
+    this.apiService.getAllHolidays().subscribe((holidays: any[]) => {
+      const selectedHolidaySet = sessionStorage.getItem('holiday');
+      let filteredHolidays = holidays;
+ 
+      if (selectedHolidaySet) {
+        filteredHolidays = holidays.filter(h =>
+          (h.holidaySet || '').toLowerCase() === selectedHolidaySet.toLowerCase()
+        );
+      }
+ 
+      this.officialHolidayDates = filteredHolidays
+        .filter(h => h.type && h.type.toLowerCase().includes('official'))
+        .map(h => h.date.split('T')[0]);
+ 
+      this.optionalHolidayDates = filteredHolidays
+        .filter(h => h.type && h.type.toLowerCase().includes('optional'))
+        .map(h => h.date.split('T')[0]);
+ 
+      console.log('Loaded holidays for timesheet validation:', {
+        official: this.officialHolidayDates,
+        optional: this.optionalHolidayDates
+      });
+    });
+  }
+ 
+  // Check if a date is an official holiday
+  isOfficialHoliday(date: string): boolean {
+    if (!date) return false;
+    return this.officialHolidayDates.includes(date);
+  }
+ 
+  // Check if a date is an optional holiday
+  isOptionalHoliday(date: string): boolean {
+    if (!date) return false;
+    return this.optionalHolidayDates.includes(date);
+  }
+ 
+  // Check if a date is weekly off (Saturday/Sunday)
+  isWeeklyOff(date: string): boolean {
+    if (!date) return false;
+    const dayOfWeek = new Date(date).getDay();
+    return this.weeklyOffDays.includes(dayOfWeek);
+  }
+ 
+  // Get day name from date
+  getDayName(date: string): string {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const dayIndex = new Date(date).getDay();
+    return days[dayIndex];
+  }
+ 
+  // Format date to YYYY-MM-DD
+  formatDateToYYYYMMDD(date: Date): string {
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
+ 
+  // Add this method to validate leave type against actual holidays
+  // Add this method to validate leave type against actual holidays
+  validateLeaveTypeAgainstHolidays(row: any): { isValid: boolean; errors: string[] } {
+    const errors: string[] = [];
+ 
+    if (!row.weekNo || !row.fiscalWeek) {
+      return { isValid: true, errors: [] }; // Skip validation if week not selected
+    }
+ 
+    // Get the week dates from fiscal week
+    const week = this.fiscalWeeks.find(w => w.weekNo === row.weekNo);
+    if (!week) {
+      return { isValid: true, errors: [] };
+    }
+ 
+    const days = [
+      { key: 'sun', date: new Date(week.startDate) },
+      { key: 'mon', date: new Date(week.startDate.getTime() + 1 * 24 * 60 * 60 * 1000) },
+      { key: 'tues', date: new Date(week.startDate.getTime() + 2 * 24 * 60 * 60 * 1000) },
+      { key: 'wed', date: new Date(week.startDate.getTime() + 3 * 24 * 60 * 60 * 1000) },
+      { key: 'thurs', date: new Date(week.startDate.getTime() + 4 * 24 * 60 * 60 * 1000) },
+      { key: 'fri', date: new Date(week.startDate.getTime() + 5 * 24 * 60 * 60 * 1000) },
+      { key: 'sat', date: new Date(week.startDate.getTime() + 6 * 24 * 60 * 60 * 1000) }
+    ];
+ 
+    days.forEach(day => {
+      const leaveTypeProperty = `${day.key}LeaveType`;
+      const leaveType = row[leaveTypeProperty];
+      const dateStr = this.formatDateToYYYYMMDD(day.date);
+      const dayName = this.getDayName(dateStr);
+ 
+      if (leaveType && leaveType !== 'SWITCH_TO_HOURS') {
+ 
+        // === STRICT VALIDATION - ONLY FLAG ACTUAL ERRORS ===
+ 
+        // ERROR: User selected "Weekly Off" but it's NOT actually a weekly off
+        if (leaveType === 'Weekly Off' && !this.isWeeklyOff(dateStr)) {
+          errors.push(`${dayName} (${dateStr}) is NOT a weekly off day but marked as Weekly Off`);
+        }
+ 
+        // ERROR: User selected "Holiday" but no official holiday exists
+        if (leaveType === 'Holiday' && !this.isOfficialHoliday(dateStr)) {
+          errors.push(`${dayName} (${dateStr}) is NOT an official holiday but marked as Public Holiday`);
+        }
+ 
+        // ERROR: User selected "Optional Holiday" but no optional holiday exists
+        if (leaveType === 'Optional Holiday' && !this.isOptionalHoliday(dateStr)) {
+          errors.push(`${dayName} is NOT an optional holiday but marked as Flexi Holiday`);
+        }
+ 
+        // === NO ERRORS FOR CORRECT SELECTIONS ===
+        // If Sunday is weekly off AND user selected "Weekly Off" → VALID (no error)
+        // If day is official holiday AND user selected "Holiday" → VALID (no error)  
+        // If day is optional holiday AND user selected "Optional Holiday" → VALID (no error)
+      }
+    });
+ 
+    return {
+      isValid: errors.length === 0,
+      errors: errors
+    };
+  }
+ 
+  // Add this method for real-time validation when leave type is selected
+  onLeaveTypeChangeWithValidation(rowIndex: number, day: string, leaveType: string) {
+    const row = this.timesheetRows[rowIndex];
+ 
+    // Call existing method
+    this.onLeaveTypeChange(rowIndex, day, leaveType);
+ 
+    // NEW: Perform real-time validation
+    if (leaveType && leaveType !== 'SWITCH_TO_HOURS' && row.weekNo) {
+      this.validateSingleDayLeaveType(rowIndex, day, leaveType);
+    }
+  }
+   // Validate single day leave type selection - REAL-TIME WARNINGS ONLY
+private validateSingleDayLeaveType(rowIndex: number, day: string, leaveType: string) {
+  const row = this.timesheetRows[rowIndex];
+  const week = this.fiscalWeeks.find(w => w.weekNo === row.weekNo);
+ 
+  if (!week) return;
+ 
+  const dayIndexMap: any = {
+    'sun': 0, 'mon': 1, 'tues': 2, 'wed': 3, 'thurs': 4, 'fri': 5, 'sat': 6
+  };
+ 
+  const dayIndex = dayIndexMap[day];
+  const date = new Date(week.startDate.getTime() + dayIndex * 24 * 60 * 60 * 1000);
+  const dateStr = this.formatDateToYYYYMMDD(date);
+  const dayName = this.getDayName(dateStr);
+ 
+  let validationMessage = '';
+ 
+  // === ONLY SHOW WARNINGS FOR ACTUAL PROBLEMS ===
+ 
+
+  if (leaveType === 'Holiday' && !this.isOfficialHoliday(dateStr)) {
+    validationMessage = `Warning: ${dayName} is not an official holiday in the calendar`;
+  }
+ 
+  // WARNING: User selected "Weekly Off" but it's not actually a weekly off
+  else if (leaveType === 'Weekly Off' && !this.isWeeklyOff(dateStr)) {
+    validationMessage = `Warning: ${dayName} is not a weekly off day`;
+  }
+ 
+  // WARNING: User selected "Optional Holiday" but no optional holiday exists
+  else if (leaveType === 'Optional Holiday' && !this.isOptionalHoliday(dateStr)) {
+    validationMessage = `Warning: ${dayName} is not an optional holiday in the calendar`;
+  }
+ 
+  // === NO WARNINGS FOR CORRECT SELECTIONS ===
+  // Don't warn when user correctly matches leave type to calendar
+ 
+  if (validationMessage) {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Holiday Check',
+      detail: validationMessage,
+      life: 4000
+    });
+  }
+
+}
+showWorkDetailsModal = false;
+  workDetails: string = '';
+  showCharCount = true; // optional: show character count
+
+  // Open modal from anywhere
+  openWorkDetailsModal(initialText: string = '') {
+    this.workDetails = initialText;
+    this.showWorkDetailsModal = true;
+  }
+
+  // Add button handler
+  addWorkDetails() {
+    const trimmed = (this.workDetails || '').trim();
+    if (!trimmed) {
+      // simple client-side validation; you can replace with a toast or inline error
+      alert('Please enter work details before adding.');
+      return;
+    }
+
+    // TODO: replace with real logic (emit event, call API, save to form, etc.)
+    console.log('Work details added:', trimmed);
+
+    // Example: emit or pass to parent via a service/event emitter
+    // this.workDetailsAdded.emit(trimmed);
+
+    // Clear and close
+    this.workDetails = '';
+    this.showWorkDetailsModal = false;
+  }
+
+  // Cancel/close
+  closeWorkDetailsModal() {
+    this.workDetails = '';
+    this.showWorkDetailsModal = false;
+  }
+
+}
+  

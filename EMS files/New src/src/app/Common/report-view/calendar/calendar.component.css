@@ -1,0 +1,73 @@
+.title-container {
+    position: relative;
+    max-width: 100%;
+    /* height: 86vh; */
+    padding: 0.4rem;
+    background-color: #272727;
+ 
+  }
+  .title {
+    display: flex;
+    align-items: center;
+    font-size: large;
+    color: #f0f0f0;
+  }
+  .horizontal-line {
+    display: block;
+    height: 0.5px;
+    background-color: #6d6c6c;
+    width: 100%;
+  }
+   .vertical-line {
+    display: inline-block;
+    width: 4px;
+    height: 30px;
+    background-color: #87CEFA;
+    margin-right: 10px;
+    border-radius: 2px;
+  }
+  .calendar-container{
+ margin: 2rem 1rem;
+   color: #f0f0f0;
+}
+ 
+ 
+.dark-theme {
+  background-color: #2d2d2e;
+  color: #f0f0f0;
+}
+ 
+::ng-deep .fc {
+  background-color: #6b6b6b;
+  color: #ffffff;
+  border-color: #444;
+}
+ 
+::ng-deep .fc-toolbar-title {
+  color: #f0f0f0;
+}
+ 
+::ng-deep .fc-button {
+  background-color: #666;
+  color: #f0f0f0;
+  border: none;
+}
+ 
+::ng-deep .fc-button:hover {
+  background-color: #666;
+}
+ ::ng-deep .custom-calendar-scroll .fc-scroller,
+::ng-deep .custom-calendar-scroll .fc-scroller-harness,
+::ng-deep .custom-calendar-scroll .fc-scrollgrid {
+  max-height: 650px;
+  overflow-y: auto;
+}
+
+/* Optional custom scrollbar */
+::ng-deep .custom-calendar-scroll .fc-scroller::-webkit-scrollbar {
+  width: 8px;
+}
+::ng-deep .custom-calendar-scroll .fc-scroller::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 4px;
+}

@@ -1,0 +1,1262 @@
+.calendar-toolbar-box-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.calendar-toolbar-box-gap {
+  width: 10px;
+}
+.calendar-toolbar-label {
+  color: #f6f4f4;
+  font-size: 0.7rem;
+  font-weight: 400;
+  font-family: inherit;
+  letter-spacing: 0.5px;
+  margin-right: 1px;
+}
+/* Toolbar colored boxes (right side of calendar toolbar) */
+.calendar-toolbar-boxes-wrapper {
+  position: relative;
+}
+.calendar-toolbar-boxes {
+  position: absolute;
+  top: 8px;
+  right: 200px;
+  display: flex;
+  gap: 5px;
+  z-index: 10;
+}
+.calendar-toolbar-box {
+  width: 28px;
+  height: 20px;
+  border-radius: 5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+}
+.calendar-toolbar-box.green {
+  background: #28a745;
+}
+.calendar-toolbar-box.orange {
+  background: #ff9800;
+}
+@media (max-width: 600px) {
+  .calendar-top-bar-container {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 8px 4px 0 4px !important;
+    min-height: unset !important;
+    max-height: unset !important;
+    gap: 8px !important;
+  }
+  .calendar-top-bar-left {
+    width: 100% !important;
+    margin-bottom: 8px !important;
+    justify-content: flex-start !important;
+  }
+  .calendar-top-bar {
+    width: 100% !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    justify-content: flex-start !important;
+  }
+  .calendar-top-bar button,
+  .calendar-top-bar .upload-btn,
+  .calendar-top-bar .view-btn,
+  .calendar-top-bar .download-btn {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+}
+.calendar-top-bar-left.invisible {
+  visibility: hidden;
+}
+:host ::ng-deep .fc-daygrid-day-frame {
+  /* Custom style for the day cell frame */
+  background: transparent !important;
+  border-radius: 0 !important;
+  min-height: 100%;
+  box-shadow: none !important;
+}
+
+:host ::ng-deep .fc-scrollgrid-sync-inner {
+  /* Custom style for the inner cell content */
+  padding: 0 !important;
+  background: transparent !important;
+  min-height: 10%;
+  max-height: 15%;
+  border-radius: 0 !important;
+}
+/* Wrapper for FullCalendar to match design */
+.fullcalendar-wrapper {
+  width: 100%;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  margin: 0 auto 32px auto;
+  min-height: 500px;
+  max-height: 780px;
+  overflow-y: auto;
+}
+/* FullCalendar custom styles using :host ::ng-deep for Angular integration */
+:host ::ng-deep .fc {
+  background: #fff !important;
+  color: #232323 !important;
+  font-family: 'Segoe UI', 'Arial', sans-serif !important;
+  font-size: 1.08rem !important;
+}
+:host ::ng-deep .fc-header-toolbar {
+  background: #232323 !important;
+  padding: 5px 2px 5px 2px !important;
+  margin-bottom: 0px !important;
+  border-radius: 14px 14px 0 0 !important;
+  font-size: 0.8rem !important;
+  color: #fff !important;
+  font-family: inherit !important;
+}
+
+:host ::ng-deep .fc-toolbar-title {
+  /* Custom class for the calendar title */
+  font-size: 1.2rem !important;
+  font-weight: 500 !important;
+  margin-left: 10px !important;
+  color: #fff !important;
+  letter-spacing: 0.5px;
+  font-family: inherit !important;
+}
+:host ::ng-deep .fc-col-header-cell {
+  color: #fff !important;
+  background: #232323 !important;
+  font-weight: 500 !important;
+  font-size: 0.9rem !important;
+  font-family: inherit !important;
+  letter-spacing: 1px;
+  border: none !important;
+}
+:host ::ng-deep .fc-col-header-cell a {
+  color: #fff !important;
+  font-family: inherit !important;
+}
+:host ::ng-deep .fc-daygrid-day {
+  background: #fff !important;
+  color: #232323 !important;
+  border: 1px solid #d1d1d1 !important;
+  height: 20px !important;
+  min-height: 20px !important;
+  max-height: 20px !important;
+  font-family: inherit !important;
+}
+
+:host ::ng-deep .fc-daygrid-day-frame {
+  height: 20px !important;
+  min-height: 20px !important;
+  max-height: 20px !important;
+}
+:host ::ng-deep .fc-daygrid-day-number {
+  color: #232323 !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  font-family: inherit !important;
+  padding: 4px 0 0 6px !important;
+  opacity: 1 !important;
+  letter-spacing: 0.5px;
+}
+
+:host ::ng-deep .fc-day-today {
+  /* Remove background and border for today cell, only highlight the number */
+  background: none !important;
+  color: inherit !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+:host ::ng-deep .fc-day-today .fc-daygrid-day-number {
+  background: #2563eb !important;
+  color: #fff !important;
+  font-weight: 900 !important;
+  border-radius: 50% !important;
+  padding: 2px 8px !important;
+  min-width: 24px;
+  display: inline-block;
+  text-align: center;
+  box-shadow: 0 2px 8px #2563eb33;
+}
+:host ::ng-deep .fc-event {
+  background: #2563eb !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 3px 8px !important;
+  font-size: 0.92rem !important;
+  font-weight: 300 !important;
+  font-family: inherit !important;
+  border-radius: 8px !important;
+  margin: 3px 0 !important;
+  letter-spacing: 0.1px;
+  box-shadow: 0 2px 8px #2563eb22 !important;
+  transition: background 0.18s;
+}
+/* Color coding for event types (add className to events in TS for these to work) */
+:host ::ng-deep .fc-event.official {
+  background-color: #28a745 !important; /* Bright Green */
+  color: #fff !important;               /* White text for contrast */
+  border-radius: 6px;                   /* Rounded edges */
+  font-weight: bold;
+}
+
+:host ::ng-deep .fc-event.optional {
+  background-color: #ff9800 !important; /* Vibrant Orange */
+  color: #fff !important;               /* White text for contrast */
+  border-radius: 6px;                   /* Rounded edges */
+  font-weight: bold;
+}
+:host ::ng-deep .fc-event.approved {
+  background: #11c84e !important;
+}
+:host ::ng-deep .fc-event.pending {
+  background: #ff9800 !important;
+}
+:host ::ng-deep .fc-event.rejected {
+  background: #e53935 !important;
+}
+:host ::ng-deep .fc-button {
+  background: #2563eb !important;
+  border: none !important;
+  color: #fff !important;
+  padding: 2px 8px !important;
+  height: 24px !important;
+  font-size: 0.9rem !important;
+  font-family: inherit !important;
+  border-radius: 6px !important;
+  font-weight: 500 !important;
+  box-shadow: 0 2px 8px #2563eb22 !important;
+  transition: background 0.18s;
+  margin-left: 4px !important;
+  margin-right: 10px !important;
+}
+:host ::ng-deep .fc-button:hover {
+  background: #1390f7 !important;
+}
+:host ::ng-deep .fc-today-button {
+  background:#2563eb !important;
+  color: #fff !important;
+  min-width: 60px !important;
+  font-size: 0.9rem !important;
+  font-family: inherit !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  padding: 2px 8px !important;
+  height: 24px !important;
+  box-shadow: 0 2px 8px #23232322 !important;
+  margin-left: 4px !important;
+}
+:host ::ng-deep .fc-today-button:hover {
+  background: #2563eb !important;
+}
+/* --- Custom Calendar Modern Styles (for showCalendar) --- */
+.custom-calendar-wrapper {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  padding: 0 0 24px 0;
+  margin: 0 auto 32px auto;
+  max-width: 98vw;
+  width: 100%;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-calendar-header {
+  background: #232323;
+  border-radius: 14px 14px 0 0;
+  padding: 16px 24px 8px 24px;
+  display: flex;
+  align-items: center;
+}
+.custom-calendar-title {
+  color: #4e9cff;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  text-shadow: 0 2px 8px #23232333;
+}
+.custom-calendar-content {
+  background: #fff;
+  border-radius: 0 0 14px 14px;
+  padding: 0 18px 18px 18px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.custom-calendar-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(42,123,228,0.08);
+  margin-bottom: 0;
+  table-layout: fixed;
+}
+.custom-calendar-table th {
+  background: #232323;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.15rem;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  letter-spacing: 1px;
+  padding: 16px 0 12px 0;
+  border: none;
+  text-align: center;
+}
+.custom-calendar-table td {
+  background: #fff;
+  color: #232323;
+  font-size: 1.08rem;
+  font-weight: 500;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  text-align: center;
+  border: 1px solid #d1d1d1;
+  height: 80px;
+  min-width: 90px;
+  vertical-align: top;
+  position: relative;
+  transition: background 0.2s, color 0.2s;
+  padding: 4px 2px 2px 2px;
+  box-sizing: border-box;
+}
+.custom-calendar-table tr:last-child td {
+  border-bottom: 1px solid #d1d1d1;
+}
+.custom-calendar-table tr {
+  transition: box-shadow 0.2s, background 0.2s;
+}
+.custom-calendar-table tr:hover td {
+  background: #f6fbff;
+  box-shadow: 0 2px 8px #2563eb22;
+}
+.custom-calendar-table td.current-day {
+  background: #2563eb !important;
+  color: #fff !important;
+  border-radius: 8px;
+  box-shadow: 0 0 8px #2563eb33;
+  font-weight: 900;
+}
+.custom-calendar-table td.current-day .day-number {
+  color: #fff;
+  font-weight: 900;
+}
+.custom-calendar-table .day-number {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 2px;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  letter-spacing: 0.5px;
+}
+/* Official holiday text style (blue, bold, no bar) */
+.custom-calendar-table .official-holiday-bar {
+  background: none;
+  color: #2563eb;
+  font-weight: 700;
+  font-size: 1.01rem;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  margin: 2px 0 0 0;
+  padding: 0;
+  border-radius: 0;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.2px;
+}
+/* Optional holiday text style (green, bold, no bar) */
+.custom-calendar-table .optional-holiday-bar {
+  background: none;
+  color: #34c759;
+  font-weight: 700;
+  font-size: 1.01rem;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  margin: 2px 0 0 0;
+  padding: 0;
+  border-radius: 0;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.2px;
+}
+@media (max-width: 900px) {
+  .custom-calendar-wrapper {
+    min-width: 0;
+    max-width: 100vw;
+    padding: 0 2px 12px 2px;
+  }
+  .custom-calendar-header {
+    padding: 10px 6px 6px 6px;
+  }
+  .custom-calendar-content {
+    padding: 0 2px 8px 2px;
+  }
+  .custom-calendar-table th, .custom-calendar-table td {
+    font-size: 0.95rem;
+    min-width: 40px;
+    height: 40px;
+    padding: 2px 1px 1px 1px;
+  }
+}
+.official-holiday-bar {
+  background: #2563eb;
+  color: #fff;
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin: 2px 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.optional-holiday-bar {
+  background: #34c759;
+  color: #fff;
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin: 2px 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Top bar for calendar upload/download buttons */
+
+.calendar-top-bar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 32px;
+  max-height: 32px;
+  font-size: 1rem;
+  border-radius: 5px;
+  padding: 16px 32px 0 32px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+.calendar-top-bar-left {
+  display: flex;
+  justify-content: flex-start;
+  background-color: white;
+  color: #000;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.calendar-top-bar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+}
+
+.holiday-flex-row {
+  display: flex;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.holiday-box {
+  flex: 1;
+  /* background: #2a2a2a; */
+   /* background: #ffffff; */
+  background: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+.holiday-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.holiday-title {
+   color: #2196f3;
+  margin: 0;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}
+.my-all-holiday-list {
+  margin-top: 1rem;
+}
+.my-holiday-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 100px; 
+}
+.my-holiday-card {
+  /* background: #232323; */
+  background: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 12px 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.my-holiday-card .holiday-title {
+  font-weight: 500;
+  color: #000000;
+  margin-bottom: 4px;
+}
+.my-holiday-card .holiday-date, .my-holiday-card .holiday-hours {
+  font-size: 0.95rem;
+  color: #000000;
+  margin-bottom: 2px;
+}
+.my-holiday-card .holiday-hours {
+  margin-bottom: 0;
+}
+.orange-text {
+  color: rgb(250, 97, 94) !important;
+}
+.small {
+  font-size: 0.95rem;
+}
+.holiday-card-day {
+  font-size: 0.95rem;
+  color: #888;
+  margin-left: 4px;
+}
+.my-holiday-card.current-month-card {
+  background: linear-gradient(90deg, #2563eb 60%, #2a7be4 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px #2563eb44;
+  border: 2px solid #2563eb;
+}
+.my-holiday-card.current-month-card .holiday-card-day{
+  color: #fff;
+}
+.my-holiday-card.current-month-card .holiday-title,
+.my-holiday-card.current-month-card .holiday-date,
+.my-holiday-card.current-month-card .holiday-hours {
+  color: #fff !important;
+}
+/* Always stack card sections vertically when .vertical is present */
+.holiday-card-wrapper.vertical {
+  flex-direction: column !important;
+  gap: 24px;
+}
+/* Attractive Holiday Card Layout */
+.holiday-card-wrapper {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 32px;
+}
+.holiday-card-section {
+  background: linear-gradient(135deg, #0d0d0d 60%, #090909 100%);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(37,99,235,0.10), 0 1.5px 4px rgba(0,0,0,0.06);
+  padding: 24px 18px 18px 18px;
+    min-width: 320px;
+    max-width: 100vw;
+  width: 100%;
+}
+.holiday-card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  margin-bottom: 12px;
+  text-align: center;
+  border-radius: 10px;
+  padding: 8px 0;
+  background: linear-gradient(90deg, #2563eb 60%, #2a7be4 100%);
+  color: #080808;
+  box-shadow: 0 2px 8px #2563eb22;
+}
+.holiday-card-title.official {
+  background: linear-gradient(90deg, #2563eb 60%, #2a7be4 100%);
+}
+.holiday-card-title.optional {
+  background: linear-gradient(90deg, #34c759 60%, #1be84b 100%);
+}
+.holiday-card-list {
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow-x: auto;
+  width: 100%;
+    min-width: 0;
+    max-width: 100vw;
+ 
+}
+.holiday-card {
+  display: flex;
+  align-items: flex-start;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(42,123,228,0.08);
+  padding: 16px 18px;
+  transition: box-shadow 0.2s, background 0.2s;
+  border: 2px solid #f6f4f4;
+  position: relative;
+    min-width: 260px;
+    max-width: 340px;
+    width: 100%;
+}
+.holiday-card:hover {
+  background: #e3f2fd;
+  box-shadow: 0 4px 16px #2563eb22;
+}
+.holiday-card.current-month-card {
+  background: linear-gradient(90deg, #2563eb 60%, #2a7be4 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px #2563eb44;
+  border: 2px solid #2563eb;
+}
+.holiday-card.current-month-card .holiday-card-details {
+  color: #fff !important;
+}
+.holiday-card-icon {
+  margin-right: 18px;
+  display: flex;
+  align-items: center;
+}
+.holiday-card-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.holiday-card-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2563eb;
+}
+.holiday-card.current-month-card .holiday-card-name {
+  color: #fff;
+}
+.holiday-card-date {
+  font-size: 1rem;
+  color: #222;
+}
+.holiday-card.current-month-card .holiday-card-date {
+  color: #fff;
+}
+.holiday-card-day {
+  font-size: 0.95rem;
+  color: #888;
+  margin-left: 4px;
+}
+.holiday-card.current-month-card .holiday-card-day {
+  color: #e3f2fd;
+}
+.holiday-card-type {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #34c759;
+}
+.holiday-card.current-month-card .holiday-card-type {
+  color: #fff;
+}
+.holiday-card-tooltip {
+  background: #1be84b;
+  color: #060606 !important;
+  padding: 8px 14px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  font-size: 14px;
+  margin-top: 8px;
+  text-align: center;
+  width: 100%;
+}
+
+
+.view-btn {
+  background: linear-gradient(82.3deg, rgb(126, 32, 242) 94.3%, rgb(126, 32, 242) 94.3%);
+  color: #f0f0f0;
+  border: 1px solid #7d7d7e;
+  cursor: pointer;
+  padding: 2px 10px;
+  min-height: 32px;
+  max-height: 32px;
+  font-size: 1rem;
+  border-radius: 5px;
+  min-width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  box-sizing: border-box;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.view-btn:hover {
+  background: rgb(87, 76, 243);
+}
+
+
+
+.download-btn {
+  background: #11c84e;
+  color: #f0f0f0;
+  border: 1px solid #7d7d7e;
+  padding: 2px 10px;
+  min-height: 32px;
+  max-height: 32px;
+  font-size: 1rem;
+  border-radius: 5px;
+  margin: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.download-btn:hover {
+  background: #60df71;
+}
+.download-btn:active {
+  background-color: #7d7d7e;
+}
+
+
+.upload-btn {
+  background: #2196f3;
+  color: #f0f0f0;
+  border: 1px solid #7d7d7e;
+  padding: 2px 10px;
+  min-height: 32px;
+  max-height: 32px;
+  font-size: 1rem;
+  border-radius: 5px;
+  margin: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.upload-btn:hover {
+  background: #1390f7;
+}
+.upload-btn:active {
+  background-color: #7d7d7e;
+}
+
+@media (max-width: 900px) {
+  .holiday-flex-row {
+    flex-direction: column !important;
+    gap: 24px !important;
+    margin: 12px 0 !important;
+  }
+  .holiday-box {
+    width: 100% !important;
+    margin-bottom: 18px !important;
+    padding: 16px 6px !important;
+  }
+  .holiday-card-wrapper {
+    flex-direction: column !important;
+    gap: 18px !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+  .holiday-card-section {
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    padding: 12px 2px 12px 2px !important;
+  }
+  .holiday-card-list {
+    flex-direction: column !important;
+    gap: 12px !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    padding: 0 !important;
+  }
+  .holiday-card {
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    width: 100% !important;
+    padding: 10px 6px !important;
+    font-size: 0.95rem !important;
+  }
+  .calendar-container {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+}
+/* Attractive Holiday Table Wrapper */
+.holiday-table-wrapper {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 32px;
+  .holiday-card-section {
+    padding: 8px 0 8px 0;
+  }
+  .holiday-card {
+    padding: 6px 2px;
+    font-size: 0.9rem;
+  }
+  .holiday-card-title {
+    font-size: 1.1rem;
+    padding: 6px 0;
+  }
+  .holiday-card-name {
+    font-size: 1rem;
+  }
+  .holiday-card-date {
+    font-size: 0.95rem;
+  }
+  .holiday-card-type {
+    font-size: 0.95rem;
+  }
+}
+.holiday-table-section {
+  background: linear-gradient(135deg, #e3f2fd 60%, #f6fbff 100%);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(37,99,235,0.10), 0 1.5px 4px rgba(0,0,0,0.06);
+  padding: 24px 18px 18px 18px;
+  min-width: 340px;
+  max-width: 480px;
+  width: 100%;
+}
+.holiday-table-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  margin-bottom: 12px;
+  text-align: center;
+  border-radius: 10px;
+  padding: 8px 0;
+  background: linear-gradient(90deg, #2563eb 60%, #2a7be4 100%);
+  color: #fff;
+  box-shadow: 0 2px 8px #2563eb22;
+}
+.holiday-table-title.official {
+  background: linear-gradient(90deg, #2563eb 60%, #2a7be4 100%);
+}
+.holiday-table-title.optional {
+  background: linear-gradient(90deg, #34c759 60%, #1be84b 100%);
+}
+.holiday-table.attractive {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(42,123,228,0.08);
+  margin-bottom: 18px;
+}
+.holiday-table.attractive th {
+  background: linear-gradient(90deg, #2563eb 60%, #2a7be4 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 14px 0;
+  border: none;
+  text-align: center;
+}
+.holiday-table.attractive td {
+  background: #e3f2fd;
+  color: #222;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+  border-bottom: 1px solid #90caf9;
+  height: 56px;
+  vertical-align: middle;
+  position: relative;
+  transition: background 0.2s, color 0.2s;
+}
+.holiday-table.attractive tr:last-child td {
+  border-bottom: none;
+}
+.holiday-table.attractive tr {
+  transition: box-shadow 0.2s, background 0.2s;
+}
+.holiday-table.attractive tr:hover {
+  background: #bbdefb;
+  box-shadow: 0 2px 8px #2563eb22;
+}
+.holiday-table.attractive tr.current-month-row {
+  background-color: #2563eb !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px #2563eb44;
+}
+.holiday-table.attractive tr.current-month-row td {
+  background-color: #2563eb !important;
+  color: #fff !important;
+}
+.holiday-table.attractive td.holiday-tooltip-trigger {
+  cursor: pointer;
+}
+@media (max-width: 900px) {
+  .holiday-table-wrapper {
+    flex-direction: column;
+    gap: 18px;
+  }
+  .holiday-table-section {
+    min-width: 0;
+    max-width: 100vw;
+    padding: 12px 2px 12px 2px;
+  }
+}
+
+.holiday-tooltip-trigger {
+  position: relative;
+  cursor: pointer;
+}
+
+.holiday-tooltip-trigger {
+  position: relative;
+  cursor: pointer;
+}
+.holiday-tooltip-content {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  background: #1be84b;
+  color: #060606 !important;
+  padding: 8px 14px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  z-index: 10;
+  font-size: 14px;
+  margin-top: 6px;
+  margin-left: 20px;
+  min-width: 160px;
+  width: 20vw;
+  max-width: 60vw;
+  text-align: center;
+  white-space: normal;
+}
+.current-month-row .holiday-tooltip-trigger:hover .holiday-tooltip-content,
+.current-month-row .holiday-tooltip-trigger:focus .holiday-tooltip-content {
+  display: block;
+}
+.current-month-row {
+  background-color: #2563eb !important;
+  color: #fff !important;
+}
+/* Custom holiday tooltip */
+.holiday-tooltip {
+  background: #e6fbe8;
+  color: #222;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px #2563eb22;
+  border: 1.5px solid #34c759;
+  padding: 12px 16px;
+  font-size: 1rem;
+  font-weight: 400;
+  min-width: 220px;
+  max-width: 320px;
+  pointer-events: none;
+  transition: opacity 0.15s;
+  opacity: 0.98;
+  white-space: pre-line;
+}
+.calendar-container {
+  max-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 32px;
+  padding-right: 32px;
+  box-sizing: border-box;
+   background: #ffffff;
+}
+html, body, .calendar-container {
+  height: auto !important;
+  min-height: 100vh;
+  overflow-y: auto !important;
+  overflow-x: hidden;
+}
+
+/* Year View: 12 mini calendars grid */
+.calendar-year-view {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+}
+
+@media (max-width: 1400px) {
+  .calendar-year-view {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .calendar-year-view {
+    grid-template-columns: 1fr;
+  }
+}
+.mini-calendar {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10), 0 1.5px 4px rgba(0,0,0,0.06);
+  padding: 18px 12px 24px 12px;
+  min-width: 250px;
+  max-width: 100vw;
+  width: 100%;
+  margin: 0 auto 16px auto;
+  transition: box-shadow 0.2s, border 0.2s;
+  border: 2px solid #f2f4f8;
+}
+
+@media (max-width: 900px) {
+  .mini-calendar {
+    min-width: 0;
+    max-width: 100vw;
+    padding: 8px 2px 12px 2px;
+  }
+}
+
+/* Highlight current month calendar */
+.mini-calendar.current-month {
+  border: 2.5px solid #2563eb;
+  box-shadow: 0 8px 32px rgba(37,99,235,0.10), 0 2px 8px rgba(37,99,235,0.08);
+}
+.mini-calendar-header {
+  text-align: center;
+  font-weight: 600;
+  color: #222;
+  background: #4e24fa;
+  border-radius: 10px 10px 0 0;
+  padding: 8px 0 8px 0;
+  margin-bottom: 8px;
+  letter-spacing: 1.2px;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #f2f4f8;
+}
+
+/* Make FullCalendar in mini mode smaller */
+:host ::ng-deep .mini-calendar .fc {
+  font-size: 15px !important;
+  background: #fff !important;
+  border-radius: 10px;
+  color: #222 !important;
+}
+:host ::ng-deep .mini-calendar .fc-daygrid-day-number {
+  font-size: 13px !important;
+  font-weight: 500;
+  color: #222 !important;
+}
+:host ::ng-deep .mini-calendar .fc-daygrid-day {
+  background: #fff !important;
+  border: 1px solid #f2f4f8 !important;
+  min-height: 20px !important;
+  max-height: 20px !important;
+  transition: background 0.2s;
+}
+:host ::ng-deep .mini-calendar .fc-day-today {
+  background: #2563eb !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  box-shadow: 0 0 8px #2563eb33;
+}
+:host ::ng-deep .mini-calendar .fc-day-today .fc-daygrid-day-number {
+  color: #fff !important;
+  font-weight: bold;
+}
+:host ::ng-deep .mini-calendar .fc-event {
+  background: #2563eb !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-size: 13px !important;
+  padding: 2px 8px !important;
+  margin: 2px 0 !important;
+  box-shadow: 0 1px 4px #2563eb22;
+}
+.btn {
+    margin-top: 10px;
+    margin-right: 20px;
+    background-color: #007acc;
+    color: white;
+    float: right;
+  }
+ 
+.btn:hover {
+    background-color: #005fa3;
+  }
+
+
+
+/* Container styling (fixed 500px height) */
+.calendar-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #212122ff;
+  border-radius: 8px;
+  margin-top: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 16px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+
+/* Monthly Schedule Table Inspired by Image */
+.monthly-schedule-wrapper {
+  background: #f6fbff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10), 0 1.5px 4px rgba(0,0,0,0.06);
+  padding: 32px 24px 24px 24px;
+  margin: 0 auto 32px auto;
+  max-width: 700px;
+  width: 100%;
+}
+.monthly-title {
+  color: #2a7be4;
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-align: left;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1.2px;
+}
+.monthly-subtitle {
+  color: #2a7be4;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+.monthly-schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #e3f2fd;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(42,123,228,0.08);
+  margin-bottom: 18px;
+}
+.monthly-schedule-table th {
+  background: #2a7be4;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 12px 0;
+  border: 1px solid #90caf9;
+  text-align: center;
+}
+.monthly-schedule-table td {
+  background: #90caf9;
+  color: #222;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+  border: 1px solid #e3f2fd;
+  height: 56px;
+  vertical-align: top;
+  position: relative;
+}
+.monthly-schedule-table .day-number {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2a7be4;
+  margin-bottom: 2px;
+}
+.monthly-schedule-table .holiday-label {
+  background: #ffeb3b;
+  color: #222;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  margin-top: 4px;
+  display: inline-block;
+}
+.monthly-schedule-table .current-day {
+  background: #1976d2 !important;
+  color: #fff !important;
+  border: 2px solid #1565c0;
+  box-shadow: 0 0 8px #1976d233;
+}
+.monthly-schedule-table .current-day .day-number {
+  color: #fff;
+}
+.monthly-notes {
+  background: #e3f2fd;
+  color: #222;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-top: 12px;
+  box-shadow: 0 2px 8px #2a7be422;
+}
+
+/* Modal */
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background: #2a2a2a;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  color: white
+}
+
+.modal input,
+.modal textarea{
+  background-color: #606060;
+}
+
+.close {
+  float: right;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Form */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.form-group textarea {
+  height: 80px;
+}
+
+

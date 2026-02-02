@@ -1,0 +1,23 @@
+# Visual Studio files
+.vs/
+*.suo
+*.user
+*.db
+*.db-shm
+*.db-wal
+*.cache
+*.config
+*.psess
+*.vsp
+*.vspx
+*.pdb
+
+# Build folders
+bin/
+obj/
+
+# Debug logs
+*.log
+
+# Temporary folders
+temp/

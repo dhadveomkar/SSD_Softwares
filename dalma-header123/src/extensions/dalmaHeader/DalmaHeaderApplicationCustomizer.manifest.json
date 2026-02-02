@@ -1,0 +1,15 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-component-manifest.schema.json",
+  "id": "d9f8a6c4-7f6b-4b4b-b7e2-2c1f9d6a8a12",
+  "componentType": "Extension",
+  "extensionType": "ApplicationCustomizer",
+  "version": "1.0.0.0",
+  "manifestVersion": 2,
+  "title": "Dalma Header & Hero",
+  "description": "DALMA header below top nav, navigation menu and full-width hero with centered textbox.",
+  "properties": {
+    "logoUrl": "/sites/DALMADIGITALIZATION/SiteAssets/dalma_logo.png",
+    "heroImageUrl": "/sites/DALMADIGITALIZATION/SiteAssets/Mumbai_Skyline_at_Night.jpg",
+    "menuItems": "[{\"title\":\"Home\",\"href\":\"/sites/DALMADIGITALIZATION\"},{\"title\":\"Dashboards\",\"href\":\"/sites/DALMADIGITALIZATION/SitePages/Dashboards.aspx\"},{\"title\":\"Reports\",\"href\":\"/sites/DALMADIGITALIZATION/SitePages/Reports.aspx\"},{\"title\":\"Operations\",\"href\":\"/sites/DALMADIGITALIZATION/SitePages/Operations.aspx\"},{\"title\":\"Contact\",\"href\":\"/sites/DALMADIGITALIZATION/SitePages/Contact.aspx\"}]"
+  }
+}

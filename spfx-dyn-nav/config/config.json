@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "dynamic-nav-application-customizer": {
+      "components": [
+        {
+          "entrypoint": "./lib/extensions/dynamicNav/DynamicNavApplicationCustomizer.js",
+          "manifest": "./src/extensions/dynamicNav/DynamicNavApplicationCustomizer.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "DynamicNavApplicationCustomizerStrings": "lib/extensions/dynamicNav/loc/{locale}.js"
+  }
+}

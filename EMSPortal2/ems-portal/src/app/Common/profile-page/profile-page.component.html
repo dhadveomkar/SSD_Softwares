@@ -1,0 +1,121 @@
+<!-- Profile Page Layout: header at top, then two columns (left: profile-scroll-wrapper, right: org-tree-wrapper) -->
+<div class="profile-page">
+  <!-- Profile Header at the top -->
+  <div class="profile-header">
+    <div class="profile-pic">
+      <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+        alt="Profile" />
+    </div>
+    <div class="profile-info">   
+      <h2>{{userData?.firstName}} {{userData?.middleName}} {{userData?.lastName}}</h2>
+      <p class="role">{{userData?.role}}</p>
+      <p class="location">{{userData?.department}}</p>
+    </div>
+    <!-- Edit Profile Button -->
+    <button class="edit-button" (click)="toggleEditMode()">
+      {{ editMode ? 'Cancel' : 'Edit Profile' }}
+    </button>
+    <!-- Edit Form -->
+    <div *ngIf="editMode" class="edit-form-container">
+      <form class="edit-form" (ngSubmit)="saveProfile()" #profileForm="ngForm">
+        <!-- Close Button -->
+        <button type="button" (click)="toggleEditMode()" class="close-button">X</button>
+        <div class="form-group">
+          <label>First Name:</label>
+          <input type="text" [(ngModel)]="editFormData.firstName" name="firstName" required />
+        </div>
+        <div class="form-group">
+          <label>Middle Name:</label>
+          <input type="text" [(ngModel)]="editFormData.middleName" name="middleName" />
+        </div>
+        <div class="form-group">
+          <label>Last Name:</label>
+          <input type="text" [(ngModel)]="editFormData.lastName" name="lastName" required />
+        </div>
+        <div class="form-group">
+          <label>Gender:</label>
+          <select [(ngModel)]="editFormData.gender" name="gender" required>
+            <option value="">Select</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Date of Birth:</label>
+          <input type="date" [(ngModel)]="editFormData.dateOfBirth" name="dateOfBirth" required />
+        </div>
+        <div class="form-group">
+          <label>Email:</label>
+          <input type="email" [(ngModel)]="editFormData.email" name="email" required />
+        </div>
+        <div class="form-group">
+          <label>Mobile Number:</label>
+          <input type="tel" [(ngModel)]="editFormData.phone" name="phone" required />
+        </div>
+        <div class="form-group">
+          <label>Department:</label>
+          <select [(ngModel)]="editFormData.department" name="department" required>
+            <option value="">Select Department</option>
+            <option *ngFor="let dept of departmentsList" [value]="dept.departmentName">{{ dept.departmentName }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Designation:</label>
+          <select [(ngModel)]="editFormData.designation" name="designation" required>
+            <option value="">Select Designation</option>
+            <option *ngFor="let desig of designationsList" [value]="desig.designationName">{{ desig.designationName }}</option>
+          </select>
+        </div>
+        <button type="submit" class="save-button">Update</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Two-column layout below header -->
+  <div class="profile-main-content">
+    <!-- Left: Scrollable Details Section -->
+    <div class="profile-scroll-wrapper">
+      <div class="profile-details">
+        <!-- All the cards go here (Contact, Details, Office Address, etc.) -->
+        <div class="card">
+          <h3>Personal Information</h3>
+          <p><strong>Email:</strong> {{ userData?.email }}</p>
+          <p><strong>Phone:</strong> {{ userData?.phone }}</p>
+          <p><strong>Date Of Birth:</strong> {{ userData?.dateOfBirth | date:'yyyy-MM-dd' }}</p>
+          <p><strong>Gender:</strong> {{ userData?.gender }}</p>
+        </div>
+        <div class="card">
+          <h3>Company Details</h3>
+          <p><strong>Reporting Manager:</strong> {{ userData?.manager }}</p>
+          <p><strong>Designation:</strong> {{ userData?.designation }}</p>
+          <p><strong>Department:</strong> {{ userData?.department }}</p>  
+          <p><strong>Joining Date:</strong> {{ userData?.joiningDate | date:'yyyy-MM-dd' }}</p>
+        </div>
+        
+        <!-- Company Information Card -->
+        <div class="card">
+          <h3>Company Information</h3>
+          <p><strong>Company Name:</strong> {{officeAddress?.companyName}} </p>
+        </div>
+        
+        <!-- Office Address Card -->
+        <div class="card">
+          <h3>Office Address</h3>
+          <p><strong>Address:</strong> {{ officeAddress?.address }}</p>
+          <p><strong>City:</strong> {{ officeAddress?.city }}</p>
+          <p><strong>State:</strong> {{ officeAddress?.state }}</p>
+          <p><strong>Country:</strong> {{ officeAddress?.country }}</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Organization Chart Section (ECharts) -->
+    <div class="org-tree-wrapper">
+      <h3 class="org-chart-title">Organizational Chart</h3>
+      <div class="org-chart-scroll">
+        <div id="orgChart"></div>
+      </div>
+    </div>
+  </div>
+</div>

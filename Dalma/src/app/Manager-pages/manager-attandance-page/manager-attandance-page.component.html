@@ -1,0 +1,125 @@
+<p-toast></p-toast>
+<div class="manager-attendance-page">
+  <div class="title-container">
+    <span class="title">
+      <span class="vertical-line"></span>
+      Employee Attendance Overview
+    </span>
+  </div>
+  <span class="horizontal-line"></span>
+
+  <div class="filters">
+    <input
+      type="text"
+      [(ngModel)]="searchText"
+      (ngModelChange)="onSearchChange()"
+      placeholder="Search by Name or ID"
+    />
+    <input type="date" [(ngModel)]="filterDate" />
+    <select
+      [(ngModel)]="selectedEmployeeId"
+      class="select-btn"
+      (change)="onEmployeeSelect()"
+    >
+      <option value="">-- Select Employee --</option>
+      <option *ngFor="let emp of employeesUnderManager" [value]="emp.empId">
+        {{ emp.empId }} - {{ emp.firstName }} {{ emp.middleName }}
+        {{ emp.lastName }}
+      </option>
+    </select>
+    <button class="view-btn" (click)="toggleView()">
+      {{ showTableView ? "View Calendar" : "View Table" }}
+    </button>
+    <button class="download-btn" (click)="downloadTableAsExcel(employeeTable)">
+      <i class="fas fa-download"></i> Download Excel
+    </button>
+  </div>
+
+  <!-- Calendar View (shown when showTableView is false) -->
+  <div *ngIf="!showTableView" class="calendar-view">
+    <full-calendar [options]="calendarOptions"></full-calendar>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div class="attendance-table-container" #employeeTable>
+    <table class="attendance-table" *ngIf="!isLoading">
+      <thead>
+        <tr>
+          <th>Emp ID</th>
+          <th>Name</th>
+          <th>Shift</th>
+          <th>Date</th>
+          <th>Check-In</th>
+          <th>Check-Out</th>
+          <th>Working Hours</th>
+          <th>Description</th>
+          <th>Manager Remarks</th>
+          <th style="width: 180px">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let record of filterRecords()"
+          [class.aggregated-row]="record.isAggregated"
+        >
+          <td>{{ record.empId }}</td>
+          <td>{{ record.name }}</td>
+          <td>{{ record.shift }}</td>
+          <td>{{ record.date }}</td>
+          <td>
+            <div *ngFor="let checkIn of record.checkIns" class="time-entry">
+              {{ checkIn || "N/A" }}
+            </div>
+          </td>
+          <td>
+            <div *ngFor="let checkOut of record.checkOuts" class="time-entry">
+              {{ checkOut || "N/A" }}
+            </div>
+          </td>
+          <td>{{ record.workHours }}</td>
+          <td>{{ record.description }}</td>
+          <td>
+            <textarea
+              [(ngModel)]="record.managerRemark"
+              rows="2"
+              placeholder="Add remarks..."
+              class="remarks-input"
+              [disabled]="record.status !== 'Pending'"
+            >
+              {{ record.managerRemark }}
+            </textarea>
+          </td>
+          <td class="action-buttons">
+            <!-- Show buttons only for pending records -->
+            <div *ngIf="record.status === 'Pending'">
+              <button class="approve-btn" (click)="approveAttendance(record)">
+                <i class="fas fa-check"></i> Approve
+              </button>
+              <button class="reject-btn" (click)="rejectAttendance(record)">
+                <i class="fas fa-times"></i> Reject
+              </button>
+            </div>
+
+            <!-- Show status text for non-pending records -->
+            <div *ngIf="record.status !== 'Pending'" class="status-display">
+              <span
+                [ngClass]="{
+                  approved: record.status === 'Present',
+                  rejected: record.status === 'Absent'
+                }"
+              >
+                {{ record.status === "Present" ? "Approved" : "Rejected" }}
+              </span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="isLoading" class="loading-spinner">
+      <i class="fas fa-spinner fa-spin"></i> Loading...
+    </div>
+  </div>
+</div>

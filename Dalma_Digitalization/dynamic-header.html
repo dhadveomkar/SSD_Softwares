@@ -1,0 +1,219 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DALMA Dynamic Header</title>
+  <style>
+    :root { --dalma-blue: #0078d4; --text:#0b2545; }
+    body{margin:0;font-family:Segoe UI,Roboto,Arial,sans-serif;background:transparent}
+    .dalma-header{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:10px 18px; gap:12px;
+    }
+    .dalma-left img{height:38px; display:block;}
+    .dalma-right{display:flex;align-items:center;gap:18px;}
+    .dalma-menu{display:flex;gap:12px;align-items:center;}
+    .dalma-menu a{
+      padding:8px 12px;border-radius:4px;text-decoration:none;color:var(--text);
+      font-weight:600;font-size:14px;
+    }
+    .dalma-menu a:hover{background:rgba(0,0,0,0.04);}
+    .dalma-blue-line{height:6px;background:var(--dalma-blue);width:100%}
+    .hidden{display:none !important}
+    /* small screens */
+    @media (max-width:720px){
+      .dalma-menu a{padding:6px 8px;font-size:13px}
+      .dalma-left img{height:32px}
+    }
+  </style>
+</head>
+<body>
+  <header role="banner" aria-label="DALMA header">
+    <div class="dalma-header">
+      <div class="dalma-left">
+        <img id="dalmaLogo" src="/sites/DALMADIGITALIZATION/SiteAssets/dalma-logo.png" alt="DALMA DIGITALIZATION">
+      </div>
+      <div class="dalma-right">
+        <nav class="dalma-menu" id="dalmaMenu" aria-label="Site navigation">
+          <!-- menu items will be injected here -->
+        </nav>
+        <div class="dalma-contact">
+          <a href="mailto:digitalization@dalma.com" id="dalmaEmail">digitalization@dalma.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="dalma-blue-line"></div>
+  </header>
+
+  <script>
+  /************************************************************************
+   * CONFIG SECTION - change these values before uploading
+   ************************************************************************/
+  const CONFIG = {
+    mode: 'DEMO', // 'DEMO' or 'GRAPH'
+    // DEMO mode: simulate that the user belongs to these groups:
+    demoUserGroups: ['Ops_Monitoring_SG','Tools_SG'], // change as needed
+
+    // GRAPH mode (production):
+    // 1) Register an Azure AD App and paste clientId and tenantId.
+    // 2) Add delegated permission: GroupMember.Read.All OR set groupMembershipClaims in app manifest
+    // 3) Grant admin consent for the permission.
+    msal: {
+      clientId: 'YOUR_AZURE_AD_APP_CLIENT_ID',     // <-- REPLACE
+      tenantId: 'YOUR_TENANT_ID_OR_COMMON',       // e.g. 'contoso.onmicrosoft.com' or tenant GUID
+      redirectUri: window.location.origin + window.location.pathname
+    },
+
+    // Map menu items to the Azure AD group names (or IDs if you prefer).
+    // The "groups" value may contain one or many security group names. If user has any of them, the item shows.
+    menuItems: [
+      { id:'ops', label:'Operations Monitoring', href:'/sites/DALMADIGITALIZATION/SitePages/Operations.aspx', groups:['Ops_Monitoring_SG'] },
+      { id:'prod', label:'Production Accounting', href:'/sites/DALMADIGITALIZATION/SitePages/Production.aspx', groups:['Prod_Accounting_SG'] },
+      { id:'bwip', label:'BWIP', href:'/sites/DALMADIGITALIZATION/SitePages/BWIP.aspx', groups:['BWIP_SG'] },
+      { id:'ptwin', label:'Process Digital Twin', href:'/sites/DALMADIGITALIZATION/SitePages/ProcessTwin.aspx', groups:['ProcessTwin_SG'] },
+      { id:'atwin', label:'Asset Digital Twin', href:'/sites/DALMADIGITALIZATION/SitePages/AssetTwin.aspx', groups:['AssetTwin_SG'] },
+      { id:'adnoc', label:'ADNOC Dashboards', href:'/sites/DALMADIGITALIZATION/SitePages/ADNOC.aspx', groups:['ADNOC_SG'] },
+      { id:'tools', label:'Tools & Applications', href:'/sites/DALMADIGITALIZATION/SitePages/Tools.aspx', groups:['Tools_SG','Ops_Monitoring_SG'] }
+    ]
+  };
+  /************************************************************************
+   * END CONFIG
+   ************************************************************************/
+
+  // Render helper
+  function renderMenu(allowedItems){
+    const container = document.getElementById('dalmaMenu');
+    container.innerHTML = '';
+    if(!allowedItems || allowedItems.length===0){
+      // show Home as default if nothing else
+      const a = document.createElement('a');
+      a.href = '/sites/DALMADIGITALIZATION/SitePages/Home.aspx';
+      a.textContent = 'Home';
+      container.appendChild(a);
+      return;
+    }
+    // append items
+    allowedItems.forEach(item=>{
+      const a = document.createElement('a');
+      a.href = item.href;
+      a.textContent = item.label;
+      a.id = 'menu-' + item.id;
+      container.appendChild(a);
+    });
+  }
+
+  // Check membership: match by group displayName or group id depending on mode
+  function filterMenuByGroups(userGroups){
+    // userGroups is an array of group display names or ids
+    const allowed = CONFIG.menuItems.filter(menu=>{
+      for(const g of menu.groups){
+        if(userGroups.includes(g)) return true;
+      }
+      return false;
+    });
+    renderMenu(allowed);
+  }
+
+  /******************* DEMO MODE (no Azure AD / no admin permissions) ***********/
+  function runDemoMode(){
+    const groups = (CONFIG.demoUserGroups||[]); // simulated groups
+    console.log('DALMA header - demo groups for this user:', groups);
+    filterMenuByGroups(groups);
+  }
+
+  /******************* GRAPH MODE (real authentication + Graph call) ***********/
+  async function runGraphMode(){
+    // Lazy-load MSAL from CDN
+    const msalUrl = 'https://alcdn.msauth.net/browser/2.27.0/js/msal-browser.min.js';
+    await loadScript(msalUrl);
+
+    const msalConfig = {
+      auth: {
+        clientId: CONFIG.msal.clientId,
+        authority: (CONFIG.msal.tenantId && CONFIG.msal.tenantId !== 'common') ?
+                    `https://login.microsoftonline.com/${CONFIG.msal.tenantId}` :
+                    `https://login.microsoftonline.com/common`,
+        redirectUri: CONFIG.msal.redirectUri
+      }
+    };
+    const msalInstance = new msal.PublicClientApplication(msalConfig);
+
+    // Try silent login or interactive
+    const loginRequest = {
+      scopes: ['User.Read'] // minimal; to read groups we need groupMember.Read.All or group claims
+    };
+
+    try {
+      const accounts = msalInstance.getAllAccounts();
+      if(accounts.length === 0){
+        await msalInstance.loginPopup(loginRequest);
+      }
+
+      const account = msalInstance.getAllAccounts()[0];
+      if(!account){
+        console.error('MSAL: no account found');
+        runDemoMode();
+        return;
+      }
+
+      // Acquire token for Graph
+      // Note: to read /me/memberOf you need appropriate delegated Graph permission (GroupMember.Read.All) and admin consent.
+      const tokenResponse = await msalInstance.acquireTokenSilent({
+        scopes: ['User.Read','GroupMember.Read.All'],
+        account: account
+      }).catch(async (silentError) => {
+        // Fallback to interactive if silent fails
+        return await msalInstance.acquireTokenPopup({ scopes: ['User.Read','GroupMember.Read.All'] });
+      });
+
+      const accessToken = tokenResponse.accessToken;
+      // call Graph /me/memberOf
+      const resp = await fetch('https://graph.microsoft.com/v1.0/me/memberOf?$select=id,displayName', {
+        headers: { 'Authorization': 'Bearer ' + accessToken }
+      });
+      if(!resp.ok){
+        console.error('Graph call failed', resp.status, await resp.text());
+        // fallback to token's groups claim if available
+        runDemoMode();
+        return;
+      }
+      const data = await resp.json();
+      // memberOf returns directoryObjects - we pick displayName if present
+      const userGroups = (data.value||[]).map(g => g.displayName).filter(Boolean);
+      console.log('DALMA header - user groups from Graph:', userGroups);
+      filterMenuByGroups(userGroups);
+
+    } catch(err){
+      console.error('DALMA header - Graph auth error', err);
+      // fallback
+      runDemoMode();
+    }
+  }
+
+  // small helper to append script and wait
+  function loadScript(src){
+    return new Promise((resolve,reject)=>{
+      const s = document.createElement('script');
+      s.src = src; s.onload = ()=>resolve(); s.onerror = ()=>reject(new Error('Failed load ' + src));
+      document.head.appendChild(s);
+    });
+  }
+
+  // kickoff
+  (function init(){
+    if(CONFIG.mode === 'GRAPH'){
+      if(!CONFIG.msal.clientId || CONFIG.msal.clientId === 'YOUR_AZURE_AD_APP_CLIENT_ID'){
+        console.error('Please configure msal.clientId in CONFIG for GRAPH mode. Falling back to DEMO.');
+        runDemoMode();
+      } else {
+        runGraphMode();
+      }
+    } else {
+      runDemoMode();
+    }
+  })();
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+select department, count(*) from employees group by department
+
+
+function 

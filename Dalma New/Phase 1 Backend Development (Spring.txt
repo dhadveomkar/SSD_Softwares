@@ -1,0 +1,17 @@
+Phase 1: Backend Development (Spring Boot)The backend acts as the "brain," handling data storage and business rules.1. Project InitializationGo to start.spring.io and generate a Maven project with these dependencies:Spring Web: For creating REST APIs.Spring Data JPA: To communicate with your database.MySQL Driver (or PostgreSQL/H2): For data persistence.Lombok: To reduce boilerplate code (getters/setters).2. Define the Smartphone EntityCreate a Smartphone class in your model package. This represents the table in your database.Java@Entity
+@Data
+public class Smartphone {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String brand;
+    private String model;
+    private double price;
+    private String storage;
+    private String imageUrl;
+}
+3. Create the Repository LayerCreate an interface SmartphoneRepository that extends JpaRepository. This gives you built-in methods like save(), findAll(), and deleteById() without writing any SQL.4. Build the Service LayerThis is where you put your business logic. Create a SmartphoneService to handle calculations or data transformations before they reach the database.5. Create the REST ControllerExpose your data through endpoints.GET /api/smartphones - Get all phones.POST /api/smartphones - Add a new phone.DELETE /api/smartphones/{id} - Remove a phone.Important: Don't forget to add @CrossOrigin(origins = "http://localhost:4200") to your controller so your Angular app can talk to it later!Phase 2: Frontend Development (Angular)Once your API is running and tested (using a tool like Postman), move to the frontend.1. Set Up the ProjectRun ng new omnas-frontend in your terminal. Choose CSS and enable Routing.2. Generate the "Smartphone" InterfaceCreate a TypeScript interface that matches your Java entity so your frontend knows what a "Smartphone" object looks like.3. Create the API ServiceGenerate a service (ng g s services/smartphone) to handle HTTP calls.TypeScript// Example method in smartphone.service.ts
+getSmartphones(): Observable<Smartphone[]> {
+  return this.http.get<Smartphone[]>(`${this.apiServerUrl}/api/smartphones`);
+}
+4. Build the ComponentsSmartphoneList: To display all phones in a grid or table.AddSmartphone: A form to input new phone details.Navbar: For navigation.5. Styling with Bootstrap/TailwindSince it's a smartphone project, make sure it looks "techy." Use cards to display the phones with their images, prices, and specs.Project Workflow SummaryStepLayerTask1DatabaseSetup MySQL and create the smartphone_db.2BackendCreate Entity, Repository, Service, and Controller.3TestingUse Postman to ensure your JSON endpoints work.4FrontendCreate Angular Service and connect to Backend.5UI/UXBuild components and style with Bootstrap.

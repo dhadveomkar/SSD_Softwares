@@ -1,0 +1,394 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\controllers\\searchcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\controllers\\searchcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\models\\carsearchcriteria.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\models\\carsearchcriteria.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\repositories\\carsearchrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\repositories\\carsearchrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\repositories\\icarsearchrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\repositories\\icarsearchrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\repositories\\analyticsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\repositories\\analyticsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\controllers\\carscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\controllers\\carscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\controllers\\analyticscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\controllers\\analyticscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\controllers\\maintenancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\controllers\\maintenancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\models\\car.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\models\\car.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\models\\dashboardsummary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\models\\dashboardsummary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\models\\maintenancelog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\models\\maintenancelog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\repositories\\carrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\repositories\\carrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\repositories\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\repositories\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\repositories\\ianalyticsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\repositories\\ianalyticsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\repositories\\icarrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\repositories\\icarrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\repositories\\icategoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\repositories\\icategoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\repositories\\imaintenancerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\repositories\\imaintenancerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|c:\\ssd softwares\\omnascar.net\\carmanagementapi\\carmanagementapi\\repositories\\maintenancerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7627EA8-99EE-4EBD-8AF7-6A880C0356C2}|CarManagementAPI\\CarManagementAPI.csproj|solutionrelative:carmanagementapi\\repositories\\maintenancerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SearchController.cs",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Controllers\\SearchController.cs",
+              "RelativeDocumentMoniker": "CarManagementAPI\\Controllers\\SearchController.cs",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Controllers\\SearchController.cs",
+              "RelativeToolTip": "CarManagementAPI\\Controllers\\SearchController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T13:44:51.446Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CarSearchRepository.cs",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Repositories\\CarSearchRepository.cs",
+              "RelativeDocumentMoniker": "CarManagementAPI\\Repositories\\CarSearchRepository.cs",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Repositories\\CarSearchRepository.cs",
+              "RelativeToolTip": "CarManagementAPI\\Repositories\\CarSearchRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T13:42:09.327Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ICarSearchRepository.cs",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Repositories\\ICarSearchRepository.cs",
+              "RelativeDocumentMoniker": "CarManagementAPI\\Repositories\\ICarSearchRepository.cs",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Repositories\\ICarSearchRepository.cs",
+              "RelativeToolTip": "CarManagementAPI\\Repositories\\ICarSearchRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T13:40:37.012Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CarSearchCriteria.cs",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Models\\CarSearchCriteria.cs",
+              "RelativeDocumentMoniker": "CarManagementAPI\\Models\\CarSearchCriteria.cs",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Models\\CarSearchCriteria.cs",
+              "RelativeToolTip": "CarManagementAPI\\Models\\CarSearchCriteria.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T13:34:47.469Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CategoriesController.cs",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Controllers\\CategoriesController.cs",
+              "RelativeDocumentMoniker": "CarManagementAPI\\Controllers\\CategoriesController.cs",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Controllers\\CategoriesController.cs",
+              "RelativeToolTip": "CarManagementAPI\\Controllers\\CategoriesController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T12:40:21.43Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Program.cs",
+              "RelativeDocumentMoniker": "CarManagementAPI\\Program.cs",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Program.cs",
+              "RelativeToolTip": "CarManagementAPI\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T11:43:45.935Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\appsettings.json",
+              "RelativeDocumentMoniker": "CarManagementAPI\\appsettings.json",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\appsettings.json",
+              "RelativeToolTip": "CarManagementAPI\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-01-20T09:57:34.978Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "MaintenanceController.cs",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Controllers\\MaintenanceController.cs",
+              "RelativeDocumentMoniker": "CarManagementAPI\\Controllers\\MaintenanceController.cs",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Controllers\\MaintenanceController.cs",
+              "RelativeToolTip": "CarManagementAPI\\Controllers\\MaintenanceController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T13:02:26.897Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Car.cs",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Models\\Car.cs",
+              "RelativeDocumentMoniker": "CarManagementAPI\\Models\\Car.cs",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Models\\Car.cs",
+              "RelativeToolTip": "CarManagementAPI\\Models\\Car.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T10:02:34.394Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CarsController.cs",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Controllers\\CarsController.cs",
+              "RelativeDocumentMoniker": "CarManagementAPI\\Controllers\\CarsController.cs",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Controllers\\CarsController.cs",
+              "RelativeToolTip": "CarManagementAPI\\Controllers\\CarsController.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAiwBoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T10:08:09.695Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AnalyticsController.cs",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Controllers\\AnalyticsController.cs",
+              "RelativeDocumentMoniker": "CarManagementAPI\\Controllers\\AnalyticsController.cs",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Controllers\\AnalyticsController.cs",
+              "RelativeToolTip": "CarManagementAPI\\Controllers\\AnalyticsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T13:23:40.264Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AnalyticsRepository.cs",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Repositories\\AnalyticsRepository.cs",
+              "RelativeDocumentMoniker": "CarManagementAPI\\Repositories\\AnalyticsRepository.cs",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Repositories\\AnalyticsRepository.cs",
+              "RelativeToolTip": "CarManagementAPI\\Repositories\\AnalyticsRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T13:22:01.169Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Category.cs",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Models\\Category.cs",
+              "RelativeDocumentMoniker": "CarManagementAPI\\Models\\Category.cs",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Models\\Category.cs",
+              "RelativeToolTip": "CarManagementAPI\\Models\\Category.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T11:34:06.559Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "DashboardSummary.cs",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Models\\DashboardSummary.cs",
+              "RelativeDocumentMoniker": "CarManagementAPI\\Models\\DashboardSummary.cs",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Models\\DashboardSummary.cs",
+              "RelativeToolTip": "CarManagementAPI\\Models\\DashboardSummary.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T13:08:59.396Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "MaintenanceLog.cs",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Models\\MaintenanceLog.cs",
+              "RelativeDocumentMoniker": "CarManagementAPI\\Models\\MaintenanceLog.cs",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Models\\MaintenanceLog.cs",
+              "RelativeToolTip": "CarManagementAPI\\Models\\MaintenanceLog.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T12:54:21.481Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "CarRepository.cs",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Repositories\\CarRepository.cs",
+              "RelativeDocumentMoniker": "CarManagementAPI\\Repositories\\CarRepository.cs",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Repositories\\CarRepository.cs",
+              "RelativeToolTip": "CarManagementAPI\\Repositories\\CarRepository.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAkwDYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T11:41:53.38Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "CategoryRepository.cs",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Repositories\\CategoryRepository.cs",
+              "RelativeDocumentMoniker": "CarManagementAPI\\Repositories\\CategoryRepository.cs",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Repositories\\CategoryRepository.cs",
+              "RelativeToolTip": "CarManagementAPI\\Repositories\\CategoryRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T12:37:01.61Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "IAnalyticsRepository.cs",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Repositories\\IAnalyticsRepository.cs",
+              "RelativeDocumentMoniker": "CarManagementAPI\\Repositories\\IAnalyticsRepository.cs",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Repositories\\IAnalyticsRepository.cs",
+              "RelativeToolTip": "CarManagementAPI\\Repositories\\IAnalyticsRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T13:20:33.144Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "ICarRepository.cs",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Repositories\\ICarRepository.cs",
+              "RelativeDocumentMoniker": "CarManagementAPI\\Repositories\\ICarRepository.cs",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Repositories\\ICarRepository.cs",
+              "RelativeToolTip": "CarManagementAPI\\Repositories\\ICarRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T11:40:32.566Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "ICategoryRepository.cs",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Repositories\\ICategoryRepository.cs",
+              "RelativeDocumentMoniker": "CarManagementAPI\\Repositories\\ICategoryRepository.cs",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Repositories\\ICategoryRepository.cs",
+              "RelativeToolTip": "CarManagementAPI\\Repositories\\ICategoryRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T12:34:39.523Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "IMaintenanceRepository.cs",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Repositories\\IMaintenanceRepository.cs",
+              "RelativeDocumentMoniker": "CarManagementAPI\\Repositories\\IMaintenanceRepository.cs",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Repositories\\IMaintenanceRepository.cs",
+              "RelativeToolTip": "CarManagementAPI\\Repositories\\IMaintenanceRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T12:56:47.225Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "MaintenanceRepository.cs",
+              "DocumentMoniker": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Repositories\\MaintenanceRepository.cs",
+              "RelativeDocumentMoniker": "CarManagementAPI\\Repositories\\MaintenanceRepository.cs",
+              "ToolTip": "C:\\SSD Softwares\\OmnasCar.Net\\CarManagementAPI\\CarManagementAPI\\Repositories\\MaintenanceRepository.cs",
+              "RelativeToolTip": "CarManagementAPI\\Repositories\\MaintenanceRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T12:58:16.16Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+ng serve --port 4600
+
+
+# create components
+ng g c shared/header
+ng g c shared/navbar
+ng g c home/hero
+ng g c home/product-list
+ng g c shared/footer
+ng g c shared/floating-actions
+ng g c pages/product
+
+
+# then replace files with the code below
+ng serve
+# open http://localhost:4200

@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\OmnasSmartphone\\.Net\\OmnasMobileApp\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{583788B6-57EE-4995-8CED-1FFE1E5C5B93}|OmnasMobileApp\\OmnasMobileApp.csproj|c:\\omnassmartphone\\.net\\omnasmobileapp\\omnasmobileapp\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{583788B6-57EE-4995-8CED-1FFE1E5C5B93}|OmnasMobileApp\\OmnasMobileApp.csproj|solutionrelative:omnasmobileapp\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{583788B6-57EE-4995-8CED-1FFE1E5C5B93}|OmnasMobileApp\\OmnasMobileApp.csproj|c:\\omnassmartphone\\.net\\omnasmobileapp\\omnasmobileapp\\models\\devicemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{583788B6-57EE-4995-8CED-1FFE1E5C5B93}|OmnasMobileApp\\OmnasMobileApp.csproj|solutionrelative:omnasmobileapp\\models\\devicemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{583788B6-57EE-4995-8CED-1FFE1E5C5B93}|OmnasMobileApp\\OmnasMobileApp.csproj|c:\\omnassmartphone\\.net\\omnasmobileapp\\omnasmobileapp\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{583788B6-57EE-4995-8CED-1FFE1E5C5B93}|OmnasMobileApp\\OmnasMobileApp.csproj|solutionrelative:omnasmobileapp\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainPage.xaml.cs",
+              "DocumentMoniker": "C:\\OmnasSmartphone\\.Net\\OmnasMobileApp\\OmnasMobileApp\\MainPage.xaml.cs",
+              "RelativeDocumentMoniker": "OmnasMobileApp\\MainPage.xaml.cs",
+              "ToolTip": "C:\\OmnasSmartphone\\.Net\\OmnasMobileApp\\OmnasMobileApp\\MainPage.xaml.cs",
+              "RelativeToolTip": "OmnasMobileApp\\MainPage.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAACAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-16T12:13:44.698Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DeviceModel.cs",
+              "DocumentMoniker": "C:\\OmnasSmartphone\\.Net\\OmnasMobileApp\\OmnasMobileApp\\models\\DeviceModel.cs",
+              "RelativeDocumentMoniker": "OmnasMobileApp\\models\\DeviceModel.cs",
+              "ToolTip": "C:\\OmnasSmartphone\\.Net\\OmnasMobileApp\\OmnasMobileApp\\models\\DeviceModel.cs",
+              "RelativeToolTip": "OmnasMobileApp\\models\\DeviceModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-16T12:08:31.501Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainPage.xaml",
+              "DocumentMoniker": "C:\\OmnasSmartphone\\.Net\\OmnasMobileApp\\OmnasMobileApp\\MainPage.xaml",
+              "RelativeDocumentMoniker": "OmnasMobileApp\\MainPage.xaml",
+              "ToolTip": "C:\\OmnasSmartphone\\.Net\\OmnasMobileApp\\OmnasMobileApp\\MainPage.xaml",
+              "RelativeToolTip": "OmnasMobileApp\\MainPage.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-01-16T12:00:00.562Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

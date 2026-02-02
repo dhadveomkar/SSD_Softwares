@@ -1,0 +1,730 @@
+/* Modal font and button styles for reference image */
+.modal-font {
+  font-size: 1.08rem;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  color: #222;
+}
+.modal-title.modal-font {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #222;
+  background: #fff;
+  padding: 18px 24px 8px 24px;
+  /* border-bottom removed to hide horizontal line above buttons */
+}
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding: 0 24px 18px 24px;
+}
+.modal-btn {
+  min-width: 70px;
+  max-width: 90px;
+  font-size: 0.92rem;
+  font-weight: 400;
+  border-radius: 6px;
+  padding: 5px 0;
+  height: 28px;
+  box-shadow: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.modal-yes.modal-btn {
+  background: #1976d2;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 200;
+  min-width: 60px;
+  min-height: 28px;
+  padding: 4px 18px;
+  border-radius: 4px;
+  border: none;
+  box-shadow: none;
+  letter-spacing: 0.5px;
+}
+.modal-yes.modal-btn:hover {
+  background: #1565c0;
+}
+.modal-no.modal-btn {
+  background: #e53935;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 200;
+  min-width: 60px;
+  min-height: 28px;
+  padding: 4px 18px;
+  border-radius: 4px;
+  border: none;
+  box-shadow: none;
+  letter-spacing: 0.5px;
+}
+.modal-no.modal-btn:hover {
+  background: #b71c1c;
+}
+/* Simple modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.3);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 9999;
+  padding-top: 40px;
+}
+.modal-content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 0;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+  min-width: 320px;
+  max-width: 420px;
+  width: 100%;
+  text-align: left;
+  overflow: hidden;
+  font-family: inherit;
+}
+.modal-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  background: #f7f7f7;
+  padding: 18px 24px 8px 24px;
+  /* border-bottom removed to hide horizontal line above buttons */
+  color: #222;
+}
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding: 0 24px 18px 24px;
+}
+.modal-yes {
+  background: #3b53e5;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 28px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(59,83,229,0.08);
+}
+.modal-no {
+  background: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 28px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(244,67,54,0.08);
+}
+/* Modal description styling */
+.modal-desc {
+  font-size: 0.98rem;
+  color: #444;
+  padding: 8px 24px 0 24px;
+  margin-bottom: 0;
+}
+
+/* Modal upload area styling */
+.modal-upload-area {
+  border: 2px dashed #3b53e5;
+  border-radius: 8px;
+  background: #fafbff;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 18px 24px 0 24px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.modal-upload-area:hover {
+  border-color: #2a3ad6;
+}
+.modal-upload-icon {
+  font-size: 2.2rem;
+  color: #3b53e5;
+  margin-bottom: 8px;
+}
+.modal-upload-text {
+  font-size: 1rem;
+  color: #222;
+  margin-bottom: 4px;
+}
+.modal-upload-info {
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 0;
+}
+
+/* Search input styling to match employee-list page */
+input[type="text"]::placeholder {
+  opacity: 1;
+  font-size: 0.8rem;
+}
+
+.no-approval-details {
+  text-align: center !important;
+  color: #fd2727;
+  font-weight: 500;
+  vertical-align: middle;
+  height: 60px;
+  display: table-cell;
+}
+
+.leave-approve-page {
+  position: relative;
+  max-width: 100%;
+  height: 100vh;
+  margin: 0px auto;
+  background-color: #fff;
+  color: #000;
+}
+
+
+.title-container {
+  position: relative;
+  max-width: 100%;
+  padding: 0.4rem;
+  background-color: rgb(8, 8, 8); 
+  color: #000;
+}
+.title {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: #fdfcfc;
+  font-weight: 800;
+}
+.vertical-line {
+  display: inline-block;
+  width: 4px;
+  height: 25px;
+  background-color: #4B5CF6;
+  margin-right: 10px;
+  border-radius: 2px;
+}
+.horizontal-line {
+  display: block;
+  height: 0.5px;
+  background-color: #6d6c6c;
+  width: 100%;
+}
+
+
+.filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+.filters input {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #333;
+  padding: 4px 8px;
+  border-radius: 4px;
+  height: 30px;
+  font-size: 1rem;
+  flex: 1;
+  max-width: 200px;
+}
+
+.child-container {
+  margin: 1rem;
+}
+
+/* Desktop/global: enable vertical scroll for approval table */
+
+.approval-table-responsive {
+  max-height: 450px;
+  overflow-y: auto;
+  overflow-x: auto;
+  display: block;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(30,160,227,0.05);
+}
+
+@media (max-width: 600px) {
+  .approval-table-responsive {
+    width: 97vw;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-left: -8px;
+    margin-right: 0px;
+    background: #272727;
+    border-radius: 6px;
+    padding-bottom: 30px;
+    height: calc(100vh - 202px);
+  }
+  .approval-table {
+    min-width: 350px;
+    width: 95vw;
+  }
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+  .filters input {
+    max-width: 100%;
+    margin-bottom: 8px;
+  }
+  .filters > div {
+    flex-direction: row;
+    gap: 8px;
+    justify-content: flex-start;
+    margin-left: 0;
+  }
+  .download-btn {
+    min-width: 40vw;
+    font-size: 0.9rem;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .view-btn{
+    min-width: 40vw;
+    font-size: 0.9rem;
+  }
+}
+
+
+ .approval-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  color: #000;
+  white-space: nowrap;
+  table-layout: auto;
+  box-sizing: border-box;
+}
+.approval-table th,
+.approval-table td {
+  padding: 6px 10px;
+  border: 1px solid #bdbdbd;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 120px;
+}
+.approval-table thead th {
+  background-color: #67bafe;
+  color: #000;
+  font-weight: 600;
+  font-size: 0.8rem;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.approval-table tbody tr:hover {
+  background-color: #f0f0f0;
+}
+.approval-table tr.selected {
+  background-color: #e0e0e0;
+  font-weight: bold;
+}
+
+
+.approval-table textarea {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #333;
+  border-radius: 4px;
+  width: 100%;
+  resize: none;
+  padding: 2px 5px;
+  min-height: 20px;
+  max-height: 24px;
+  font-size: 0.75rem;
+}
+
+
+.status {
+  padding: 5px 8px;
+  border-radius: 8px;
+  font-size: 13px;
+  text-transform: capitalize;
+}
+.status.approved {
+  background-color: #4caf50;
+  color: white;
+}
+.status.rejected {
+  background-color: #f44336;
+  color: white;
+}
+.status.pending {
+  background-color: #ff9800;
+  color: white;
+}
+
+
+.approve-btn,
+.reject-btn {
+  padding: 2px 8px;
+  border: none;
+  border-radius: 4px;
+  margin-right: 5px;
+  cursor: pointer;
+  color: white;
+  min-width: 60px;
+  max-height: 24px;
+  min-height: 20px;
+  font-size: 0.75rem;
+}
+.approve-btn {
+  background: #057fe2;
+}
+.reject-btn {
+  background: linear-gradient(82.3deg, rgb(239, 27, 41) 94.3%, rgb(250, 58, 96) 94.3%);
+}
+.approve-btn[disabled],
+.reject-btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+
+.download-btn {
+  background: #11c84e;
+  color: #fff;
+  border: none;
+  min-height: 25px;
+  max-height: 32px;
+  min-width: 70px;
+  padding: 4px 10px;
+  font-size: 1rem;
+  border: 1px solid #7d7d7e;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 0;
+  margin-left: 5px; /* Decreased gap */
+}
+.download-btn:hover {
+  background: #25f069;
+}
+.download-btn:active {
+  background-color: #9e9e9e;
+}
+
+
+ .view-btn {
+  background: linear-gradient(82.3deg, rgb(126, 32, 242) 94.3%, rgb(126, 32, 242) 94.3%);
+  color: #f0f0f0;
+  border: 1px solid #7d7d7e;
+  padding: 4px 10px;
+  /* font-size: 1rem; */
+  border-radius: 6px;
+  cursor: pointer;
+  min-height: 32px;
+  max-height: 32px;
+  min-width: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0;
+  margin-left: 12px;
+}
+.view-btn:hover {
+  background: rgb(87, 76, 243) 94.3%;
+}
+
+
+
+
+
+ 
+
+/* Container styling (fixed 500px height) */
+
+/* Calendar view styling to match overall page */
+.calendar-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 660px;
+  background-color: #fff;
+  border-radius: 8px;
+  margin-top: 8px; /* Decreased gap */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+  padding: 16px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* FullCalendar white background and black text */
+:host ::ng-deep .fc {
+  background: #fff !important;
+  color: #000 !important;
+}
+:host ::ng-deep .fc-daygrid-day {
+  background: #fff !important;
+  color: #000 !important;
+  border: 1px solid #e0e0e0;
+}
+:host ::ng-deep .fc-col-header-cell,
+:host ::ng-deep .fc-col-header-cell a,
+:host ::ng-deep .fc-daygrid-day-number {
+  color: #000 !important;
+}
+:host ::ng-deep .fc-event {
+  color: #fff !important;
+}
+
+/* FullCalendar main container */
+:host ::ng-deep .fc {
+  width: 100% !important;
+  max-width: none !important;
+  height: 100% !important;
+  font-size: 10px !important;
+}
+
+/* Header toolbar styling */
+:host ::ng-deep .fc-header-toolbar {
+  background: #333;
+  padding: 5px !important;
+  margin-bottom: 5px !important;
+  border-radius: 5px;
+  font-size: 10px !important;
+  color: #f0f0f0; /* Header text color */
+}
+
+
+/* Day names (Mon, Tue, etc.) */
+:host ::ng-deep .fc-col-header-cell {
+  color: #000000 !important; /* Force day names color */
+}
+
+:host ::ng-deep .fc-col-header-cell a {
+  color: inherit !important; /* Ensure link color matches */
+}
+
+/* Date numbers (1, 2, 3, etc.) */
+:host ::ng-deep .fc-daygrid-day-number {
+  color: #000000 !important; /* Force date numbers color */
+  font-size: 8px !important;
+  padding: 2px !important;
+}
+
+/* Day cell styling */
+:host ::ng-deep .fc-daygrid-day {
+  background: #2a2a2a;
+  border: 1px solid #444;
+  height: 20px !important;
+}
+
+/* Event styling */
+:host ::ng-deep .fc-event {
+  background: #056aadff;
+  border: none;
+  padding: 0 2px !important;
+  font-size: 8px !important;
+  margin: 1px 0 !important;
+  color: white !important; /* Event text color */
+}
+
+/* Today's highlight */
+:host ::ng-deep .fc-day-today {
+  background: #007acc !important;
+}
+
+/* Today's date number (override for today) */
+:host ::ng-deep .fc-day-today .fc-daygrid-day-number {
+  color: #000000 !important; /* Ensure today's date is visible */
+}
+
+/* Button styling */
+:host ::ng-deep .fc-button {
+  background: #007acc !important;
+  border: none !important;
+  color: white !important;
+   padding: 6px 12px !important;    /* Matches day cell padding */
+  height: 30px !important;    
+  font-size: 8px !important;
+}
+
+/* Target ONLY the Today button */
+:host ::ng-deep .fc-today-button {
+  padding: 6px 12px !important;    /* Matches day cell padding */
+  height: 30px !important;         /* Matches day cell height */
+  font-size: 12px !important;      /* Matches day cell font */
+  line-height: 1.2 !important;     /* Better text alignment */
+  min-width: 80px !important;      /* Wider than other buttons */
+  background: #007acc !important;
+}
+
+.approved-text {
+  color: #219a3b;
+  font-weight: 500;
+}
+.rejected-text {
+  color: #e53935;
+  font-weight: 500;
+}
+/* Calendar View Container - Scrollable */
+.calendar-view {
+  background-color: #fff;
+  border-radius: 8px;
+  margin: 8px 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: auto;
+  padding: 16px;
+  width: calc(100% - 32px);
+  height: 600px;
+}
+
+/* FullCalendar fixes for proper day alignment */
+:host ::ng-deep .fc {
+  background: #fff !important;
+  color: #000 !important;
+  width: 100% !important;
+}
+
+/* Ensure proper day grid alignment */
+:host ::ng-deep .fc-daygrid {
+  width: 100% !important;
+}
+
+:host ::ng-deep .fc-daygrid-body {
+  width: 100% !important;
+}
+
+:host ::ng-deep .fc-daygrid-table {
+  width: 100% !important;
+  table-layout: fixed !important;
+}
+
+:host ::ng-deep .fc-col-header {
+  width: 100% !important;
+}
+
+:host ::ng-deep .fc-col-header-table {
+  width: 100% !important;
+  table-layout: fixed !important;
+}
+
+/* Ensure each day cell has equal width */
+:host ::ng-deep .fc-col-header-cell,
+:host ::ng-deep .fc-daygrid-day {
+  width: 14.28% !important; /* 100% / 7 days = 14.28% */
+  min-width: 80px !important;
+}
+
+/* Fix for empty cells at start of month */
+:host ::ng-deep .fc-day-other {
+  background: #f8f9fa !important;
+}
+
+:host ::ng-deep .fc-daygrid-day-frame {
+  min-height: 80px !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Ensure proper date numbering alignment */
+:host ::ng-deep .fc-daygrid-day-number {
+  padding: 4px !important;
+  text-align: left !important;
+  font-weight: 500 !important;
+}
+
+/* Mobile responsive fixes */
+@media (max-width: 768px) {
+  .calendar-view {
+    height: 500px;
+    margin: 8px 8px;
+    width: calc(100% - 16px);
+    padding: 8px;
+  }
+  
+  :host ::ng-deep .fc {
+    min-width: 100% !important; /* Remove forced horizontal scroll */
+  }
+  
+  :host ::ng-deep .fc-col-header-cell,
+  :host ::ng-deep .fc-daygrid-day {
+    min-width: 40px !important;
+    width: 14.28% !important;
+  }
+  
+  :host ::ng-deep .fc-daygrid-day-frame {
+    min-height: 60px !important;
+  }
+  
+  :host ::ng-deep .fc-daygrid-day-number {
+    padding: 2px !important;
+    font-size: 0.7rem !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .calendar-view {
+    height: 450px;
+  }
+  
+  :host ::ng-deep .fc-col-header-cell,
+  :host ::ng-deep .fc-daygrid-day {
+    min-width: 35px !important;
+  }
+  
+  :host ::ng-deep .fc-daygrid-day-frame {
+    min-height: 50px !important;
+  }
+  
+  :host ::ng-deep .fc-daygrid-day-number {
+    font-size: 0.6rem !important;
+  }
+  
+  :host ::ng-deep .fc-col-header-cell-cushion {
+    font-size: 0.7rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .calendar-view {
+    height: 400px;
+  }
+  
+  :host ::ng-deep .fc-col-header-cell,
+  :host ::ng-deep .fc-daygrid-day {
+    min-width: 30px !important;
+  }
+  
+  :host ::ng-deep .fc-daygrid-day-frame {
+    min-height: 45px !important;
+  }
+}
+
+/* Fix for calendar first day of week alignment */
+:host ::ng-deep .fc-day-sun {
+  /* Ensure Sunday starts at first column */
+}
+
+:host ::ng-deep .fc-day-mon {
+  /* Ensure Monday starts at first column if that's your week start */
+}
+
+/* Ensure events are properly contained */
+:host ::ng-deep .fc-event {
+  margin: 1px 2px !important;
+  font-size: 0.7rem !important;
+  padding: 1px 3px !important;
+}
+

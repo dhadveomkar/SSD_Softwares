@@ -1,0 +1,19 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "22.16.0",
+    "sdksVersions": {},
+    "version": "1.21.1",
+    "libraryName": "hero-customizer",
+    "libraryId": "57b1cb59-37d5-4520-b030-b42b0c76a009",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "hero-customizer",
+    "solutionShortDescription": "hero-customizer description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "extension",
+    "extensionType": "ApplicationCustomizer"
+  }
+}

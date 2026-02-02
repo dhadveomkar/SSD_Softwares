@@ -1,0 +1,119 @@
+<p-toast></p-toast>
+<div class="calendar-container">
+  <span class="horizontal-line"></span>
+  <!-- Top bar with Upload button aligned right -->
+  <div class="calendar-top-bar-container">
+    <div class="calendar-top-bar-left" [ngClass]="{'invisible': !hasAddHolidayPermission}">
+      <p-dropdown #dropdownRef *ngIf="hasAddHolidayPermission" [options]="holidaySetOptions" [(ngModel)]="selectedHolidaySet" optionLabel="label" optionValue="value"
+        placeholder="Select Holiday Set" (onChange)="filterHolidaysBySet()" [filter]="true"
+        filterPlaceholder="Search Holiday Set"(onBlur)="checkValidSelection(dropdownRef)">
+      </p-dropdown>
+    </div>
+    <div class="calendar-top-bar"
+    >
+      <button *ngIf="hasAddHolidayPermission" class="upload-btn" (click)="fileInput.click()">Upload Holiday Excel</button>
+      <input #fileInput type="file" accept=".xlsx,.xls" style="display:none" (change)="onFileSelected($event)" />
+  <button class="view-btn" (click)="showCalendar = !showCalendar">{{ showCalendar ? 'View List' : 'View Calendar' }}</button>
+      <button class="download-btn" (click)="downloadExcel()">Download Excel</button>
+    </div>
+  </div>
+  <!-- Modal Form (Conditionally Rendered) -->
+  <div class="modal" *ngIf="showModal">
+    <div class="modal-content">
+      <span class="close" (click)="showModal = false">&times;</span>
+      <h3>Add New Holiday</h3>
+      <form (ngSubmit)="submitHoliday()">
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" [(ngModel)]="newHoliday.date" name="date" required>
+        </div>
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" [(ngModel)]="newHoliday.name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea [(ngModel)]="newHoliday.description" name="description"></textarea>
+        </div>
+        <button type="submit" class="btn">Save</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Calendar view, shown only when showCalendar is true -->
+  <div *ngIf="showCalendar">
+      <div class="fullcalendar-wrapper calendar-toolbar-boxes-wrapper">
+        <full-calendar
+          [options]="calendarOptions"
+        ></full-calendar>
+        <div class="calendar-toolbar-boxes">
+          <div class="calendar-toolbar-box-group">
+            <div class="calendar-toolbar-box green"></div>
+            <span class="calendar-toolbar-label">Official Holiday</span>
+          </div>
+          <div class="calendar-toolbar-box-gap"></div>
+          <div class="calendar-toolbar-box-group">
+            <div class="calendar-toolbar-box orange"></div>
+            <span class="calendar-toolbar-label">Optional Holiday</span>
+          </div>
+        </div>
+      </div>
+  </div>
+  <!-- Two horizontally aligned boxes for holidays (hide when calendar is shown) -->
+  <div class="holiday-flex-row" *ngIf="!showCalendar">
+    <!-- ...existing code for holiday boxes... -->
+    <div class="holiday-box">
+      <div class="holiday-header">
+        <h3 class="holiday-title">Official Leaves</h3>
+      </div>
+      <div class="my-all-holiday-list" *ngIf="filteredOfficialHolidays.length > 0">
+        <div class="my-holiday-card-list">
+          <div *ngFor="let holiday of filteredOfficialHolidays" class="my-holiday-card"
+            [ngClass]="{'current-month-card': isUpcomingThisMonth(holiday.date)}">
+            <div style="flex: 1;">
+              <div class="holiday-title">{{ holiday.name }}</div>
+              <div class="holiday-date">
+                <i class="pi pi-calendar"></i> {{ holiday.date | date: 'yyyy-MM-dd' }}
+                <span class="holiday-card-day">({{ holiday.date | date: 'EEEE' }})</span>
+              </div>
+              <div class="holiday-hours">
+                <i class="pi pi-info-circle"></i> {{ holiday.type }}
+              </div>
+              <div class="holiday-hours" *ngIf="holiday.description">
+                <i class="pi pi-align-left"></i> {{ holiday.description }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="filteredOfficialHolidays.length === 0" class="small orange-text">No official leaves found.</div>
+    </div>
+    <!-- Box 2: Optional Leaves -->
+    <div class="holiday-box">
+      <div class="holiday-header">
+        <h3 class="holiday-title">Optional Leaves</h3>
+      </div>
+      <div class="my-all-holiday-list" *ngIf="filteredOptionalHolidays.length > 0">
+        <div class="my-holiday-card-list">
+          <div *ngFor="let holiday of filteredOptionalHolidays" class="my-holiday-card"
+            [ngClass]="{'current-month-card': isUpcomingThisMonth(holiday.date)}">
+            <div style="flex: 1;">
+              <div class="holiday-title">{{ holiday.name }}</div>
+              <div class="holiday-date">
+                <i class="pi pi-calendar"></i> {{ holiday.date | date: 'yyyy-MM-dd' }}
+                <span class="holiday-card-day">({{ holiday.date | date: 'EEEE' }})</span>
+              </div>
+              <div class="holiday-hours">
+                <i class="pi pi-info-circle"></i> {{ holiday.type }}
+              </div>
+              <div class="holiday-hours" *ngIf="holiday.description">
+                <i class="pi pi-align-left"></i> {{ holiday.description }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="filteredOptionalHolidays.length === 0" class="small orange-text">No optional leaves found.</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,338 @@
+/* Style for dark input with white placeholder and text */
+input[type="text"][placeholder="Search by Name or ID"] {
+  background-color: #1e1e1e;
+  color: #fff;
+  border: 1px solid #333;
+  padding: 8px 10px;
+  border-radius: 4px;
+}
+
+input[type="text"][placeholder="Search by Name or ID"]::placeholder {
+  color: #fff;
+  opacity: 1;
+}
+.manager-attendance-page {
+  position: relative;
+  max-width: 100%;
+  height: 89vh;
+  margin: 3px auto;
+  background-color: #272727;
+}
+
+.title-container {
+  position: relative;
+  max-width: 100%;
+  /* height: 86vh; */
+  padding: 0.4rem;
+  background-color: #272727;
+
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  font-size: large;
+  color: #f0f0f0;
+}
+
+.horizontal-line {
+  display: block;
+  height: 0.5px;
+  background-color: #6d6c6c;
+  width: 100%;
+}
+
+.vertical-line {
+  display: inline-block;
+  width: 4px;
+  height: 30px;
+  background-color: #87CEFA;
+  margin-right: 10px;
+  border-radius: 2px;
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+  margin: 2rem 1rem;
+  flex-wrap: wrap;
+}
+
+.filters input {
+  background-color: #1e1e1e;
+  color: white;
+  border: 1px solid #333;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.child-container {
+  margin: 1rem;
+}
+
+.attendance-table {
+  min-width: 600px;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.attendance-table-container {
+  width: 100%;
+  max-height: 500px;
+  /* Set desired height for vertical scroll */
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.attendance-table th,
+.attendance-table td {
+  padding: 10px;
+  border-bottom: 1px solid #444;
+}
+
+/* .attendance-table thead {
+  background-color: #1e1e1e;
+} */
+
+.attendance-table textarea {
+  background-color: #1e1e1e;
+  color: white;
+  border: 1px solid #333;
+  border-radius: 4px;
+  width: 100%;
+  resize: none;
+  padding: 5px;
+}
+
+
+.status {
+  padding: 5px 8px;
+  border-radius: 8px;
+  font-size: 13px;
+  text-transform: capitalize;
+}
+
+.status.present {
+  background-color: #4caf50;
+  color: white;
+}
+
+.status.late {
+  background-color: #ff9800;
+  color: black;
+}
+
+.status.absent {
+  background-color: #f44336;
+  color: white;
+}
+
+
+/* .status.approved {
+  background-color: #4caf50;
+  color: white;
+}
+
+.status.rejected {
+  background-color: #f44336;
+  color: white;
+} */
+
+.status.pending {
+  background-color: #ff9800;
+  color: white;
+}
+
+
+
+.approve-btn,
+.reject-btn {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  margin-right: 5px;
+  cursor: pointer;
+  color: white;
+}
+
+.approve-btn {
+  background-color: #2e7d32;
+}
+
+.reject-btn {
+  background-color: #c62828;
+}
+
+.approve-btn[disabled],
+.reject-btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.select-btn {
+  background-color: #1e1e1e;
+  /* Dark Gray background */
+  color: #f0f0f0;
+  /* Light text */
+  border: 1px solid #7d7d7e;
+  /* Subtle border */
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.download-btn {
+  background: #3d3a4e;
+  /* Dark Gray background */
+  color: #f0f0f0;
+  /* Light text */
+  border: 1px solid #7d7d7e;
+  /* Subtle border */
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.download-btn:active {
+  background-color: #7d7d7e;
+}
+
+.view-btn {
+  background: linear-gradient(82.3deg,
+      rgba(99, 88, 238, 1) 94.3%,
+      rgba(99, 88, 238, 1) 94.3%);
+  /* Dark Gray background */
+  color: #f0f0f0;
+  /* Light text */
+  border: 1px solid #7d7d7e;
+  /* Subtle border */
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.download-btn:hover {
+  background: #312e3e;
+}
+
+.view-btn:hover {
+  background: rgb(87, 76, 243) 94.3%;
+}
+
+
+
+
+
+
+/* Container styling (fixed 500px height) */
+.calendar-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 660px;
+  background-color: #212122ff;
+  border-radius: 8px;
+  margin-top: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 16px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* FullCalendar main container */
+:host ::ng-deep .fc {
+  width: 100% !important;
+  max-width: none !important;
+  height: 100% !important;
+  font-size: 10px !important;
+}
+
+/* Header toolbar styling */
+:host ::ng-deep .fc-header-toolbar {
+  background: #333;
+  padding: 5px !important;
+  margin-bottom: 5px !important;
+  border-radius: 5px;
+  font-size: 10px !important;
+  color: #f0f0f0;
+  /* Header text color */
+}
+
+
+/* Day names (Mon, Tue, etc.) */
+:host ::ng-deep .fc-col-header-cell {
+  color: #f0f0f0 !important;
+  /* Force day names color */
+}
+
+:host ::ng-deep .fc-col-header-cell a {
+  color: inherit !important;
+  /* Ensure link color matches */
+}
+
+/* Date numbers (1, 2, 3, etc.) */
+:host ::ng-deep .fc-daygrid-day-number {
+  color: #f0f0f0 !important;
+  /* Force date numbers color */
+  font-size: 8px !important;
+  padding: 2px !important;
+}
+
+/* Day cell styling */
+:host ::ng-deep .fc-daygrid-day {
+  background: #2a2a2a;
+  border: 1px solid #444;
+  height: 20px !important;
+}
+
+/* Event styling */
+:host ::ng-deep .fc-event {
+  background: #056aadff;
+  border: none;
+  padding: 0 2px !important;
+  font-size: 8px !important;
+  margin: 1px 0 !important;
+  color: white !important;
+  /* Event text color */
+}
+
+/* Today's highlight */
+:host ::ng-deep .fc-day-today {
+  background: #007acc !important;
+}
+
+/* Today's date number (override for today) */
+:host ::ng-deep .fc-day-today .fc-daygrid-day-number {
+  color: #f0f0f0 !important;
+  /* Ensure today's date is visible */
+}
+
+/* Button styling */
+:host ::ng-deep .fc-button {
+  background: #007acc !important;
+  border: none !important;
+  color: white !important;
+  padding: 6px 12px !important;
+  /* Matches day cell padding */
+  height: 30px !important;
+  font-size: 8px !important;
+}
+
+/* Target ONLY the Today button */
+:host ::ng-deep .fc-today-button {
+  padding: 6px 12px !important;
+  /* Matches day cell padding */
+  height: 30px !important;
+  /* Matches day cell height */
+  font-size: 12px !important;
+  /* Matches day cell font */
+  line-height: 1.2 !important;
+  /* Better text alignment */
+  min-width: 80px !important;
+  /* Wider than other buttons */
+  background: #007acc !important;
+}

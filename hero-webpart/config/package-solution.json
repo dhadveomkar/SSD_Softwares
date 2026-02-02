@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "hero-web-part-client-side-solution",
+    "id": "7b0c9db3-7ec2-434e-a19d-78a08628f0dc",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.21.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "HeroWebPart description"
+      },
+      "longDescription": {
+        "default": "HeroWebPart description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "hero-web-part Feature",
+        "description": "The feature that activates elements of the hero-web-part solution.",
+        "id": "61b95930-dc79-4795-bd45-197f0d32cc0f",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/hero-web-part.sppkg"
+  }
+}

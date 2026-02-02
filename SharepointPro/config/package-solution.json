@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "sharepoint-pro-client-side-solution",
+    "id": "9f65e98f-1bac-4eb5-a59c-40d8977072ac",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.22.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "sharepoint-pro description"
+      },
+      "longDescription": {
+        "default": "sharepoint-pro description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "sharepoint-pro Feature",
+        "description": "The feature that activates elements of the sharepoint-pro solution.",
+        "id": "1ad10afd-7c32-4d6f-8a1f-2e5fb8fe306d",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/sharepoint-pro.sppkg"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "id": "d1b3a1c0-2f00-4f9a-9e2b-abcdef123456",
+  "alias": "DynamicNavigationWebPart",
+  "componentType": "WebPart",
+  "version": "1.0.0",
+  "manifestVersion": 2,
+  "requiresCustomScript": false
+}

@@ -1,0 +1,114 @@
+<div class="last-sale-page container">
+  <!-- top bar: filter toggle + count + sort -->
+  <div class="top-bar">
+    <button class="filter-toggle" (click)="toggleFilterPanel()">
+      FILTER
+      <small class="count">{{ displayedProducts.length }}</small>
+    </button>
+
+    <div class="spacer"></div>
+
+    <label class="sort">
+      <select [(ngModel)]="sortBy" (change)="applyFilters()">
+        <option value="availability">AVAILABILITY</option>
+        <option value="best-selling">BEST SELLING</option>
+        <option value="alpha-asc">ALPHABETICALLY, A-Z</option>
+        <option value="alpha-desc">ALPHABETICALLY, Z-A</option>
+        <option value="date-new">DATE, NEW TO OLD</option>
+        <option value="date-old">DATE, OLD TO NEW</option>
+        <option value="price-asc">PRICE, LOW TO HIGH</option>
+        <option value="price-desc">PRICE, HIGH TO LOW</option>
+        <option value="sale-off">% SALE OFF</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="content">
+    <!-- filter panel -->
+    <aside class="filter-panel" [class.open]="filterOpen" aria-hidden="{{!filterOpen}}">
+      <div class="filter-header">
+        <h3>Filter</h3>
+        <button (click)="clearFilters()">Clear</button>
+      </div>
+
+      <div class="filter-group">
+        <label>Search</label>
+        <input type="search" [(ngModel)]="query" (ngModelChange)="applyFilters()" placeholder="Search products..." />
+      </div>
+
+      <!-- Category Filter -->
+<div class="filter-section">
+  <h4>Category</h4>
+
+  <label *ngFor="let c of categories" class="checkbox-item">
+  <input
+    type="checkbox"
+    [value]="c"
+    [checked]="selectedCategories.includes(c)"
+    (change)="onCategoryChange(c, $event.target.checked)"
+  />
+  {{ c }}
+</label>
+</div>
+
+      <div class="filter-group">
+        <label>Color</label>
+        <select [(ngModel)]="selectedColor" (change)="applyFilters()">
+          <option *ngFor="let c of colors" [value]="c">{{ c }}</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Price (min)</label>
+        <input type="number" [(ngModel)]="minPrice" (ngModelChange)="applyFilters()" />
+        <label>Price (max)</label>
+        <input type="number" [(ngModel)]="maxPrice" (ngModelChange)="applyFilters()" />
+      </div>
+
+      <div class="filter-group">
+        <label>Availability</label>
+        <div>
+          <label><input type="radio" name="avail" [(ngModel)]="availability" value="all" (change)="applyFilters()" /> All</label>
+          <label><input type="radio" name="avail" [(ngModel)]="availability" value="in" (change)="applyFilters()" /> In stock</label>
+          <label><input type="radio" name="avail" [(ngModel)]="availability" value="out" (change)="applyFilters()" /> Out of stock</label>
+        </div>
+      </div>
+
+      <div class="filter-footer">
+        <button (click)="applyFilters()">VIEW {{ displayedProducts.length }} PRODUCTS</button>
+      </div>
+    </aside>
+
+    <!-- product grid -->
+    <main class="product-area">
+      <div class="grid">
+        <article class="card" *ngFor="let p of visibleProducts()" tabindex="0">
+          <div class="img-wrap">
+            <img [src]="p.img" [alt]="p.name" loading="lazy" />
+            <button class="love" (click)="toggleFavorite(p.id)" [attr.aria-pressed]="isFavorite(p.id)">
+              <span [class.active]="isFavorite(p.id)">❤</span>
+            </button>
+          </div>
+
+          <div class="card-body">
+            <h4 class="title">{{ p.name }}</h4>
+            <div class="subtitle">{{ p.subtitle }}</div>
+            <div class="price">
+              ₹{{ p.price }}
+              <small *ngIf="p.oldPrice" class="old">₹{{ p.oldPrice }}</small>
+              <span *ngIf="p.oldPrice" class="off">{{ Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100) }}%OFF</span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="load-more" *ngIf="visibleCount < displayedProducts.length">
+        <button (click)="loadMore()">LOAD MORE</button>
+      </div>
+
+      <div class="no-results" *ngIf="displayedProducts.length === 0">
+        No products found. Try clearing filters.
+      </div>
+    </main>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": false,
+    "nodeVersion": "22.16.0",
+    "sdksVersions": {},
+    "version": "1.21.1",
+    "libraryName": "dalma-header",
+    "libraryId": "507edd55-335e-41cd-962f-4da349ea3c77",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "dalma-header",
+    "solutionShortDescription": "dalma-header description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "extension",
+    "extensionType": "ApplicationCustomizer"
+  }
+}

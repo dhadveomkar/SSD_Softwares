@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <CustomAction
+        Title="DalmaHeader"
+        Location="ClientSideExtension.ApplicationCustomizer"
+        ClientSideComponentId="dcec28c9-419b-4b63-97df-001c266d88ac"
+        ClientSideComponentProperties="{&quot;testMessage&quot;:&quot;Test message&quot;}">
+    </CustomAction>
+</Elements>

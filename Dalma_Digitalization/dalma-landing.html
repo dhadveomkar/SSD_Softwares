@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>DALMA Landing (Header + Dynamic Menu + Hero)</title>
+<style>
+  :root {
+    --dalma-blue: #1e90ff;
+    --dalma-dark: #0b2545;
+    --font-sans: "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  html,body{height:100%;margin:0;padding:0;font-family:var(--font-sans);background:transparent;color:var(--dalma-dark)}
+  /* top thin blue line (spans full width) */
+  .top-blue { height:8px; background:var(--dalma-blue); width:100%; box-sizing:border-box; }
+
+  /* Header */
+  .header {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px 20px;
+    box-sizing:border-box;
+    background: #fff;
+  }
+  .header-left { display:flex; align-items:center; gap:12px; }
+  .dalma-logo { height:40px; display:block; }
+  .site-title { font-weight:700; color:var(--dalma-dark); font-size:18px; }
+
+  /* right area: dynamic menu + email */
+  .header-right { display:flex; align-items:center; gap:18px; }
+  .menu { display:flex; gap:10px; align-items:center; }
+  .menu a {
+    text-decoration:none; color:var(--dalma-dark);
+    font-weight:600; font-size:14px;
+    padding:6px 10px; border-radius:4px;
+  }
+  .menu a:hover { background: rgba(0,0,0,0.06); }
+
+  .contact a { color:var(--dalma-dark); font-weight:600; font-size:14px; text-decoration:none; }
+  .contact a:hover { text-decoration:underline; }
+
+  /* hero/banner */
+  .hero {
+    width:100%;
+    box-sizing:border-box;
+    margin:12px 0 24px 0;
+    display:block;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero img { width:100%; height:320px; object-fit:cover; display:block; }
+
+  /* central label box over the hero */
+  .hero-label {
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    background:var(--dalma-blue);
+    color:white;
+    padding:12px 26px;
+    border-radius:4px;
+    font-weight:800;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+    letter-spacing:1px;
+  }
+
+  /* responsive */
+  @media (max-width:800px){
+    .hero img { height:220px; }
+    .dalma-logo { height:34px; }
+    .menu a { padding:6px 8px; font-size:13px; }
+    .contact a { font-size:13px; }
+  }
+
+  /* small screen: collapse menu into a simple dropdown */
+  @media (max-width:520px){
+    .menu { display:none; }
+    .mobile-menu { display:inline-block; }
+  }
+  .mobile-menu { display:none; }
+  .mobile-select { padding:6px; border-radius:4px; border:1px solid #ddd; }
+</style>
+</head>
+<body>
+  <div class="top-blue" aria-hidden="true"></div>
+
+  <header class="header" role="banner" aria-label="DALMA header">
+    <div class="header-left">
+      <img class="dalma-logo" id="dalmaLogo" src="https://ssdsoftwares1.sharepoint.com/:i:/s/DALMADIGITALIZATION/IQDF7P9c603GQIy7nbaei08SAa4vd1jYdVWwRBCAvYimJvo?e=zcJnxJ" alt="DALMA DIGITALIZATION logo">
+      <div class="site-title">DALMA DIGITALIZATION</div>
+    </div>
+
+    <div class="header-right">
+      <nav class="menu" id="dalmaMenu" aria-label="Main menu">
+        <!-- menu items injected here by JS -->
+      </nav>
+
+      <div class="mobile-menu" id="mobileMenuWrap" aria-hidden="true">
+        <select class="mobile-select" id="mobileSelect" onchange="if(this.value) window.location.href=this.value">
+          <option value="">Menu</option>
+        </select>
+      </div>
+
+      <div class="contact">
+        <a href="mailto:digitalization@dalma.com" id="dalmaEmail">digitalization@dalma.com</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero / banner -->
+  <section class="hero" role="region" aria-label="Main banner">
+    <img id="heroImage" src="https://ssdsoftwares1.sharepoint.com/:i:/s/DALMADIGITALIZATION/IQB64Cye_Q20SaY5cEVLAUStAU_mjCoFe80L9l82Ck_NCsU?e=7Xlzo5" alt="DALMA / ADNOC banner">
+    <div class="hero-label" id="heroLabel">ADNOC — DALMA DIGITALIZATION</div>
+  </section>
+
+<script>
+/*
+  DALMA Landing - dynamic menu using SharePoint site groups.
+  HOW TO USE:
+  1) Upload this file and your images to:
+     /sites/DALMADIGITALIZATION/SiteAssets/
+     - dalma-landing.html (this file)
+     - dalma-logo.png  (logo)
+     - hero-banner.jpg (banner image)
+  2) Edit the file if your asset paths differ.
+  3) Edit the CONFIG.menuItems mapping below to change labels/links/group names.
+  4) Embed on a modern page via Embed web part using an iframe:
+     <iframe src="https://ssdsoftwares1.sharepoint.com/sites/DALMADIGITALIZATION/SiteAssets/dalma-landing.html" style="width:100%;border:0;height:520px;" scrolling="no"></iframe>
+*/
+
+const CONFIG = {
+  // Map menu items to SharePoint site group titles.
+  // If a user is member of ANY listed group for the menu item, the item will show.
+  menuItems: [
+    { id: 'home', label: 'Home', href: '/sites/DALMADIGITALIZATION/SitePages/Home.aspx', groups: ['Visitors','Members','Owners'] },
+    { id: 'ops', label: 'Operations Monitoring', href: '/sites/DALMADIGITALIZATION/SitePages/Operations.aspx', groups: ['Ops_Monitoring_SG'] },
+    { id: 'prod', label: 'Production Accounting', href: '/sites/DALMADIGITALIZATION/SitePages/Production.aspx', groups: ['Prod_Accounting_SG'] },
+    { id: 'bwip', label: 'BWIP', href: '/sites/DALMADIGITALIZATION/SitePages/BWIP.aspx', groups: ['BWIP_SG'] },
+    { id: 'pt', label: 'Process Digital Twin', href: '/sites/DALMADIGITALIZATION/SitePages/ProcessTwin.aspx', groups: ['ProcessTwin_SG'] },
+    { id: 'at', label: 'Asset Digital Twin', href: '/sites/DALMADIGITALIZATION/SitePages/AssetTwin.aspx', groups: ['AssetTwin_SG'] },
+    { id: 'adn', label: 'ADNOC Dashboards', href: '/sites/DALMADIGITALIZATION/SitePages/ADNOC.aspx', groups: ['ADNOC_SG'] },
+    { id: 'tools', label: 'Tools & Applications', href: '/sites/DALMADIGITALIZATION/SitePages/Tools.aspx', groups: ['Tools_SG','Ops_Monitoring_SG'] }
+  ],
+
+  // Fallback if current user group fetch fails: show at least Home
+  fallbackToHome: true
+};
+
+/* --------------- Helper: build menu HTML --------------- */
+function renderMenu(items){
+  const menu = document.getElementById('dalmaMenu');
+  const mobileSelect = document.getElementById('mobileSelect');
+  menu.innerHTML = '';
+  if(mobileSelect) mobileSelect.innerHTML = '<option value="">Menu</option>';
+
+  if(!items || items.length===0){
+    // show Home if none allowed
+    const home = CONFIG.menuItems.find(m=>m.id==='home');
+    if(home){
+      const a = document.createElement('a');
+      a.href = home.href; a.textContent = home.label; a.id='menu-'+home.id;
+      menu.appendChild(a);
+      if(mobileSelect) mobileSelect.appendChild(new Option(home.label, home.href));
+    }
+    return;
+  }
+
+  items.forEach(item=>{
+    const a = document.createElement('a');
+    a.href = item.href; a.textContent = item.label; a.id = 'menu-' + item.id;
+    menu.appendChild(a);
+    if(mobileSelect) mobileSelect.appendChild(new Option(item.label, item.href));
+  });
+}
+
+/* --------------- Get current user's SharePoint site groups --------------- */
+/* Uses same-origin REST call; file must be hosted on same SharePoint site. */
+async function fetchUserGroups() {
+  try {
+    const resp = await fetch(`${_spPageContextInfo.webAbsoluteUrl}/_api/web/currentuser/groups`, {
+      headers: { 'Accept': 'application/json;odata=verbose' },
+      credentials: 'same-origin'
+    });
+    if(!resp.ok){
+      console.warn('SP groups fetch failed', resp.status, resp.statusText);
+      return null;
+    }
+    const data = await resp.json();
+    const names = data.d.results.map(g => g.Title);
+    return names;
+  } catch(err){
+    console.warn('Error fetching groups:', err);
+    return null;
+  }
+}
+
+/* --------------- Main logic: filter menuItems by user's groups --------------- */
+(async function initMenuByGroups(){
+  // If embed is not in SharePoint page with _spPageContextInfo, try a graceful fallback
+  if(typeof _spPageContextInfo === 'undefined'){
+    console.warn('Not running inside SharePoint page context. Using fallback: show full menu.');
+    // Show full menu (or limited) — choose behavior: show all items
+    renderMenu(CONFIG.menuItems);
+    return;
+  }
+
+  const userGroups = await fetchUserGroups();
+  if(!userGroups || userGroups.length===0){
+    // fallback
+    console.log('No groups found for user or fetch failed:', userGroups);
+    if(CONFIG.fallbackToHome){
+      renderMenu([ CONFIG.menuItems.find(m=>m.id==='home') ]);
+    } else {
+      renderMenu(CONFIG.menuItems);
+    }
+    return;
+  }
+
+  // Filter menu items where any required group is present in userGroups
+  const allowed = CONFIG.menuItems.filter(item => {
+    if(!item.groups || item.groups.length===0) return true; // public
+    for(const required of item.groups){
+      if(userGroups.includes(required)) return true;
+    }
+    return false;
+  });
+
+  renderMenu(allowed);
+})();
+</script>
+</body>
+</html>
