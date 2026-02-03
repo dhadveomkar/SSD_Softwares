@@ -1,15 +1,49 @@
 <div class="dashboard-container">
-  <h1>Smartphone Inventory</h1>
-  
+  <h1>Omnas Device Inventory</h1>
+
+  <div class="search-wrapper">
+    <input type="text" [(ngModel)]="searchText" placeholder="Search devices..." class="search-input" />
+  </div>
+
+  <div class="device-section" *ngIf="filteredSmartphones.length > 0">
+    <h2 class="section-title">Smartphones</h2>
+    <div class="device-grid">
+      <div *ngFor="let device of filteredSmartphones; let i = index" 
+           class="device-card" [class.animate-in]="isLoaded" [style.animation-delay]="i * 50 + 'ms'"> 
+        <h3>{{ device.deviceName }}</h3>
+        <p>OS: {{ device.osVersion }}</p>
+        <small>Last Sync: {{ device.lastSync | date:'short' }}</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="device-section" *ngIf="filteredTablets.length > 0">
+    <h2 class="section-title">Tablets</h2>
+    <div class="device-grid">
+      <div *ngFor="let device of filteredTablets; let i = index" 
+           class="device-card" [class.animate-in]="isLoaded" [style.animation-delay]="(i + 5) * 50 + 'ms'"> 
+        <h3>{{ device.deviceName }}</h3>
+        <p>OS: {{ device.osVersion }}</p>
+        <small>Last Sync: {{ device.lastSync | date:'short' }}</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="device-section" *ngIf="filteredWearables.length > 0">
+  <h2 class="section-title">Wearables</h2>
   <div class="device-grid">
-    <div *ngFor="let device of devices; let i = index" 
-         class="device-card"
-         [class.animate-in]="isLoaded"
-         [style.animation-delay]="i * 100 + 'ms'"> 
-         
+    <div *ngFor="let device of filteredWearables; let i = index" 
+         class="device-card" 
+         [class.animate-in]="isLoaded" 
+         [style.animation-delay]="(i + smartphones.length + tablets.length) * 50 + 'ms'"> 
       <h3>{{ device.deviceName }}</h3>
       <p>OS: {{ device.osVersion }}</p>
       <small>Last Sync: {{ device.lastSync | date:'short' }}</small>
     </div>
+  </div>
+</div>
+  
+  <div class="empty-state" *ngIf="isLoaded && (filteredSmartphones.length + filteredTablets.length + filteredWearables.length) === 0">
+    <p>No devices found matching "{{ searchText }}"</p>
   </div>
 </div>
