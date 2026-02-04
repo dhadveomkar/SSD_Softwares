@@ -1,6 +1,69 @@
 [
   {
     "ContainingType": "Omnas.Api.Controllers.InventoryController",
+    "Method": "AddDevice",
+    "RelativePath": "api/Inventory/add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "category",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "deviceData",
+        "Type": "System.Text.Json.JsonElement",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Omnas.Api.Controllers.InventoryController",
+    "Method": "GetAllDevices",
+    "RelativePath": "api/Inventory/all",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sortBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "order",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Omnas.Api.Controllers.InventoryController",
+    "Method": "Delete",
+    "RelativePath": "api/Inventory/delete/{category}/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "category",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Omnas.Api.Controllers.InventoryController",
     "Method": "GetFilteredData",
     "RelativePath": "api/Inventory/filter",
     "HttpMethod": "GET",
@@ -23,6 +86,32 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Omnas.Api.Controllers.InventoryController",
+    "Method": "Update",
+    "RelativePath": "api/Inventory/update/{category}/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "category",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "device",
+        "Type": "Omnas.Api.Models.SmartphoneDevice",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {

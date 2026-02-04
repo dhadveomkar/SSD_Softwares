@@ -1,0 +1,9 @@
+3-2-2026
+Frontend
+1) Update the model as per backend to fetch the data, add wearable and tablet
+2) Then update the service as per backend to connect with backend
+3) Update ts file for device-list component to get data from backend as per category such as smartphones, wearables, tablets
+4) Also add Search section so user can search specific device
+5) Update html and cs file for better interactive
+
+GitHub Link: https://github.com/dhadveomkar/SSD_Softwares/tree/main/OmnasSmartphone/Angular/OmnasFrontend/src/app  

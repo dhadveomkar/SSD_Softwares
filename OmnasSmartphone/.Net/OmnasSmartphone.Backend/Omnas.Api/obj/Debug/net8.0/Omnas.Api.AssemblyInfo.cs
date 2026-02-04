@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Omnas.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7209371802a3b2c64a87b04f0cd5d57c92eeb71e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5667fb5b93d767ec8287f183d869ac234f1fb4a2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Omnas.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Omnas.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
