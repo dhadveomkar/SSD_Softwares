@@ -20,6 +20,42 @@
     </div>
   </div>
 
+  <div class="analytics-row" *ngIf="isLoaded">
+    <div class="chart-section card-style">
+       <h3>OS Distribution</h3>
+       <div class="canvas-wrapper">
+          <canvas baseChart [data]="osChartData" [options]="osChartOptions" [type]="'pie'"></canvas>
+       </div>
+    </div>
+
+    <div class="health-tiles-section">
+      <div class="health-card green-glow" (click)="filterByStatus('green')">
+        <div class="health-icon">✓</div>
+        <div class="health-info">
+          <span class="count">{{ getCountByStatus('green') }}</span>
+          <span class="label">Healthy</span>
+        </div>
+      </div>
+
+      <div class="health-card yellow-glow" (click)="filterByStatus('yellow')">
+        <div class="health-icon">!</div>
+        <div class="health-info">
+          <span class="count">{{ getCountByStatus('yellow') }}</span>
+          <span class="label">Idle</span>
+        </div>
+      </div>
+
+      <div class="health-card red-pulse" (click)="filterByStatus('red')">
+        <div class="health-icon">✘</div>
+        <div class="health-info">
+          <span class="count">{{ getCountByStatus('red') }}</span>
+          <span class="label">Critical</span>
+        </div>
+      </div>
+    </div>
+    </div>
+
+  
   <div class="add-device-section">
     <button class="btn-primary main-add-btn" (click)="showForm = !showForm">
       <span class="icon">{{ showForm ? '×' : '+' }}</span>

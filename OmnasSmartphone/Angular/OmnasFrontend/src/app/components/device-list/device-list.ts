@@ -8,11 +8,14 @@ import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { ToastrService } from 'ngx-toastr';
+import { ChartConfiguration, ChartData } from 'chart.js/auto';
+import { BaseChartDirective } from 'ng2-charts';
+
 
 @Component({
   selector: 'app-device-list',
   standalone: true, // Required for 'imports' to work
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, BaseChartDirective],
   templateUrl: './device-list.html',
   styleUrl: './device-list.css',
 })
@@ -41,20 +44,23 @@ export class DeviceList implements OnInit {
   constructor(private deviceService: DeviceService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    // Calling the single "live-data" endpoint from your InventoryController
-    this.deviceService.getCombinedInventory().subscribe({
-      next: (data) => {
-        // Map the backend property names (Smartphones, Tablets, Wearables) 
-        // to your component variables
-        this.smartphones = data.smartphones || [];
-        this.tablets = data.tablets || [];
-        this.wearables = data.wearables || [];
+  this.deviceService.getCombinedInventory().subscribe({
+    next: (data) => {
+      this.smartphones = data.smartphones || [];
+      this.tablets = data.tablets || [];
+      this.wearables = data.wearables || [];
 
-        setTimeout(() => { this.isLoaded = true; }, 100);
-      },
-      error: (err) => console.error('Backend connection failed', err)
-    });
-  }
+      // Combine all arrays into one for the Analytics logic
+      this.allDevices = [...this.smartphones, ...this.tablets, ...this.wearables];
+
+      // CRITICAL: Call the update method here so the chart draws!
+      this.updateAnalytics();
+
+      setTimeout(() => { this.isLoaded = true; }, 100);
+    },
+    error: (err) => console.error('Backend connection failed', err)
+  });
+}
 
   // Getters for filtering remain the same...
   get filteredSmartphones() { return this.applyFilter(this.smartphones); }
@@ -217,5 +223,87 @@ export class DeviceList implements OnInit {
     this.toastr.success('PDF report generated successfully!', 'Export Complete');
   }
 
+  // Inside your DeviceList class
+public osChartData: ChartData<'pie'> = {
+  labels: ['Android 15', 'Android 14', 'Android 13', 'Other'],
+  datasets: [{ 
+    data: [0, 0, 0, 0],
+    // Add these colors
+    backgroundColor: ['#28a745', '#007bff', '#ffc107', '#6c757d'],
+    hoverBackgroundColor: ['#218838', '#0069d9', '#e0a800', '#5a6268']
+  }]
+};
+
+public osChartOptions: ChartConfiguration['options'] = {
+  responsive: true,
+  maintainAspectRatio: false,
+  animation: {
+    duration: 2000,
+    easing: 'easeOutQuart' // Smooth "growing" animation on load
+  },
+  plugins: {
+    legend: {
+      position: 'right',
+      labels: {
+        usePointStyle: true,
+        padding: 20,
+        font: { size: 12, weight: 'bold' }
+      }
+    },
+    tooltip: {
+      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+      padding: 12,
+      cornerRadius: 8,
+      callbacks: {
+        label: (context) => {
+          const label = context.label || '';
+          const value = context.raw || 0;
+          return ` ${label}: ${value} Devices`;
+        }
+      }
+    }
+  }
+};
+
+// Add this to your refreshData() method after this.allDevices is populated
+updateAnalytics() {
+  const versions = { a15: 0, a14: 0, a13: 0, other: 0 };
+  
+  this.allDevices.forEach(d => {
+    const os = d.osVersion.toLowerCase();
+    if (os.includes('15')) versions.a15++;
+    else if (os.includes('14')) versions.a14++;
+    else if (os.includes('13')) versions.a13++;
+    else versions.other++;
+  });
+
+  this.osChartData.datasets[0].data = [versions.a15, versions.a14, versions.a13, versions.other];
+}
+
+// Status Indicator Helper
+getHealthStatus(lastSync: string): string {
+  const diff = new Date().getTime() - new Date(lastSync).getTime();
+  const hours = diff / (1000 * 60 * 60);
+  
+  if (hours < 24) return 'status-green';  // Healthy
+  if (hours < 72) return 'status-yellow'; // Needs attention
+  return 'status-red';                    // Critical/Offline
+}
+
+getCountByStatus(color: string): number {
+  const all = [...this.smartphones, ...this.tablets, ...this.wearables];
+  
+  return all.filter(d => {
+    // Force lastSync to a string so getHealthStatus doesn't crash
+    const status = this.getHealthStatus(String(d.lastSync)); 
+    return status === `status-${color}`;
+  }).length;
+}
+
+// 2. Resolve 'Property filterByStatus does not exist' error
+filterByStatus(status: string) {
+  this.toastr.info(`Filtering view for ${status} devices...`, 'Fleet Filter');
+  // You can later add actual filter logic here to hide/show specific cards
+}
 
 }
