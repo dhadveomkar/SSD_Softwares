@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{EE5B9864-A953-46D3-ABE2-B17B3B3F9321}|Omnas.Api\\Omnas.Api.csproj|c:\\ssd_softwares\\omnassmartphone\\.net\\omnassmartphone.backend\\omnas.api\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE5B9864-A953-46D3-ABE2-B17B3B3F9321}|Omnas.Api\\Omnas.Api.csproj|solutionrelative:omnas.api\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE5B9864-A953-46D3-ABE2-B17B3B3F9321}|Omnas.Api\\Omnas.Api.csproj|c:\\ssd_softwares\\omnassmartphone\\.net\\omnassmartphone.backend\\omnas.api\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE5B9864-A953-46D3-ABE2-B17B3B3F9321}|Omnas.Api\\Omnas.Api.csproj|solutionrelative:omnas.api\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EE5B9864-A953-46D3-ABE2-B17B3B3F9321}|Omnas.Api\\Omnas.Api.csproj|c:\\ssd_softwares\\omnassmartphone\\.net\\omnassmartphone.backend\\omnas.api\\data\\backenddbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EE5B9864-A953-46D3-ABE2-B17B3B3F9321}|Omnas.Api\\Omnas.Api.csproj|solutionrelative:omnas.api\\data\\backenddbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{EE5B9864-A953-46D3-ABE2-B17B3B3F9321}|Omnas.Api\\Omnas.Api.csproj|c:\\ssd_softwares\\omnassmartphone\\.net\\omnassmartphone.backend\\omnas.api\\services\\inventoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EE5B9864-A953-46D3-ABE2-B17B3B3F9321}|Omnas.Api\\Omnas.Api.csproj|solutionrelative:omnas.api\\services\\inventoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -25,10 +37,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{EE5B9864-A953-46D3-ABE2-B17B3B3F9321}|Omnas.Api\\Omnas.Api.csproj|c:\\ssd_softwares\\omnassmartphone\\.net\\omnassmartphone.backend\\omnas.api\\models\\smartphonedevice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EE5B9864-A953-46D3-ABE2-B17B3B3F9321}|Omnas.Api\\Omnas.Api.csproj|solutionrelative:omnas.api\\models\\smartphonedevice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EE5B9864-A953-46D3-ABE2-B17B3B3F9321}|Omnas.Api\\Omnas.Api.csproj|c:\\ssd_softwares\\omnassmartphone\\.net\\omnassmartphone.backend\\omnas.api\\data\\backenddbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EE5B9864-A953-46D3-ABE2-B17B3B3F9321}|Omnas.Api\\Omnas.Api.csproj|solutionrelative:omnas.api\\data\\backenddbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EE5B9864-A953-46D3-ABE2-B17B3B3F9321}|Omnas.Api\\Omnas.Api.csproj|c:\\ssd_softwares\\omnassmartphone\\.net\\omnassmartphone.backend\\omnas.api\\migrations\\20260116065832_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -54,23 +62,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "TabletDevice.cs",
-              "DocumentMoniker": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Models\\TabletDevice.cs",
-              "RelativeDocumentMoniker": "Omnas.Api\\Models\\TabletDevice.cs",
-              "ToolTip": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Models\\TabletDevice.cs",
-              "RelativeToolTip": "Omnas.Api\\Models\\TabletDevice.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "Omnas.Api\\Controllers\\AccountController.cs",
+              "ToolTip": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "Omnas.Api\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwBQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-02T09:40:05.594Z"
+              "WhenOpened": "2026-02-06T04:58:42.245Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Omnas.Api\\Models\\User.cs",
+              "ToolTip": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Models\\User.cs",
+              "RelativeToolTip": "Omnas.Api\\Models\\User.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T04:53:36.695Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "SmartphoneDevice.cs",
               "DocumentMoniker": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Models\\SmartphoneDevice.cs",
               "RelativeDocumentMoniker": "Omnas.Api\\Models\\SmartphoneDevice.cs",
@@ -78,11 +100,12 @@
               "RelativeToolTip": "Omnas.Api\\Models\\SmartphoneDevice.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-16T05:21:07.451Z"
+              "WhenOpened": "2026-01-16T05:21:07.451Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "WearableDevice.cs",
               "DocumentMoniker": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Models\\WearableDevice.cs",
               "RelativeDocumentMoniker": "Omnas.Api\\Models\\WearableDevice.cs",
@@ -90,24 +113,25 @@
               "RelativeToolTip": "Omnas.Api\\Models\\WearableDevice.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-02T09:35:30.158Z"
+              "WhenOpened": "2026-02-02T09:35:30.158Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "InventoryService.cs",
               "DocumentMoniker": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Services\\InventoryService.cs",
               "RelativeDocumentMoniker": "Omnas.Api\\Services\\InventoryService.cs",
               "ToolTip": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Services\\InventoryService.cs",
               "RelativeToolTip": "Omnas.Api\\Services\\InventoryService.cs",
-              "ViewState": "AgIAAGgAAAAAAAAAAAAuwHcAAAAsAAAAAAAAAA==",
+              "ViewState": "AgIAAHoAAAAAAAAAAAAAAHcAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-02T09:47:03.34Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "SmartphoneDevicesController.cs",
               "DocumentMoniker": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Controllers\\SmartphoneDevicesController.cs",
               "RelativeDocumentMoniker": "Omnas.Api\\Controllers\\SmartphoneDevicesController.cs",
@@ -115,11 +139,38 @@
               "RelativeToolTip": "Omnas.Api\\Controllers\\SmartphoneDevicesController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-16T06:11:35.549Z"
+              "WhenOpened": "2026-01-16T06:11:35.549Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
+              "Title": "BackendDbContext.cs",
+              "DocumentMoniker": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Data\\BackendDbContext.cs",
+              "RelativeDocumentMoniker": "Omnas.Api\\Data\\BackendDbContext.cs",
+              "ToolTip": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Data\\BackendDbContext.cs",
+              "RelativeToolTip": "Omnas.Api\\Data\\BackendDbContext.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAxwBIAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-16T05:28:53.956Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "TabletDevice.cs",
+              "DocumentMoniker": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Models\\TabletDevice.cs",
+              "RelativeDocumentMoniker": "Omnas.Api\\Models\\TabletDevice.cs",
+              "ToolTip": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Models\\TabletDevice.cs",
+              "RelativeToolTip": "Omnas.Api\\Models\\TabletDevice.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-02T09:40:05.594Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "InventoryController.cs",
               "DocumentMoniker": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Controllers\\InventoryController.cs",
               "RelativeDocumentMoniker": "Omnas.Api\\Controllers\\InventoryController.cs",
@@ -127,11 +178,12 @@
               "RelativeToolTip": "Omnas.Api\\Controllers\\InventoryController.cs",
               "ViewState": "AgIAAG0AAAAAAAAAAAAkwIIAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-02T09:55:02.012Z"
+              "WhenOpened": "2026-02-02T09:55:02.012Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "20260116065832_InitialCreate.cs",
               "DocumentMoniker": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Migrations\\20260116065832_InitialCreate.cs",
               "RelativeDocumentMoniker": "Omnas.Api\\Migrations\\20260116065832_InitialCreate.cs",
@@ -139,23 +191,12 @@
               "RelativeToolTip": "Omnas.Api\\Migrations\\20260116065832_InitialCreate.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-16T06:58:32.634Z"
+              "WhenOpened": "2026-01-16T06:58:32.634Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "BackendDbContext.cs",
-              "DocumentMoniker": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Data\\BackendDbContext.cs",
-              "RelativeDocumentMoniker": "Omnas.Api\\Data\\BackendDbContext.cs",
-              "ToolTip": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Data\\BackendDbContext.cs",
-              "RelativeToolTip": "Omnas.Api\\Data\\BackendDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-16T05:28:53.956Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Program.cs",
               "RelativeDocumentMoniker": "Omnas.Api\\Program.cs",
@@ -163,23 +204,25 @@
               "RelativeToolTip": "Omnas.Api\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-16T05:41:28.366Z"
+              "WhenOpened": "2026-01-16T05:41:28.366Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "Omnas.Api.csproj",
               "DocumentMoniker": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Omnas.Api.csproj",
               "RelativeDocumentMoniker": "Omnas.Api\\Omnas.Api.csproj",
               "ToolTip": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\Omnas.Api.csproj",
               "RelativeToolTip": "Omnas.Api\\Omnas.Api.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-02-02T09:44:32.596Z"
+              "WhenOpened": "2026-02-02T09:44:32.596Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\SSD_Softwares\\OmnasSmartphone\\.Net\\OmnasSmartphone.Backend\\Omnas.Api\\appsettings.json",
               "RelativeDocumentMoniker": "Omnas.Api\\appsettings.json",
@@ -187,7 +230,8 @@
               "RelativeToolTip": "Omnas.Api\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-01-16T05:43:55.734Z"
+              "WhenOpened": "2026-01-16T05:43:55.734Z",
+              "EditorCaption": ""
             }
           ]
         }

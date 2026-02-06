@@ -1,14 +1,26 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { DeviceList } from "../device-list/device-list";
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
-  imports: [DeviceList],
+  imports: [DeviceList, FormsModule, CommonModule],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
+
+
+
 export class Home 
+
+
 implements OnInit , OnDestroy {
+
+  constructor(public authService: AuthService) {}
+  
+  
 // Array of banner images
   banners = [
     { url: 'https://tse2.mm.bing.net/th/id/OIP.-3v9Aowg1p334fhnhrh07QHaD8?pid=Api&P=0&h=180', title: 'Latest Flagships', desc: 'Manage S24 & iPhone 15 series.' },
@@ -20,6 +32,7 @@ currentSlide = 0;
   slideInterval: any;
   isPageLoaded = false;
   isScrolled = false;
+
 
 // Detects window scroll to change navbar style
   @HostListener('window:scroll', [])

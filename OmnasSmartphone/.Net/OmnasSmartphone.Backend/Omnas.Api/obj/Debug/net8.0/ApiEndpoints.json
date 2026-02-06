@@ -1,5 +1,37 @@
 [
   {
+    "ContainingType": "Omnas.Api.Controllers.AccountController",
+    "Method": "Login",
+    "RelativePath": "api/Account/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "Omnas.Api.Models.UserLoginDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Omnas.Api.Controllers.AccountController",
+    "Method": "Signup",
+    "RelativePath": "api/Account/signup",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "Omnas.Api.Models.UserRegistrationDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Omnas.Api.Controllers.InventoryController",
     "Method": "AddDevice",
     "RelativePath": "api/Inventory/add",

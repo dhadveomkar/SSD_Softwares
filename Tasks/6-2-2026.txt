@@ -1,0 +1,9 @@
+Today's Task 6-2-2026
+1) Create a new controller for Account Access to need sign up and login page
+2) Update the BackendDBContext.cs file to add user for creating a table for users
+3) Install BCrypt.Net-Next in .Net to use Hash password for signup and login Authentication
+4) Create a model for the users as per categories by admin and user/viewer
+5) Installed EF Core Tools
+6) Added Design package in current project
+7) Run the migrations commands
+8) Testing the Login and Signup API's on Postman

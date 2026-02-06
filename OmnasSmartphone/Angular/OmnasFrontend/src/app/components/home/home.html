@@ -1,13 +1,20 @@
-<div class="home-wrapper">
-  <nav class="navbar" [class.scrolled]="isScrolled">
-    <div class="nav-logo">OMNAS<span>CORE</span></div>
-    <ul class="nav-links">
-      <li><a (click)="scrollTo('home')">Home</a></li>
-      <li><a (click)="scrollTo('features')">Features</a></li>
-      <li><a (click)="scrollTo('inventory')">Inventory</a></li>
-    </ul>
-    <button class="nav-cta">Get Started</button>
-  </nav>
+<nav class="navbar" [class.scrolled]="isScrolled">
+  <div class="nav-logo">OMNAS<span>CORE</span></div>
+  <ul class="nav-links">
+    <li><a (click)="scrollTo('home')">Home</a></li>
+    <li><a (click)="scrollTo('features')">Features</a></li>
+    @if (authService.isLoggedIn) {
+      <li><a routerLink="/device-list">Inventory</a></li>
+    }
+  </ul>
+
+  @if (!authService.isLoggedIn) {
+    <button class="nav-cta" routerLink="/login">Login</button>
+  }
+  @if (authService.isLoggedIn) {
+    <button class="nav-cta btn-logout" (click)="authService.logout()">Logout</button>
+  }
+</nav>
 
   <section id="home" class="hero-section" [class.show]="isPageLoaded">
     <div class="hero-content">
@@ -99,4 +106,3 @@
       &copy; 2026 OmnasSmartphone Project. All rights reserved.
     </div>
   </footer>
-</div>

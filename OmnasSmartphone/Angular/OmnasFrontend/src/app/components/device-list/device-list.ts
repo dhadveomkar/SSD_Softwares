@@ -10,12 +10,14 @@ import autoTable from 'jspdf-autotable';
 import { ToastrService } from 'ngx-toastr';
 import { ChartConfiguration, ChartData } from 'chart.js/auto';
 import { BaseChartDirective } from 'ng2-charts';
+import { AuthService } from '../../services/auth.service';
+import { Login } from "../login/login";
 
 
 @Component({
   selector: 'app-device-list',
   standalone: true, // Required for 'imports' to work
-  imports: [CommonModule, FormsModule, BaseChartDirective],
+  imports: [CommonModule,FormsModule, BaseChartDirective],
   templateUrl: './device-list.html',
   styleUrl: './device-list.css',
 })
@@ -41,7 +43,7 @@ export class DeviceList implements OnInit {
   showWearables = true;
   currentSort = 'name';
 
-  constructor(private deviceService: DeviceService, private toastr: ToastrService) { }
+  constructor(private deviceService: DeviceService, private toastr: ToastrService, public authService: AuthService) { }
 
   ngOnInit(): void {
   this.deviceService.getCombinedInventory().subscribe({
@@ -108,16 +110,29 @@ export class DeviceList implements OnInit {
   }
 
   onDelete(category: string, id: number) {
-    if (confirm('Are you sure you want to delete this device?')) {
-      this.deviceService.deleteDevice(category, id).subscribe({
-        next: () => {
-          this.toastr.warning('Device has been permanently removed.', 'Deleted');
-          this.ngOnInit();
-        },
-        error: () => this.toastr.error('Could not delete device.', 'Error')
-      });
-    }
+  // 1. First, check permissions based on the user role
+  if (this.authService.userRole !== 'Admin') {
+    this.toastr.error('Access Denied: You do not have permission to delete devices.', 'Unauthorized');
+    return;
   }
+
+  // 2. If Admin, ask for confirmation before proceeding
+  if (confirm('Are you sure you want to permanently remove this device from the cloud?')) {
+    this.deviceService.deleteDevice(category, id).subscribe({
+      next: () => {
+        // Success notification matching your blue/green theme
+        this.toastr.warning('Device has been permanently removed.', 'Deleted');
+        
+        // Refresh the UI using your existing combined data fetch
+        this.ngOnInit(); 
+      },
+      error: (err) => {
+        console.error('Delete error:', err);
+        this.toastr.error('Could not delete device. Please check your connection.', 'Error');
+      }
+    });
+  }
+}
 
   // Add this helper method inside your class
   get totalDevices(): number {

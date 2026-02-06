@@ -16,6 +16,8 @@ namespace Omnas.Api.Data
         public DbSet<WearableDevice> Wearables { get; set; }
         public DbSet<TabletDevice> Tablets { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

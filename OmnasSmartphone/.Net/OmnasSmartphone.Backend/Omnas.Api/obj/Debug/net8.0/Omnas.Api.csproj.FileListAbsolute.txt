@@ -524,3 +524,4 @@ C:\SSD_Softwares\OmnasSmartphone\.Net\OmnasSmartphone.Backend\Omnas.Api\obj\Debu
 C:\SSD_Softwares\OmnasSmartphone\.Net\OmnasSmartphone.Backend\Omnas.Api\obj\Debug\net8.0\Omnas.Api.csproj.Up2Date
 C:\SSD_Softwares\OmnasSmartphone\.Net\OmnasSmartphone.Backend\Omnas.Api\obj\Debug\net8.0\Omnas.Api.genruntimeconfig.cache
 C:\SSD_Softwares\OmnasSmartphone\.Net\OmnasSmartphone.Backend\Omnas.Api\obj\Debug\net8.0\ref\Omnas.Api.dll
+C:\SSD_Softwares\OmnasSmartphone\.Net\OmnasSmartphone.Backend\Omnas.Api\bin\Debug\net8.0\BCrypt.Net-Next.dll

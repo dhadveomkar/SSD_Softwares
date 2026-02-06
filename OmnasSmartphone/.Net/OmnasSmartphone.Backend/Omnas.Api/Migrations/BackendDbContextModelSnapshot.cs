@@ -43,7 +43,7 @@ namespace Omnas.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Devices");
+                    b.ToTable("Devices", (string)null);
                 });
 #pragma warning restore 612, 618
         }
